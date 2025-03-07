@@ -5,7 +5,7 @@
 */
 int WinMain()
 {
-    sf::RenderWindow window(sf::VideoMode({ 1280, 720 }), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode({ 1280, 720 }), "Sinistar");
     sf::ConvexShape convex;
 
     //Set Convex Shape Points Here
@@ -25,8 +25,24 @@ int WinMain()
     convex.setOrigin({ 75.f,75.f });
 
     //Movement Variables
-    float xVelocity = 2.f;
-    float yVelocity = 5.f;
+    float speed = 20.f;
+
+    enum LastDirection 
+    {
+        Left,
+        Right,
+        Up,
+        Down,
+        None
+    };
+
+    sf::Vector2f playerPos;
+
+    LastDirection playerDirection = None;
+
+    sf::Clock clock;
+    float accumulator = 0;
+    const float timestep = 1.f / 60.f;
 
     while (window.isOpen())
     {
@@ -36,17 +52,72 @@ int WinMain()
         {
             if (event->is<sf::Event::Closed>())
                 window.close();
+        }
+
+        accumulator += clock.restart().asSeconds();
+        while (accumulator >= timestep)
+        {
+            accumulator -= timestep;
+            playerDirection = None;
 
             //Movement within bounds of the window
-            shapePosition.x += xVelocity;
-            shapePosition.y += yVelocity;
-            convex.setPosition(shapePosition);
-            convex.rotate(sf::degrees(10.f));
-            if (shapePosition.x > 1280 - 100 || shapePosition.x < 0)
-                xVelocity *= -1;
-            if (shapePosition.y > 720 - 100 || shapePosition.y < 0)
-                yVelocity *= -1;
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
+            {
+                playerPos.x += speed;
+                playerDirection = Right;
+            }
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
+            {
+                playerPos.x -= speed;
+                playerDirection = Left;
+            }
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
+            {
+                playerPos.y -= speed;
+                playerDirection = Up;
+            }
+            
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
+            {
+                playerPos.y += speed;
+                playerDirection = Down;
+            }
         }
+        
+        sf::Vector2f position = playerPos;
+        switch (playerDirection)
+        {
+        case Left:
+            position.x -= speed;
+            break;
+        case Right:
+            position.x += speed;
+            break;
+        case Up:
+            position.y -= speed;
+            break;
+        case Down:
+            position.y += speed;
+            break;
+        default:
+            break;
+        }
+
+        convex.setPosition(position + ((position - playerPos) * (accumulator / timestep)));
+
+        if (playerPos.x > 1280 + 100)
+            playerPos.x = 0;
+        else if (playerPos.x < 0)
+            playerPos.x = 1280 + 100;
+        if (playerPos.y > 720 + 150)
+            playerPos.y = 0;
+        else if (playerPos.y < 0)
+            playerPos.y = 720 + 150;
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
+            window.close();
 
         window.clear();
         window.draw(convex);
