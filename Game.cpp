@@ -28,10 +28,11 @@ const bool Game::getGameRunning() const
 
 void Game::PollEvents()
 {
-	while (const std::optional event = this->window->pollEvent())
+	while (std::optional<sf::Event> gameEvent = this->window->pollEvent())
 	{
-		if (event->is<sf::Event::Closed>())
+		if (gameEvent->is<sf::Event::Closed>())
 			this->window->close();
+		mainPlayer.Update(gameEvent, *this->window);
 	}
 }
 

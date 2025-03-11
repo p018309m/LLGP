@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include "Player.h"
-#include <memory>
+#include <iostream>
 //Main Game Handler
 class Game
 {
