@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-#include<iostream>
+#include "Player.h"
 #include <memory>
 //Main Game Handler
 class Game
@@ -10,6 +10,7 @@ class Game
 private:
 	//Variables
 	std::unique_ptr<sf::RenderWindow> window;
+	Player mainPlayer;
 
 	//Functions
 	void InitialiseVariables();

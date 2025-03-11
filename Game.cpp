@@ -42,7 +42,7 @@ void Game::Update()
 
 void Game::Render()
 {
-	this->window->clear(sf::Color(255, 0, 0, 255));
-
+	this->window->clear();
+	mainPlayer.Draw(*this->window);
 	this->window->display();
 }
