@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <iostream>
+#include "Input.h"
 
 class Player
 {
@@ -25,8 +26,12 @@ public:
 	bool result = characterText.loadFromImage(characters, false, sf::IntRect({ 0,0 }, { 18,18 }));
 	sf::Sprite spritey = sf::Sprite(characterText);
 
+	Player(Input* _input) : input(_input) { input->OnMoveUp.AddListener(this, std::bind(&Player::Handle_MoveUp, this, std::placeholders::_1)); }
+	void Handle_MoveUp(int in);
+
 private:
 	float UpdatePlayerRotation(sf::RenderWindow& window);
 	sf::VertexArray drawArray;
+	std::unique_ptr<Input> input;
 };
 

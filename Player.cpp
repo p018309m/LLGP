@@ -61,16 +61,19 @@ void Player::Update(std::optional<sf::Event> gameEvent, sf::RenderWindow& window
 		{
 			spritey.setPosition(spritey.getPosition() + sf::Vector2f(3.f, .0f));
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
-		{
-			spritey.setPosition(spritey.getPosition() + sf::Vector2f(.0f, -3.f));
-		}
+		
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
 		{
 			spritey.setPosition(spritey.getPosition() + sf::Vector2f(.0f, 3.f));
+			std::cout << "Hello" << std::endl;
 		}
 	}
 	spritey.setRotation(sf::degrees(UpdatePlayerRotation(window)));
+}
+
+void Player::Handle_MoveUp(int in)
+{
+	spritey.setPosition(spritey.getPosition() + sf::Vector2f(.0f, -3.f));
 }
 
 float Player::UpdatePlayerRotation(sf::RenderWindow& window)
