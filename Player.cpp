@@ -2,10 +2,12 @@
 
 Player::Player()
 {
-	playerPos = sf::Vector2f(500.f, 500.f);
-	playerDirection = sf::degrees(45.f);
-	spritey.scale(sf::Vector2f{ 1.f,1.f });
 	spritey.setOrigin(sf::Vector2{ 9.f,9.f });
+	body.setOrigin(sf::Vector2{ 9.5f,9.5f });
+	playerPos = sf::Vector2f(500.f, 500.f);
+	playerDirection = sf::degrees(0.f);
+	spritey.scale(sf::Vector2f{ 1.f,1.f });
+	body.setSize(sf::Vector2f(10.f, 10.f));
 	input = std::make_unique<Input>();
 	//Draw Triangle As Sprite
 	/*drawArray = sf::VertexArray(sf::PrimitiveType::TriangleStrip, 3);
@@ -33,14 +35,16 @@ Player::~Player()
 void Player::Draw(sf::RenderWindow& window)
 {
 	sf::Transform transform;
-	transform.translate(playerPos).rotate(playerDirection);
+	//transform.translate(playerPos).rotate(playerDirection);
 	window.draw(drawArray, transform);
+	window.draw(body);
 	window.draw(spritey);
 }
 
 void Player::Update(std::optional<sf::Event> gameEvent, sf::RenderWindow& window)
 {
 	input->HandleInput(gameEvent, window);
+	body.setPosition(spritey.getPosition());
 }
 
 void Player::Handle_MoveUp(sf::Keyboard::Key key)
