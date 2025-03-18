@@ -19,7 +19,10 @@ Player::Player()
 	}*/
 
 	input->OnMoveUp.AddListener(this, std::bind(&Player::Handle_MoveUp, this, std::placeholders::_1));
-	input->BroadcastOnMoveUp(1);
+	input->OnMoveDown.AddListener(this, std::bind(&Player::Handle_MoveDown, this, std::placeholders::_1));
+	input->OnMoveLeft.AddListener(this, std::bind(&Player::Handle_MoveLeft, this, std::placeholders::_1));
+	input->OnMoveRight.AddListener(this, std::bind(&Player::Handle_MoveRight, this, std::placeholders::_1));
+
 }
 
 Player::~Player()
@@ -37,51 +40,35 @@ void Player::Draw(sf::RenderWindow& window)
 
 void Player::Update(std::optional<sf::Event> gameEvent, sf::RenderWindow& window)
 {
-	if (const auto* keyPressed = gameEvent->getIf<sf::Event::KeyPressed>())
-	{
-		/*if(keyPressed->scancode == sf::Keyboard::Scan::D)
-		{
-			spritey.setPosition(spritey.getPosition() + sf::Vector2f(3.f,.0f));
-		}
-		if (keyPressed->scancode == sf::Keyboard::Scan::A)
-		{
-			spritey.setPosition(spritey.getPosition() + sf::Vector2f(-3.f, .0f));
-		}
-		if (keyPressed->scancode == sf::Keyboard::Scan::W)
-		{
-			spritey.setPosition(spritey.getPosition() + sf::Vector2f(.0f, -3.f));
-		}
-		if (keyPressed->scancode == sf::Keyboard::Scan::S)
-		{
-			spritey.setPosition(spritey.getPosition() + sf::Vector2f(.0f, 3.f));
-		}*/
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
-		{
-			spritey.setPosition(spritey.getPosition() + sf::Vector2f(-3.f, .0f));
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
-		{
-			spritey.setPosition(spritey.getPosition() + sf::Vector2f(3.f, .0f));
-		}
-		
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
-		{
-			spritey.setPosition(spritey.getPosition() + sf::Vector2f(.0f, 3.f));
-		}
-	}
-	spritey.setRotation(sf::degrees(UpdatePlayerRotation(window)));
+	input->HandleInput(gameEvent, window);
 }
 
-void Player::Handle_MoveUp(int in)
+void Player::Handle_MoveUp(sf::Keyboard::Key key)
 {
-	std::cout << "Handle_MoveUp called with arg: " << in << std::endl;
 	spritey.setPosition(spritey.getPosition() + sf::Vector2f(.0f, -3.f));
+	spritey.setRotation(sf::degrees(UpdatePlayerRotation(270.f, spritey.getRotation().asDegrees(), .25f)));
 }
 
-float Player::UpdatePlayerRotation(sf::RenderWindow& window)
+void Player::Handle_MoveDown(sf::Keyboard::Key key)
 {
-	sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-	float angle = atan2(mousePos.y - spritey.getPosition().y, mousePos.x - spritey.getPosition().x) * (180.0 / 3.141592653589793238463);
-	return angle;
+	spritey.setPosition(spritey.getPosition() + sf::Vector2f(.0f, 3.f));
+	spritey.setRotation(sf::degrees(UpdatePlayerRotation(90.f, spritey.getRotation().asDegrees(), .25f)));
+}
+
+void Player::Handle_MoveLeft(sf::Keyboard::Key key)
+{
+	spritey.setPosition(spritey.getPosition() + sf::Vector2f(-3.f, .0f));
+	spritey.setRotation(sf::degrees(UpdatePlayerRotation(180.f, spritey.getRotation().asDegrees(), .25f)));
+}
+
+void Player::Handle_MoveRight(sf::Keyboard::Key key)
+{
+	spritey.setPosition(spritey.getPosition() + sf::Vector2f(3.f, .0f));
+	spritey.setRotation(sf::degrees(UpdatePlayerRotation(0.f, spritey.getRotation().asDegrees(), .25f)));
+}
+
+float Player::UpdatePlayerRotation(float targetRot, float currentRot, float time)
+{
+	float angle = std::fmod(targetRot - currentRot + 540.f, 360.f) - 180.f;
+	return currentRot + angle * time;
 }
