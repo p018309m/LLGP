@@ -33,6 +33,7 @@ void Game::PollEvents()
 		if (gameEvent->is<sf::Event::Closed>())
 			this->window->close();
 		mainPlayer.Update(gameEvent, *this->window);
+		inputManager.HandleInput(gameEvent, *this->window);
 	}
 }
 

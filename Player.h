@@ -26,7 +26,6 @@ public:
 	bool result = characterText.loadFromImage(characters, false, sf::IntRect({ 0,0 }, { 18,18 }));
 	sf::Sprite spritey = sf::Sprite(characterText);
 
-	Player(Input* _input) : input(_input) { input->OnMoveUp.AddListener(this, std::bind(&Player::Handle_MoveUp, this, std::placeholders::_1)); }
 	void Handle_MoveUp(int in);
 
 private:

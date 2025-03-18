@@ -6,7 +6,7 @@ Player::Player()
 	playerDirection = sf::degrees(45.f);
 	spritey.scale(sf::Vector2f{ 1.f,1.f });
 	spritey.setOrigin(sf::Vector2{ 9.f,9.f });
-
+	input = std::make_unique<Input>();
 	//Draw Triangle As Sprite
 	/*drawArray = sf::VertexArray(sf::PrimitiveType::TriangleStrip, 3);
 	drawArray[0].position = sf::Vector2f(0.f, -15.f);
@@ -17,6 +17,9 @@ Player::Player()
 	{
 		drawArray[i].color = sf::Color::White;
 	}*/
+
+	input->OnMoveUp.AddListener(this, std::bind(&Player::Handle_MoveUp, this, std::placeholders::_1));
+	input->BroadcastOnMoveUp(1);
 }
 
 Player::~Player()
@@ -65,7 +68,6 @@ void Player::Update(std::optional<sf::Event> gameEvent, sf::RenderWindow& window
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
 		{
 			spritey.setPosition(spritey.getPosition() + sf::Vector2f(.0f, 3.f));
-			std::cout << "Hello" << std::endl;
 		}
 	}
 	spritey.setRotation(sf::degrees(UpdatePlayerRotation(window)));
@@ -73,6 +75,7 @@ void Player::Update(std::optional<sf::Event> gameEvent, sf::RenderWindow& window
 
 void Player::Handle_MoveUp(int in)
 {
+	std::cout << "Handle_MoveUp called with arg: " << in << std::endl;
 	spritey.setPosition(spritey.getPosition() + sf::Vector2f(.0f, -3.f));
 }
 

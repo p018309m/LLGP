@@ -11,6 +11,7 @@ private:
 	//Variables
 	std::unique_ptr<sf::RenderWindow> window;
 	Player mainPlayer;
+	Input inputManager;
 
 	//Functions
 	void InitialiseVariables();
