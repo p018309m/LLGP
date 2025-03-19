@@ -12,6 +12,21 @@ void Game::InitialiseWindow()
 	view = window->getDefaultView();
 }
 
+sf::Vector2f Game::UpdateCameraMovement(float time, sf::View view, const Player& player)
+{
+	sf::Vector2f currentPos = view.getCenter();
+	sf::Vector2f targetPos = player.spritey.getPosition();
+	sf::Vector2f playerVelocity = (targetPos - currentPos) / deltaTime;
+
+	float lag = .05f;
+	sf::Vector2f followOffset = (targetPos - currentPos) * lag;
+
+	float velocityUse = 0.05f;
+	sf::Vector2f velocityOffset = playerVelocity * velocityUse;
+
+	return currentPos + followOffset + velocityOffset;
+}
+
 Game::Game()
 {
 	this->InitialiseVariables();
@@ -34,15 +49,16 @@ void Game::PollEvents()
 	deltaTime = std::chrono::duration_cast<std::chrono::microseconds>(currentTime - lastTime).count();
 	lastTime = currentTime;
 
-	view.setCenter(mainPlayer.spritey.getPosition());
-
 	timeSincePhysicsStep += deltaTime;
 	while (timeSincePhysicsStep > physicsTimeStep)
 	{
-		mainPlayer.GetCollision().CheckCollision(enemy.GetCollision(), 20.f);
-		enemy.GetCollision().CheckCollision(mainPlayer.GetCollision(), 10.f);
+		//mainPlayer.GetCollision().CheckCollision(enemy.GetCollision(), 20.f);
+		//enemy.GetCollision().CheckCollision(mainPlayer.GetCollision(), 10.f);
 		totalTimeFixed += 1;
 		timeSincePhysicsStep -= physicsTimeStep;
+		mainPlayer.Update();
+		//view.setCenter(mainPlayer.spritey.getPosition());
+		view.setCenter(UpdateCameraMovement(deltaTime, view, mainPlayer));
 	}
 
 	if (timeSinceTick < tickLength)
@@ -55,7 +71,6 @@ void Game::PollEvents()
 		{
 			if (gameEvent->is<sf::Event::Closed>())
 				this->window->close();
-			mainPlayer.Update(gameEvent, *this->window);
 			enemy.Update(gameEvent, *this->window);
 			totalTimeTicked += 1;
 			timeSinceTick = 0.f;

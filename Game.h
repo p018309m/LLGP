@@ -19,6 +19,7 @@ private:
 	//Functions
 	void InitialiseVariables();
 	void InitialiseWindow();
+	sf::Vector2f UpdateCameraMovement(float time, sf::View view, const Player& player);
 
 	//Chrono Variables
 	std::chrono::steady_clock::time_point lastTime;

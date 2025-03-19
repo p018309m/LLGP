@@ -10,26 +10,23 @@ Input::~Input()
 
 }
 
-void Input::HandleInput(std::optional<sf::Event> gameEvent, sf::RenderWindow& window)
+void Input::HandleInput()
 {
-	if (const auto* keyPressed = gameEvent->getIf<sf::Event::KeyPressed>())
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
 	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
-		{
-			BroadcastOnMoveUp(sf::Keyboard::Key::W);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
-		{
-			BroadcastOnMoveDown(sf::Keyboard::Key::S);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
-		{
-			BroadcastOnMoveLeft(sf::Keyboard::Key::A);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
-		{
-			BroadcastOnMoveRight(sf::Keyboard::Key::D);
-		}
+		BroadcastOnMoveUp(sf::Keyboard::Key::W);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
+	{
+		BroadcastOnMoveDown(sf::Keyboard::Key::S);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
+	{
+		BroadcastOnMoveLeft(sf::Keyboard::Key::A);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
+	{
+		BroadcastOnMoveRight(sf::Keyboard::Key::D);
 	}
 }
 

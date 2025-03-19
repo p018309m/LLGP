@@ -24,7 +24,7 @@ public:
 	bool result = enemyText.loadFromImage(enemyImage, false, sf::IntRect({ 242,90 }, { 24, 24 }));
 	sf::Sprite enemySpritey = sf::Sprite(enemyText);
 
-	Collision GetCollision() { return Collision(body); }
+	//Collision GetCollision() { return Collision(body); }
 
 private:
 };

@@ -9,7 +9,7 @@ public:
 	Input();
 	virtual ~Input();
 
-	void HandleInput(std::optional<sf::Event> gameEvent, sf::RenderWindow& window);
+	void HandleInput();
 
 	//Event Keys
 	LLGP::Event<sf::Keyboard::Key> OnMoveUp;

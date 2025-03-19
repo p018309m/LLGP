@@ -15,12 +15,14 @@ public:
 
 	//Functions
 	void Draw(sf::RenderWindow& window);
-	void Update(std::optional<sf::Event> gameEvent, sf::RenderWindow& window);
+	void Update();
+	void FixedUpdate();
 	
 	//Variables
 	sf::Vector2f playerPos;
 	sf::Angle playerDirection;
 	sf::RectangleShape body;
+	sf::Vector2f velocity;
 
 	//Texture
 	const sf::Image characters = sf::Image("assets/sinistarsprites.jpg");
@@ -33,7 +35,7 @@ public:
 	void Handle_MoveLeft(sf::Keyboard::Key key);
 	void Handle_MoveRight(sf::Keyboard::Key key);
 
-	Collision GetCollision() { return Collision(body); }
+	//Collision GetCollision() { return Collision(body); }
 
 private:
 	float UpdatePlayerRotation(float targetRot, float currentRot, float time);
