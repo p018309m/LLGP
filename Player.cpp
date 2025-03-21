@@ -6,19 +6,9 @@ Player::Player()
 	body.setOrigin(spritey.getOrigin());
 	playerPos = sf::Vector2f(500.f, 500.f);
 	playerDirection = sf::degrees(0.f);
-	spritey.scale(sf::Vector2f{ 2.5f,2.5f });
+	//spritey.scale(sf::Vector2f{ 2.5f,2.5f });
 	body.setSize(sf::Vector2f(20.f, 20.f));
 	input = std::make_unique<Input>();
-	//Draw Triangle As Sprite
-	/*drawArray = sf::VertexArray(sf::PrimitiveType::TriangleStrip, 3);
-	drawArray[0].position = sf::Vector2f(0.f, -15.f);
-	drawArray[1].position = sf::Vector2f(-15.f, 30.f);
-	drawArray[2].position = sf::Vector2f(15.f, 30.f);
-
-	for (size_t i = 0; i < drawArray.getVertexCount(); i++)
-	{
-		drawArray[i].color = sf::Color::White;
-	}*/
 
 	input->OnMoveUp.AddListener(this, std::bind(&Player::Handle_MoveUp, this, std::placeholders::_1));
 	input->OnMoveDown.AddListener(this, std::bind(&Player::Handle_MoveDown, this, std::placeholders::_1));
@@ -35,15 +25,15 @@ Player::~Player()
 void Player::Draw(sf::RenderWindow& window)
 {
 	sf::Transform transform;
-	//transform.translate(playerPos).rotate(playerDirection);
 	window.draw(spritey);
-	//window.draw(body);
+	window.draw(body);
 }
 
 void Player::Update()
 {
 	input->HandleInput();
 	body.setPosition(spritey.getPosition());
+	body.setRotation(spritey.getRotation());
 }
 
 void Player::FixedUpdate()
