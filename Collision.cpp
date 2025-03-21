@@ -2,7 +2,7 @@
 
 Collision::Collision(sf::RectangleShape& body) : body(body)
 {
-
+	
 }
 
 Collision::~Collision()
@@ -11,16 +11,32 @@ Collision::~Collision()
 
 bool Collision::CheckCollision(Collision other, float push)
 {
+	
 	sf::Vector2f otherPosition = other.GetPosition();
-	sf::Vector2f otherHalfSize = other.GetHalfHeight();
+	sf::Vector2f otherSize = other.GetSize();
 	sf::Vector2f thisPosition = GetPosition();
-	sf::Vector2f thisHalfSize = GetHalfHeight();
+	sf::Vector2f thisSize = GetSize();
+
+	bool collisionX = (thisPosition.x < otherPosition.x + otherSize.x) && (otherPosition.x < thisPosition.x + (thisSize.x / 2));
+	bool collisionY = (thisPosition.y < otherPosition.y + otherSize.y) && (otherPosition.y < thisPosition.y + (thisSize.y / 2));
+
+	if(collisionX && collisionY)
+		std::cout << "hello" << std::endl;
+
+	return collisionX && collisionY;
+
+	/***
+	sf::Vector2f otherPosition = other.GetPosition();
+	sf::Vector2f otherHalfSize = other.GetSize() / 2.f;
+	sf::Vector2f thisPosition = GetPosition();
+	sf::Vector2f thisHalfSize = GetSize() / 2.f;
 
 	float deltaX = otherPosition.x - thisPosition.x;
 	float deltaY = otherPosition.y - thisPosition.y;
 
 	float intersectX = abs(deltaX) - (otherHalfSize.x + thisHalfSize.x);
 	float intersectY = abs(deltaY) - (otherHalfSize.y + thisHalfSize.y);
+	sf::Vector2f thisSize = GetSize();
 
 	if (intersectX < 0.f && intersectY < 0.f)
 	{
@@ -56,4 +72,5 @@ bool Collision::CheckCollision(Collision other, float push)
 	}
 
 	return false;
+	***/
 }

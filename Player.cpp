@@ -3,11 +3,11 @@
 Player::Player()
 {
 	spritey.setOrigin(sf::Vector2{ 9.f,9.f });
-	body.setOrigin(sf::Vector2{ 9.5f,9.5f });
+	body.setOrigin(spritey.getOrigin());
 	playerPos = sf::Vector2f(500.f, 500.f);
 	playerDirection = sf::degrees(0.f);
 	spritey.scale(sf::Vector2f{ 2.5f,2.5f });
-	body.setSize(sf::Vector2f(10.f, 10.f));
+	body.setSize(sf::Vector2f(20.f, 20.f));
 	input = std::make_unique<Input>();
 	//Draw Triangle As Sprite
 	/*drawArray = sf::VertexArray(sf::PrimitiveType::TriangleStrip, 3);
@@ -36,15 +36,14 @@ void Player::Draw(sf::RenderWindow& window)
 {
 	sf::Transform transform;
 	//transform.translate(playerPos).rotate(playerDirection);
-	window.draw(drawArray, transform);
-	//window.draw(body);
 	window.draw(spritey);
+	//window.draw(body);
 }
 
 void Player::Update()
 {
 	input->HandleInput();
-	//body.setPosition(spritey.getPosition());
+	body.setPosition(spritey.getPosition());
 }
 
 void Player::FixedUpdate()

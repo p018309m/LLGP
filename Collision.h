@@ -11,12 +11,11 @@ public:
 
 	void Move(float dx, float dy) {
 		body.move(sf::Vector2f(dx, dy));
-		std::cout << "Collision Hit" << std::endl;
 	}
 
 	bool CheckCollision(Collision other, float push);
 	sf::Vector2f GetPosition() { return body.getPosition(); }
-	sf::Vector2f GetHalfHeight() { return body.getSize() / 2.f; }
+	sf::Vector2f GetSize() { return body.getSize(); }
 
 private:
 	sf::RectangleShape& body;

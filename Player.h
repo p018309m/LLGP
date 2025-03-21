@@ -35,7 +35,7 @@ public:
 	void Handle_MoveLeft(sf::Keyboard::Key key);
 	void Handle_MoveRight(sf::Keyboard::Key key);
 
-	//Collision GetCollision() { return Collision(body); }
+	Collision GetCollision() { return Collision(body); }
 
 private:
 	float UpdatePlayerRotation(float targetRot, float currentRot, float time);
