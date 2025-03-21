@@ -14,8 +14,8 @@ public:
 	}
 
 	bool CheckCollision(Collision other, float push);
-	sf::Vector2f GetPosition() { return body.getGlobalBounds().position; }
-	sf::Vector2f GetSize() { return body.getGlobalBounds().size; }
+	sf::Vector2f GetPosition() { return body.getPosition(); }
+	sf::Vector2f GetSize() { return body.getSize(); }
 
 private:
 	sf::RectangleShape& body;

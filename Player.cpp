@@ -6,7 +6,7 @@ Player::Player()
 	body.setOrigin(spritey.getOrigin());
 	playerPos = sf::Vector2f(500.f, 500.f);
 	playerDirection = sf::degrees(0.f);
-	//spritey.scale(sf::Vector2f{ 2.5f,2.5f });
+	spritey.scale(sf::Vector2f{ 2.5f,2.5f });
 	body.setSize(sf::Vector2f(20.f, 20.f));
 	input = std::make_unique<Input>();
 
