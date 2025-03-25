@@ -28,6 +28,10 @@ void Input::HandleInput()
 	{
 		BroadcastOnMoveRight(sf::Keyboard::Key::D);
 	}
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+	{
+
+	}
 }
 
 
@@ -49,4 +53,9 @@ void Input::BroadcastOnMoveLeft(sf::Keyboard::Key key)
 void Input::BroadcastOnMoveRight(sf::Keyboard::Key key)
 {
 	OnMoveRight.Invoke(key);
+}
+
+void Input::BroadcastOnShoot(sf::Mouse::Button key)
+{
+	OnShoot.Invoke(key);
 }

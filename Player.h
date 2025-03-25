@@ -34,6 +34,7 @@ public:
 	void Handle_MoveDown(sf::Keyboard::Key key);
 	void Handle_MoveLeft(sf::Keyboard::Key key);
 	void Handle_MoveRight(sf::Keyboard::Key key);
+	void Handle_Shoot(sf::Mouse::Button key);
 
 	Collision GetCollision() { return Collision(body); }
 
@@ -41,5 +42,6 @@ private:
 	float UpdatePlayerRotation(float targetRot, float currentRot, float time);
 	sf::VertexArray drawArray;
 	std::unique_ptr<Input> input;
+	
 };
 

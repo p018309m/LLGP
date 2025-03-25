@@ -14,7 +14,7 @@ Player::Player()
 	input->OnMoveDown.AddListener(this, std::bind(&Player::Handle_MoveDown, this, std::placeholders::_1));
 	input->OnMoveLeft.AddListener(this, std::bind(&Player::Handle_MoveLeft, this, std::placeholders::_1));
 	input->OnMoveRight.AddListener(this, std::bind(&Player::Handle_MoveRight, this, std::placeholders::_1));
-
+	input->OnShoot.AddListener(this, std::bind(&Player::Handle_Shoot, this, std::placeholders::_1));
 }
 
 Player::~Player()
@@ -63,6 +63,11 @@ void Player::Handle_MoveRight(sf::Keyboard::Key key)
 {
 	spritey.setPosition(spritey.getPosition() + sf::Vector2f(3.f, .0f));
 	spritey.setRotation(sf::degrees(UpdatePlayerRotation(0.f, spritey.getRotation().asDegrees(), .25f)));
+}
+
+void Player::Handle_Shoot(sf::Mouse::Button key)
+{
+
 }
 
 float Player::UpdatePlayerRotation(float targetRot, float currentRot, float time)
