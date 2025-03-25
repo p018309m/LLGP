@@ -17,6 +17,7 @@ public:
 	sf::Vector2f enemyPos;
 	sf::Angle enemyDirection;
 	sf::RectangleShape body;
+	sf::RectangleShape ref;
 
 	//Texture
 	const sf::Image enemyImage = sf::Image("assets/sinistarsprites.jpg");
