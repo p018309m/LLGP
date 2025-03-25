@@ -3,11 +3,11 @@
 Player::Player()
 {
 	spritey.setOrigin(sf::Vector2{ 9.f,9.f });
-	body.setOrigin(spritey.getOrigin());
 	playerPos = sf::Vector2f(500.f, 500.f);
 	playerDirection = sf::degrees(0.f);
 	spritey.scale(sf::Vector2f{ 2.5f,2.5f });
-	body.setSize(sf::Vector2f(20.f, 20.f));
+	body.setOrigin(spritey.getScale() * 2.f);
+	body.setSize(sf::Vector2f(spritey.getScale().x * 8, spritey.getScale().y * 4));
 	input = std::make_unique<Input>();
 
 	input->OnMoveUp.AddListener(this, std::bind(&Player::Handle_MoveUp, this, std::placeholders::_1));
@@ -24,8 +24,8 @@ Player::~Player()
 
 void Player::Draw(sf::RenderWindow& window)
 {
-	sf::Transform transform;
 	window.draw(spritey);
+	body.setFillColor(sf::Color::Red);
 	window.draw(body);
 }
 

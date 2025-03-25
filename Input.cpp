@@ -30,7 +30,7 @@ void Input::HandleInput()
 	}
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 	{
-
+		BroadcastOnShoot(sf::Mouse::Button::Left);
 	}
 }
 
