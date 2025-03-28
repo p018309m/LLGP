@@ -4,6 +4,7 @@
 #include <SFML/Window.hpp>
 #include "Player.h"
 #include "Enemy.h"
+#include "Asteroid.h"
 #include <iostream>
 //Main Game Handler
 class Game
@@ -14,6 +15,7 @@ private:
 	Player mainPlayer;
 	Input inputManager;
 	Enemy enemy;
+	Asteroid asteroid;
 	sf::View view;
 
 	//Functions

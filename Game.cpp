@@ -55,6 +55,7 @@ void Game::PollEvents()
 		totalTimeFixed += 1;
 		timeSincePhysicsStep -= physicsTimeStep;
 		mainPlayer.Update();
+		enemy.Update();
 		mainPlayer.GetCollision().CheckCollision(enemy.GetCollision());
 		//enemy.GetCollision().CheckCollision(mainPlayer.GetCollision(), 10.f);
 		view.setCenter(UpdateCameraMovement(deltaTime, view, mainPlayer));
@@ -70,7 +71,6 @@ void Game::PollEvents()
 		{
 			if (gameEvent->is<sf::Event::Closed>())
 				this->window->close();
-			enemy.Update(gameEvent, *this->window);
 			totalTimeTicked += 1;
 			timeSinceTick = 0.f;
 		}
@@ -88,7 +88,8 @@ void Game::Render()
 {
 	window->setView(view);
 	this->window->clear();
-	mainPlayer.Draw(*this->window);
+	asteroid.Draw(*this->window);
 	enemy.Draw(*this->window);
+	mainPlayer.Draw(*this->window);
 	this->window->display();
 }

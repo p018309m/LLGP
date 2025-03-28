@@ -2,13 +2,12 @@
 
 Enemy::Enemy()
 {
-	enemySpritey.setOrigin(sf::Vector2{ 9.f,9.f });
+	enemySpritey.setOrigin(sf::Vector2{ 10.f,12.f });
 	enemyPos = sf::Vector2f(20.f, 20.f);
 	enemyDirection = sf::degrees(0.f);
-	enemySpritey.scale(sf::Vector2f{ 2.5f,2.5f });
+	enemySpritey.scale(sf::Vector2f{ 2.f,2.f });
 	body.setOrigin(enemySpritey.getScale() * 2.f);
-	body.setSize(sf::Vector2f(enemySpritey.getScale().x * 8, enemySpritey.getScale().y * 4));
-	body.setPosition(enemySpritey.getGlobalBounds().position);
+	body.setSize(sf::Vector2f(enemySpritey.getScale().x * 10, enemySpritey.getScale().y * 6));
 }
 
 Enemy::~Enemy()
@@ -23,7 +22,10 @@ void Enemy::Draw(sf::RenderWindow& window)
 	window.draw(body);
 }
 
-void Enemy::Update(std::optional<sf::Event> gameEvent, sf::RenderWindow& window)
+void Enemy::Update()
 {
 	//enemySpritey.setPosition(body.getPosition());
+	body.setPosition(enemySpritey.getPosition());
+	//enemySpritey.setRotation(enemySpritey.getRotation() + sf::degrees(1.f));
+	body.setRotation(enemySpritey.getRotation());
 }

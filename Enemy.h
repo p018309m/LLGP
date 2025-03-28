@@ -11,7 +11,7 @@ public:
 
 	//Functions
 	void Draw(sf::RenderWindow& window);
-	void Update(std::optional<sf::Event> gameEvent, sf::RenderWindow& window);
+	void Update();
 
 	//Variables
 	sf::Vector2f enemyPos;

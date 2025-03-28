@@ -1,6 +1,6 @@
 #include "Collision.h"
 
-Collision::Collision(sf::RectangleShape& body) : body(body)
+Collision::Collision(sf::Shape& body) : body(body)
 {
 	
 }

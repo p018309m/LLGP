@@ -6,7 +6,7 @@ class Collision
 {
 public:
 	//Constructor and Destructor
-	Collision(sf::RectangleShape& body);
+	Collision(sf::Shape& body);
 	~Collision();
 
 	void Move(float dx, float dy) {
@@ -18,6 +18,6 @@ public:
 	sf::Vector2f GetSize() { return body.getGlobalBounds().size; }
 
 private:
-	sf::RectangleShape& body;
+	sf::Shape& body;
 };
 
