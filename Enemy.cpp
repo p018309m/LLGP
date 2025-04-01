@@ -6,7 +6,7 @@ Enemy::Enemy()
 	enemyPos = sf::Vector2f(20.f, 20.f);
 	enemyDirection = sf::degrees(0.f);
 	enemySpritey.scale(sf::Vector2f{ 2.f,2.f });
-	body.setOrigin(enemySpritey.getScale() * 2.f);
+	body.setOrigin(enemySpritey.getScale() * 5.f);
 	body.setSize(sf::Vector2f(enemySpritey.getScale().x * 10, enemySpritey.getScale().y * 6));
 }
 

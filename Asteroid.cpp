@@ -6,9 +6,9 @@ Asteroid::Asteroid()
 	asteroidPos = sf::Vector2f(20.f, 20.f);
 	asteroidDirection = sf::degrees(0.f);
 	asteroidSpritey.scale(sf::Vector2f{ 2.f,2.f });
-	body.setOrigin(asteroidSpritey.getScale() * 2.f);
 	//body.setSize(sf::Vector2f(asteroidSpritey.getScale().x * 10, asteroidSpritey.getScale().y * 6));
-	body.setRadius(50.f);
+	body.setOrigin(asteroidSpritey.getScale() * 9.f);
+	body.setRadius(45.f);
 }
 
 Asteroid::~Asteroid()

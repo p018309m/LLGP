@@ -19,9 +19,9 @@ public:
 	sf::RectangleShape body;
 
 	//Texture
-	const sf::Image enemyImage = sf::Image("assets/sinistarsprites.jpg");
+	const sf::Image enemyImage = sf::Image("assets/enemy.png");
 	sf::Texture enemyText;
-	bool result = enemyText.loadFromImage(enemyImage, false, sf::IntRect({ 242,90 }, { 24, 24 }));
+	bool result = enemyText.loadFromImage(enemyImage, false, sf::IntRect({ 0,0 }, { 20, 20 }));
 	sf::Sprite enemySpritey = sf::Sprite(enemyText);
 
 	Collision GetCollision() { return Collision(body); }

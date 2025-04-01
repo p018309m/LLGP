@@ -56,7 +56,8 @@ void Game::PollEvents()
 		timeSincePhysicsStep -= physicsTimeStep;
 		mainPlayer.Update();
 		enemy.Update();
-		mainPlayer.GetCollision().CheckCollision(enemy.GetCollision());
+		//mainPlayer.GetCollision().CheckCollision(enemy.GetCollision());
+		mainPlayer.GetCollision().CheckCollision(asteroid.GetCollision());
 		//enemy.GetCollision().CheckCollision(mainPlayer.GetCollision(), 10.f);
 		view.setCenter(UpdateCameraMovement(deltaTime, view, mainPlayer));
 	}

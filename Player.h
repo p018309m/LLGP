@@ -25,9 +25,9 @@ public:
 	sf::Vector2f velocity;
 
 	//Texture
-	const sf::Image characters = sf::Image("assets/sinistarsprites.jpg");
+	const sf::Image characters = sf::Image("assets/spaceship.png");
 	sf::Texture characterText;
-	bool result = characterText.loadFromImage(characters, false, sf::IntRect({ 0,0 }, { 18, 18 }));
+	bool result = characterText.loadFromImage(characters, false, sf::IntRect({ 0,0 }, { 21, 18 }));
 	sf::Sprite spritey = sf::Sprite(characterText);
 
 	void Handle_MoveUp(sf::Keyboard::Key key);
