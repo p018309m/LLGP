@@ -4,9 +4,10 @@
 #include <SFML/Window.hpp>
 #include <iostream>
 #include "Input.h"
+#include "ActorObject.h"
 #include "Collision.h"
 
-class Player
+class Player : public ActorObject
 {
 public:
 	//Constructors and Destructors
@@ -15,7 +16,7 @@ public:
 
 	//Functions
 	void Draw(sf::RenderWindow& window);
-	void Update();
+	void Update(float deltaTime);
 	void FixedUpdate();
 	
 	//Variables

@@ -54,7 +54,7 @@ void Game::PollEvents()
 	{
 		totalTimeFixed += 1;
 		timeSincePhysicsStep -= physicsTimeStep;
-		mainPlayer.Update();
+		mainPlayer.Update(deltaTime);
 		enemy.Update();
 		//mainPlayer.GetCollision().CheckCollision(enemy.GetCollision());
 		mainPlayer.GetCollision().CheckCollision(asteroid.GetCollision());

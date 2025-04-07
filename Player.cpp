@@ -29,8 +29,9 @@ void Player::Draw(sf::RenderWindow& window)
 	window.draw(body);
 }
 
-void Player::Update()
+void Player::Update(float deltaTime)
 {
+	ActorObject::Update(deltaTime);
 	input->HandleInput();
 	body.setPosition(spritey.getPosition());
 	body.setRotation(spritey.getRotation());
