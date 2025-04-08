@@ -1,6 +1,7 @@
 #pragma once
 #include "SFML/Graphics.hpp"
 #include "Component.h"
+#include <iostream>
 
 class AnimationComponent : public Component
 {

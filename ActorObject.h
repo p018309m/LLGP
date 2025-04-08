@@ -1,8 +1,11 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <concepts>
 #include "Component.h"
 
-template<typename T>
+class Component;
+
+template<class T>
 concept isComponent = std::derived_from<T, Component> == true;
 
 class ActorObject
@@ -22,9 +25,9 @@ public:
 	float getRotation() const;
 	void setRotation(float rot);
 
-	template<typename T> requires isComponent<T> T* GetComponent();
-	template<typename T> requires isComponent<T> T* AddComponent();
-	template<typename T> requires isComponent<T> bool RemoveComponent(T* comp);
+	template<typename T> requires isComponent<T> std::shared_ptr<T> GetComponent();
+	template<typename T> requires isComponent<T> std::shared_ptr<T> AddComponent();
+	template<typename T> requires isComponent<T> bool RemoveComponent(std::shared_ptr<T> comp);
 
 protected:
 	sf::Vector2f position;

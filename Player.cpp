@@ -15,9 +15,16 @@ Player::Player()
 	input->OnMoveLeft.AddListener(this, std::bind(&Player::Handle_MoveLeft, this, std::placeholders::_1));
 	input->OnMoveRight.AddListener(this, std::bind(&Player::Handle_MoveRight, this, std::placeholders::_1));
 	input->OnShoot.AddListener(this, std::bind(&Player::Handle_Shoot, this, std::placeholders::_1));
+
+	animComp = Player::AddComponent<AnimationComponent>();
 }
 
 Player::~Player()
+{
+
+}
+
+void Player::Begin()
 {
 
 }
@@ -35,6 +42,7 @@ void Player::Update(float deltaTime)
 	input->HandleInput();
 	body.setPosition(spritey.getPosition());
 	body.setRotation(spritey.getRotation());
+	animComp->Update(deltaTime);
 }
 
 void Player::FixedUpdate()

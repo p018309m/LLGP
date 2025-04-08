@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Input.h"
 #include "ActorObject.h"
+#include "AnimationComponent.h"
 #include "Collision.h"
 
 class Player : public ActorObject
@@ -15,6 +16,7 @@ public:
 	virtual ~Player();
 
 	//Functions
+	void Begin();
 	void Draw(sf::RenderWindow& window);
 	void Update(float deltaTime);
 	void FixedUpdate();
@@ -44,5 +46,6 @@ private:
 	sf::VertexArray drawArray;
 	std::unique_ptr<Input> input;
 	
+	std::shared_ptr<AnimationComponent> animComp;
 };
 

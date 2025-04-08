@@ -6,11 +6,11 @@ class ActorObject;
 
 class Component {
 public:
-	Component(std::shared_ptr<ActorObject> object) : object(object) {}
+	Component(std::shared_ptr<ActorObject> object) : _object(object) {}
 	~Component() = default;
 
 	virtual void Update(float deltaTime) {}
 	
 protected:
-	std::shared_ptr<ActorObject> object;
+	std::shared_ptr<ActorObject> _object;
 };

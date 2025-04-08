@@ -22,9 +22,9 @@ void AnimationComponent::Update(float deltaTime)
         }
         spriteSheet.setTextureRect(frame[currentFrame]);
     }
-
-    spriteSheet.setPosition(object->getPosition());
-    spriteSheet.setRotation(sf::degrees(object->getRotation()));
+    std::cout << "Hello" << std::endl;
+    spriteSheet.setPosition(_object->getPosition());
+    spriteSheet.setRotation(sf::degrees(_object->getRotation()));
 }
 
 void AnimationComponent::Play()
@@ -42,9 +42,4 @@ void AnimationComponent::Stop()
 void AnimationComponent::SetLoop(bool loop)
 {
     looping = loop;
-}
-
-AnimationComponent::~AnimationComponent()
-{
-
 }
