@@ -16,7 +16,8 @@ Player::Player()
 	input->OnMoveRight.AddListener(this, std::bind(&Player::Handle_MoveRight, this, std::placeholders::_1));
 	input->OnShoot.AddListener(this, std::bind(&Player::Handle_Shoot, this, std::placeholders::_1));
 
-	animComp = Player::AddComponent<AnimationComponent>(this, characterText, sf::Vector2u(18,18), 2.f);
+	animComp = Player::AddComponent<AnimationComponent>(this, characterText, sf::Vector2u(36, 1), 0.3f);
+	collisionComp = Player::AddComponent<Collision>(this, body);
 }
 
 Player::~Player()
@@ -42,6 +43,7 @@ void Player::Update(float deltaTime)
 	input->HandleInput();
 	body.setPosition(spritey.getPosition());
 	body.setRotation(spritey.getRotation());
+	animComp->Update(0, deltaTime);
 }
 
 void Player::FixedUpdate()
@@ -75,7 +77,7 @@ void Player::Handle_MoveRight(sf::Keyboard::Key key)
 
 void Player::Handle_Shoot(sf::Mouse::Button key)
 {
-
+	
 }
 
 float Player::UpdatePlayerRotation(float targetRot, float currentRot, float time)

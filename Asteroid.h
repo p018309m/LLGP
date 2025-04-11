@@ -2,7 +2,7 @@
 
 #include "SFML/Graphics.hpp"
 #include "Collision.h"
-class Asteroid
+class Asteroid : public ActorObject
 {
 public:
 	//Constructors and Destructors
@@ -24,7 +24,7 @@ public:
 	bool result = asteroidText.loadFromImage(asteroidImage, false, sf::IntRect({ 0,0 }, { 52, 52 }));
 	sf::Sprite asteroidSpritey = sf::Sprite(asteroidText);
 
-	Collision GetCollision() { return Collision(body); }
+	Collision GetCollision() { return Collision(this, body); }
 
 private:
 };

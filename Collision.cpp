@@ -1,8 +1,8 @@
 #include "Collision.h"
 
-Collision::Collision(sf::Shape& body) : body(body)
+Collision::Collision(ActorObject* object, sf::Shape& body) : Component(object), body(body)
 {
-	
+
 }
 
 Collision::~Collision()
@@ -32,3 +32,5 @@ bool Collision::CheckCollision(Collision other)
 
 	return collisionX && collisionY;
 }
+
+

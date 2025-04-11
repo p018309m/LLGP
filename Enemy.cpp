@@ -8,6 +8,8 @@ Enemy::Enemy()
 	enemySpritey.scale(sf::Vector2f{ 2.f,2.f });
 	body.setOrigin(enemySpritey.getScale() * 5.f);
 	body.setSize(sf::Vector2f(enemySpritey.getScale().x * 10, enemySpritey.getScale().y * 6));
+
+	collisionComp = Enemy::AddComponent<Collision>(this, body);
 }
 
 Enemy::~Enemy()

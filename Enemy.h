@@ -1,8 +1,9 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "ActorObject.h"
 #include "Collision.h"
 
-class Enemy
+class Enemy : public ActorObject
 {
 public:
 	//Constructors and Destructors
@@ -24,8 +25,9 @@ public:
 	bool result = enemyText.loadFromImage(enemyImage, false, sf::IntRect({ 0,0 }, { 20, 20 }));
 	sf::Sprite enemySpritey = sf::Sprite(enemyText);
 
-	Collision GetCollision() { return Collision(body); }
+	Collision GetCollision() { return Collision(this, body); }
 
 private:
+	Collision* collisionComp;
 };
 

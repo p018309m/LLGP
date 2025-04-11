@@ -1,12 +1,13 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "Component.h"
 #include <iostream>
 
-class Collision
+class Collision : public Component
 {
 public:
 	//Constructor and Destructor
-	Collision(sf::Shape& body);
+	Collision(ActorObject* object, sf::Shape& body);
 	~Collision();
 
 	void Move(float dx, float dy) {
