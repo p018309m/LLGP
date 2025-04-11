@@ -28,7 +28,7 @@ public:
 	sf::Vector2f velocity;
 
 	//Texture
-	const sf::Image characters = sf::Image("assets/spaceship.png");
+	const sf::Image characters = sf::Image("assets/shipspritesheet.png");
 	sf::Texture characterText;
 	bool result = characterText.loadFromImage(characters, false, sf::IntRect({ 0,0 }, { 21, 18 }));
 	sf::Sprite spritey = sf::Sprite(characterText);
@@ -46,6 +46,6 @@ private:
 	sf::VertexArray drawArray;
 	std::unique_ptr<Input> input;
 	
-	std::shared_ptr<AnimationComponent> animComp;
+	AnimationComponent* animComp;
 };
 

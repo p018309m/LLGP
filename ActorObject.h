@@ -5,7 +5,7 @@
 
 class Component;
 
-template<class T>
+template<typename T>
 concept isComponent = std::derived_from<T, Component> == true;
 
 class ActorObject
@@ -25,9 +25,39 @@ public:
 	float getRotation() const;
 	void setRotation(float rot);
 
-	template<typename T> requires isComponent<T> std::shared_ptr<T> GetComponent();
-	template<typename T> requires isComponent<T> std::shared_ptr<T> AddComponent();
-	template<typename T> requires isComponent<T> bool RemoveComponent(std::shared_ptr<T> comp);
+	template<typename T> requires isComponent<T> T* GetComponent()
+	{
+		T* returnComp = nullptr;
+		for (int i = 0; i < components.size(); i++)
+		{
+			returnComp = static_cast<T*>(components[i].get());
+			if (returnComp != nullptr)
+			{
+				break;
+			}
+		}
+		return returnComp;
+	}
+	template<typename T, typename... Args> requires isComponent<T> T* AddComponent(Args&&... args)
+	{
+		std::unique_ptr<Component> newComp = std::make_unique<T>(std::forward<Args>(args)...);
+		components.push_back(std::move(newComp));
+		return static_cast<T*>(components.back().get());
+	}
+	template<typename T> requires isComponent<T> bool RemoveComponent(T* comp)
+	{
+		for (int i = 0; i < components.size(); ++i)
+		{
+			T* returnComp = nullptr;
+			returnComp = static_cast<T*>(components[i].get());
+			if (returnComp == comp)
+			{
+				components.erase(components.begin() + i);
+				return true;
+			}
+		}
+		return false;
+	}
 
 protected:
 	sf::Vector2f position;
