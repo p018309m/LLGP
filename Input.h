@@ -12,17 +12,17 @@ public:
 	void HandleInput();
 
 	//Event Keys
-	LLGP::Event<sf::Keyboard::Key> OnMoveUp;
-	LLGP::Event<sf::Keyboard::Key> OnMoveDown;
-	LLGP::Event<sf::Keyboard::Key> OnMoveLeft;
-	LLGP::Event<sf::Keyboard::Key> OnMoveRight;
-	LLGP::Event<sf::Mouse::Button> OnShoot;
+	LLGP::Event<int> OnMoveUp;
+	LLGP::Event<int> OnMoveDown;
+	LLGP::Event<int> OnMoveLeft;
+	LLGP::Event<int> OnMoveRight;
+	LLGP::Event<int> OnShoot;
 
 	//Different Inputs
-	void BroadcastOnMoveUp(sf::Keyboard::Key key);
-	void BroadcastOnMoveDown(sf::Keyboard::Key key);
-	void BroadcastOnMoveLeft(sf::Keyboard::Key key);
-	void BroadcastOnMoveRight(sf::Keyboard::Key key);
-	void BroadcastOnShoot(sf::Mouse::Button key);
+	void BroadcastOnMoveUp(int val);
+	void BroadcastOnMoveDown(int val);
+	void BroadcastOnMoveLeft(int val);
+	void BroadcastOnMoveRight(int val);
+	void BroadcastOnShoot(int val);
 };
 

@@ -9,19 +9,23 @@ private:
 
 public:
 	//Constructors & Destructors
-	AnimationComponent(ActorObject* object, sf::Texture& texture, sf::Vector2u imageCount, float frameTime);
+	AnimationComponent(ActorObject* object, sf::Sprite& spritey, int texInc, float frameTime, int endFrame);
 	~AnimationComponent();
 
-	void Update(int row, float deltaTime);
+	void Update(float deltaTime);
+	void PlayAnimation(int startFrame, int endFrame);
 
 private:
-	sf::Vector2u imageCount;
-	sf::Vector2u currentImage;
-
-	sf::IntRect animRect;
-
+	int texWidth;
+	int texIncrement;
+	int endFrame;
 	float totalTime;
 	float frameTime;
-	sf::Texture spriteSheet;
+	sf::Sprite& spriteSheet;
+
+	//singleAnim
+	int lastFrame;
+	int firstFrame;
+	bool isPlaying = false;
 };
 

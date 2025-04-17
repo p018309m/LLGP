@@ -12,8 +12,6 @@ Collision::~Collision()
 
 bool Collision::CheckCollision(Collision other)
 {
-	
-	int val = 0;
 	sf::Vector2f otherPosition = other.GetPosition();
 	sf::Vector2f otherSize = other.GetSize();
 	sf::Vector2f thisPosition = GetPosition();
@@ -24,11 +22,6 @@ bool Collision::CheckCollision(Collision other)
 		
 	bool collisionY = (thisPosition.y >= otherPosition.y && thisPosition.y <= otherPosition.y + otherSize.y) ||
 		(thisPosition.y + thisSize.y >= otherPosition.y && thisPosition.y + thisSize.y <= otherPosition.y + otherSize.y);
-
-	if (collisionX && collisionY)
-		val += 1;
-
-	std::cout << val << std::endl;
 
 	return collisionX && collisionY;
 }

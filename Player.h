@@ -8,6 +8,12 @@
 #include "AnimationComponent.h"
 #include "Collision.h"
 
+template<typename T>
+bool NearlyEqual(T a, T b, T diff = static_cast<T>(1.f))
+{
+	return std::abs(a - b) < diff;
+}
+
 class Player : public ActorObject
 {
 public:
@@ -28,16 +34,16 @@ public:
 	sf::Vector2f velocity;
 
 	//Texture
-	const sf::Image characters = sf::Image("assets/shipspritesheet.png");
+	const sf::Image characters = sf::Image("assets/shipanim.png");
 	sf::Texture characterText;
-	bool result = characterText.loadFromImage(characters, false, sf::IntRect({ 0,0 }, {704 , 22 }));
+	bool result = characterText.loadFromImage(characters);
 	sf::Sprite spritey = sf::Sprite(characterText);
 
-	void Handle_MoveUp(sf::Keyboard::Key key);
-	void Handle_MoveDown(sf::Keyboard::Key key);
-	void Handle_MoveLeft(sf::Keyboard::Key key);
-	void Handle_MoveRight(sf::Keyboard::Key key);
-	void Handle_Shoot(sf::Mouse::Button key);
+	void Handle_MoveUp(int val);
+	void Handle_MoveDown(int val);
+	void Handle_MoveLeft(int val);
+	void Handle_MoveRight(int val);
+	void Handle_Shoot(int val);
 
 	Collision GetCollision() { return Collision(this, body); }
 

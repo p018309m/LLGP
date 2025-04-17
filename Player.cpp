@@ -2,11 +2,12 @@
 
 Player::Player()
 {
-	spritey.setOrigin(sf::Vector2{ 9.f,9.f });
-	playerPos = sf::Vector2f(500.f, 500.f);
-	playerDirection = sf::degrees(0.f);
+	std::cout << "Player" << &spritey << std::endl;
+	spritey.setTexture(characterText);
+	spritey.setTextureRect({ { 0,0 }, { 22,22 } });
+	spritey.setOrigin({ spritey.getTextureRect().size.x / 2.f, spritey.getTextureRect().size.y / 2.f });
 	spritey.scale(sf::Vector2f{ 2.5f,2.5f });
-	body.setOrigin(spritey.getScale() * 2.f);
+	body.setOrigin({ spritey.getTextureRect().size.x / 2.f, spritey.getTextureRect().size.y / 2.f });
 	body.setSize(sf::Vector2f(spritey.getScale().x * 8, spritey.getScale().y * 4));
 	input = std::make_unique<Input>();
 
@@ -16,7 +17,7 @@ Player::Player()
 	input->OnMoveRight.AddListener(this, std::bind(&Player::Handle_MoveRight, this, std::placeholders::_1));
 	input->OnShoot.AddListener(this, std::bind(&Player::Handle_Shoot, this, std::placeholders::_1));
 
-	animComp = Player::AddComponent<AnimationComponent>(this, characterText, sf::Vector2u(36, 1), 0.3f);
+	animComp = Player::AddComponent<AnimationComponent>(this, spritey, 22, .3f, 3);
 	collisionComp = Player::AddComponent<Collision>(this, body);
 }
 
@@ -43,7 +44,7 @@ void Player::Update(float deltaTime)
 	input->HandleInput();
 	body.setPosition(spritey.getPosition());
 	body.setRotation(spritey.getRotation());
-	animComp->Update(0, deltaTime);
+	animComp->Update(deltaTime);
 }
 
 void Player::FixedUpdate()
@@ -51,37 +52,55 @@ void Player::FixedUpdate()
 	//spritey.setPosition(spritey.getPosition() + velocity);
 }
 
-void Player::Handle_MoveUp(sf::Keyboard::Key key)
+void Player::Handle_MoveUp(int val)
 {
 	spritey.setPosition(spritey.getPosition() + sf::Vector2f(.0f, -3.f));
-	spritey.setRotation(sf::degrees(UpdatePlayerRotation(270.f, spritey.getRotation().asDegrees(), .25f)));
+	if (!NearlyEqual(spritey.getRotation().asDegrees(), 270.0f))
+	{
+		std::cout << spritey.getRotation().asDegrees() << std::endl;
+		spritey.setRotation(sf::degrees(UpdatePlayerRotation(270.0f, spritey.getRotation().asDegrees(), .25f)));
+	}
 }
 
-void Player::Handle_MoveDown(sf::Keyboard::Key key)
+void Player::Handle_MoveDown(int val)
 {
 	spritey.setPosition(spritey.getPosition() + sf::Vector2f(.0f, 3.f));
-	spritey.setRotation(sf::degrees(UpdatePlayerRotation(90.f, spritey.getRotation().asDegrees(), .25f)));
+	if (!NearlyEqual(spritey.getRotation().asDegrees(), 90.0f))
+	{
+		spritey.setRotation(sf::degrees(UpdatePlayerRotation(90.0f, spritey.getRotation().asDegrees(), .25f)));
+	}
 }
 
-void Player::Handle_MoveLeft(sf::Keyboard::Key key)
+void Player::Handle_MoveLeft(int val)
 {
 	spritey.setPosition(spritey.getPosition() + sf::Vector2f(-3.f, .0f));
-	spritey.setRotation(sf::degrees(UpdatePlayerRotation(180.f, spritey.getRotation().asDegrees(), .25f)));
+	if (!NearlyEqual(spritey.getRotation().asDegrees(), 180.0f))
+	{
+		spritey.setRotation(sf::degrees(UpdatePlayerRotation(180.0f, spritey.getRotation().asDegrees(), .25f)));
+	}
 }
 
-void Player::Handle_MoveRight(sf::Keyboard::Key key)
+void Player::Handle_MoveRight(int val)
 {
 	spritey.setPosition(spritey.getPosition() + sf::Vector2f(3.f, .0f));
-	spritey.setRotation(sf::degrees(UpdatePlayerRotation(0.f, spritey.getRotation().asDegrees(), .25f)));
+	if (!NearlyEqual(spritey.getRotation().asDegrees(), 0.0f))
+	{
+		spritey.setRotation(sf::degrees(UpdatePlayerRotation(0.0f, spritey.getRotation().asDegrees(), .25f)));
+	}
 }
 
-void Player::Handle_Shoot(sf::Mouse::Button key)
+void Player::Handle_Shoot(int val)
 {
 	
 }
 
 float Player::UpdatePlayerRotation(float targetRot, float currentRot, float time)
 {
+	
 	float angle = std::fmod(targetRot - currentRot + 540.f, 360.f) - 180.f;
+	if (angle > 0.f)
+		animComp->PlayAnimation(4, 9);
+	else if (angle < 0.f)
+		animComp->PlayAnimation(10, 15);
 	return currentRot + angle * time;
 }

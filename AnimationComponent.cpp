@@ -1,37 +1,60 @@
 #include "AnimationComponent.h"
 
-AnimationComponent::AnimationComponent(ActorObject* object, sf::Texture& texture, sf::Vector2u imageCount, float frameTime) : Component(object), spriteSheet(texture), frameTime(frameTime)
+AnimationComponent::AnimationComponent(ActorObject* object, sf::Sprite& spritey, int texInc, float frameTime, int endFrame) : Component(object), spriteSheet(spritey), texIncrement(texInc), frameTime(frameTime), endFrame(endFrame)
 {
-    this->imageCount = imageCount;
-    this->frameTime = frameTime;
     totalTime = 0.f;
-    currentImage.x = 0;
-    
-    animRect.size.x = texture.getSize().x / float(imageCount.x);
-    animRect.size.y = texture.getSize().y / float(imageCount.y);
+    texWidth = 0;
 }
 
 AnimationComponent::~AnimationComponent()
 {
 }
 
-void AnimationComponent::Update(int row, float deltaTime)
+void AnimationComponent::Update(float deltaTime)
 {
-    currentImage.y = row;
     totalTime += deltaTime;
-
-    if (totalTime >= frameTime)
+    if (isPlaying)
     {
-        totalTime -= frameTime;
-        currentImage.x++;
-
-        if (currentImage.x >= imageCount.x)
+        
+        if (totalTime >= frameTime)
         {
-            currentImage.x = 0;
+            texWidth += texIncrement;
+
+            if (texWidth >= lastFrame * texIncrement)
+                isPlaying = false;
+
+            if (texWidth < lastFrame * texIncrement)
+                spriteSheet.setTextureRect({ {texWidth,0}, {texIncrement, texIncrement} });
+
+            totalTime = 0.f;
         }
+        return;
     }
 
-    animRect.position.x = currentImage.x * animRect.size.x;
-    animRect.position.y = currentImage.y * animRect.size.y;
+    else
+    {
+        if (totalTime >= frameTime)
+        {
+            texWidth += texIncrement;
+
+            if (texWidth >= endFrame * texIncrement)
+                texWidth = 0;
+
+            if (texWidth < endFrame * texIncrement)
+                spriteSheet.setTextureRect({ { texWidth,0 }, { texIncrement,texIncrement } });
+
+            totalTime = 0.f;
+        }
+    }
+    
 }
 
+void AnimationComponent::PlayAnimation(int startFrame, int endFrame)
+{
+    firstFrame = startFrame;
+    lastFrame = endFrame;
+    texWidth = firstFrame * texIncrement;
+    spriteSheet.setTextureRect({ { texWidth, 0 }, { texIncrement, texIncrement } });
+    isPlaying = true;
+    totalTime = 0.f;
+}
