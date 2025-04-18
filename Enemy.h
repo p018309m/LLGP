@@ -11,19 +11,13 @@ public:
 	virtual ~Enemy();
 
 	//Functions
-	void Draw(sf::RenderWindow& window);
+	void Render(sf::RenderWindow& window);
 	void Update();
 
 	//Variables
 	sf::Vector2f enemyPos;
 	sf::Angle enemyDirection;
 	sf::RectangleShape body;
-
-	//Texture
-	const sf::Image enemyImage = sf::Image("assets/enemy.png");
-	sf::Texture enemyText;
-	bool result = enemyText.loadFromImage(enemyImage, false, sf::IntRect({ 0,0 }, { 20, 20 }));
-	sf::Sprite enemySpritey = sf::Sprite(enemyText);
 
 	Collision GetCollision() { return Collision(this, body); }
 

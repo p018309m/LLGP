@@ -2,13 +2,21 @@
 
 Enemy::Enemy()
 {
-	enemySpritey.setOrigin(sf::Vector2{ 10.f,12.f });
-	enemyPos = sf::Vector2f(20.f, 20.f);
+	//Sprite Render Stuff
+	characters = sf::Image("assets/enemy.png");
+	if(!characterText.loadFromImage(characters))
+		std::cout << "Failed to Load Image" << std::endl;
+	spritey.setTextureRect({ { 0,0 }, { 20,20 } });
+	spritey.setOrigin(sf::Vector2{ 10.f,12.f });
+	enemyPos = sf::Vector2f(100.f, 100.f);
 	enemyDirection = sf::degrees(0.f);
-	enemySpritey.scale(sf::Vector2f{ 2.f,2.f });
-	body.setOrigin(enemySpritey.getScale() * 5.f);
-	body.setSize(sf::Vector2f(enemySpritey.getScale().x * 10, enemySpritey.getScale().y * 6));
+	spritey.scale(sf::Vector2f{ 2.f,2.f });
 
+	//Collision Stuff
+	body.setOrigin(spritey.getScale() * 5.f);
+	body.setSize(sf::Vector2f(spritey.getScale().x * 10, spritey.getScale().y * 6));
+
+	//Components Add
 	collisionComp = Enemy::AddComponent<Collision>(this, body);
 }
 
@@ -17,17 +25,18 @@ Enemy::~Enemy()
 
 }
 
-void Enemy::Draw(sf::RenderWindow& window)
+void Enemy::Render(sf::RenderWindow& window)
 {
-	window.draw(enemySpritey);
+	spritey.setPosition(enemyPos);
+	ActorObject::Render(window);
 	body.setFillColor(sf::Color::Blue);
 	window.draw(body);
 }
 
 void Enemy::Update()
 {
-	//enemySpritey.setPosition(body.getPosition());
-	body.setPosition(enemySpritey.getPosition());
-	//enemySpritey.setRotation(enemySpritey.getRotation() + sf::degrees(1.f));
-	body.setRotation(enemySpritey.getRotation());
+	//spritey.setPosition(body.getPosition());
+	body.setPosition(spritey.getPosition());
+	//spritey.setRotation(spritey.getRotation() + sf::degrees(1.f));
+	body.setRotation(spritey.getRotation());
 }

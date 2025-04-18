@@ -2,6 +2,7 @@
 
 ActorObject::ActorObject() : position(0, 0), rotation(0)
 {
+	spritey.setTexture(characterText);
 }
 
 ActorObject::~ActorObject()
@@ -20,6 +21,7 @@ void ActorObject::Update(float deltaTime)
 
 void ActorObject::Render(sf::RenderWindow& window)
 {
+	window.draw(spritey);
 }
 
 
@@ -41,4 +43,9 @@ float ActorObject::getRotation() const
 void ActorObject::setRotation(float rot)
 {
 	rotation = rot;
+}
+
+sf::Sprite ActorObject::getSprite() const
+{
+	return spritey;
 }

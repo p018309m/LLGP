@@ -2,21 +2,28 @@
 
 Player::Player()
 {
-	std::cout << "Player" << &spritey << std::endl;
-	spritey.setTexture(characterText);
+	//Initial Sprite
+	characters = sf::Image("assets/shipanim.png");
+	if (!characterText.loadFromImage(characters))
+		std::cout << "Failed to Load Image" << std::endl;
+	//spritey.setTexture(characterText);
 	spritey.setTextureRect({ { 0,0 }, { 22,22 } });
 	spritey.setOrigin({ spritey.getTextureRect().size.x / 2.f, spritey.getTextureRect().size.y / 2.f });
 	spritey.scale(sf::Vector2f{ 2.5f,2.5f });
+
+	//Collision Box
 	body.setOrigin({ spritey.getTextureRect().size.x / 2.f, spritey.getTextureRect().size.y / 2.f });
 	body.setSize(sf::Vector2f(spritey.getScale().x * 8, spritey.getScale().y * 4));
-	input = std::make_unique<Input>();
 
+	//Input Stuff
+	input = std::make_unique<Input>();
 	input->OnMoveUp.AddListener(this, std::bind(&Player::Handle_MoveUp, this, std::placeholders::_1));
 	input->OnMoveDown.AddListener(this, std::bind(&Player::Handle_MoveDown, this, std::placeholders::_1));
 	input->OnMoveLeft.AddListener(this, std::bind(&Player::Handle_MoveLeft, this, std::placeholders::_1));
 	input->OnMoveRight.AddListener(this, std::bind(&Player::Handle_MoveRight, this, std::placeholders::_1));
 	input->OnShoot.AddListener(this, std::bind(&Player::Handle_Shoot, this, std::placeholders::_1));
 
+	//Components Adding
 	animComp = Player::AddComponent<AnimationComponent>(this, spritey, 22, .3f, 3);
 	collisionComp = Player::AddComponent<Collision>(this, body);
 }
@@ -24,6 +31,7 @@ Player::Player()
 Player::~Player()
 {
 	Player::RemoveComponent(animComp);
+	Player::RemoveComponent(collisionComp);
 }
 
 void Player::Begin()
@@ -31,9 +39,9 @@ void Player::Begin()
 
 }
 
-void Player::Draw(sf::RenderWindow& window)
+void Player::Render(sf::RenderWindow& window)
 {
-	window.draw(spritey);
+	ActorObject::Render(window);
 	body.setFillColor(sf::Color::Red);
 	window.draw(body);
 }

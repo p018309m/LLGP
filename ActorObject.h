@@ -25,6 +25,8 @@ public:
 	float getRotation() const;
 	void setRotation(float rot);
 
+	sf::Sprite getSprite() const;
+
 	template<typename T> requires isComponent<T> T* GetComponent()
 	{
 		T* returnComp = nullptr;
@@ -62,6 +64,11 @@ public:
 protected:
 	sf::Vector2f position;
 	float rotation;
+
+	sf::Image characters;
+	sf::Texture characterText;
+	sf::Sprite spritey = sf::Sprite(characterText);
+
 	std::string name;
 	std::string tag;
 	std::vector<std::unique_ptr<Component>> components;

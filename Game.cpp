@@ -15,7 +15,7 @@ void Game::InitialiseWindow()
 sf::Vector2f Game::UpdateCameraMovement(float time, sf::View view, const Player& player)
 {
 	sf::Vector2f currentPos = view.getCenter();
-	sf::Vector2f targetPos = player.spritey.getPosition();
+	sf::Vector2f targetPos = player.getSprite().getPosition();
 	sf::Vector2f playerVelocity = (targetPos - currentPos) / deltaTime;
 
 	float lag = .05f;
@@ -90,7 +90,7 @@ void Game::Render()
 	window->setView(view);
 	this->window->clear();
 	asteroid.Draw(*this->window);
-	enemy.Draw(*this->window);
-	mainPlayer.Draw(*this->window);
+	enemy.Render(*this->window);
+	mainPlayer.Render(*this->window);
 	this->window->display();
 }
