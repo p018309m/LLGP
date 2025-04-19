@@ -7,6 +7,7 @@
 #include "ActorObject.h"
 #include "AnimationComponent.h"
 #include "Collision.h"
+#include "ShootingComponent.h"
 
 //Nearly Equal Template
 template<typename T>
@@ -50,5 +51,6 @@ private:
 	
 	AnimationComponent* animComp;
 	Collision* collisionComp;
+	ShootingComponent* shootComp;
 };
 

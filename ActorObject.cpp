@@ -33,6 +33,7 @@ sf::Vector2f ActorObject::getPosition() const
 void ActorObject::setPosition(const sf::Vector2f pos)
 {
 	position = pos;
+	spritey.setPosition(position);
 }
 
 float ActorObject::getRotation() const
