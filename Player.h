@@ -11,7 +11,7 @@
 
 //Nearly Equal Template
 template<typename T>
-bool NearlyEqual(T a, T b, T diff = static_cast<T>(1.f))
+bool NearlyEqual(T a, T b, T diff = static_cast<T>(.5f))
 {
 	return std::abs(a - b) < diff;
 }
@@ -39,6 +39,7 @@ public:
 	void Handle_MoveDown(int val);
 	void Handle_MoveLeft(int val);
 	void Handle_MoveRight(int val);
+	void Handle_Thrust(int val);
 	void Handle_Shoot(int val);
 
 	Collision GetCollision() { return Collision(this, body); }

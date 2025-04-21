@@ -28,6 +28,10 @@ void Input::HandleInput()
 	{
 		BroadcastOnMoveRight((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) ? 1 : 0);
 	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift))
+	{
+		BroadcastOnThrust((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift)) ? 1 : 0);
+	}
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 	{
 		BroadcastOnShoot((sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) ? 1 : 0);
@@ -53,6 +57,11 @@ void Input::BroadcastOnMoveLeft(int val)
 void Input::BroadcastOnMoveRight(int val)
 {
 	OnMoveRight.Invoke(val);
+}
+
+void Input::BroadcastOnThrust(int val)
+{
+	OnThrust.Invoke(val);
 }
 
 void Input::BroadcastOnShoot(int val)

@@ -61,6 +61,8 @@ sf::Vector2f ActorObject::setVelocity(sf::Vector2f velocity)
 sf::Vector2f ActorObject::addVelocity(sf::Vector2f velocity)
 {
 	this->velocity += velocity;
+	this->velocity.x = std::clamp(this->velocity.x, -maxVelocity, maxVelocity);
+	this->velocity.y = std::clamp(this->velocity.y, -maxVelocity, maxVelocity);
 	return this->velocity;
 }
 

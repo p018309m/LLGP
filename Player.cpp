@@ -10,6 +10,7 @@ Player::Player()
 	spritey.setOrigin({ spritey.getTextureRect().size.x / 2.f, spritey.getTextureRect().size.y / 2.f });
 	spritey.scale(sf::Vector2f{ 2.5f,2.5f });
 	speed = 0.1f;
+	maxVelocity = 10.f;
 
 	//Collision Box
 	body.setOrigin({ spritey.getTextureRect().size.x / 2.f, spritey.getTextureRect().size.y / 2.f });
@@ -21,6 +22,7 @@ Player::Player()
 	input->OnMoveDown.AddListener(this, std::bind(&Player::Handle_MoveDown, this, std::placeholders::_1));
 	input->OnMoveLeft.AddListener(this, std::bind(&Player::Handle_MoveLeft, this, std::placeholders::_1));
 	input->OnMoveRight.AddListener(this, std::bind(&Player::Handle_MoveRight, this, std::placeholders::_1));
+	input->OnThrust.AddListener(this, std::bind(&Player::Handle_Thrust, this, std::placeholders::_1));
 	input->OnShoot.AddListener(this, std::bind(&Player::Handle_Shoot, this, std::placeholders::_1));
 
 	//Components Adding
@@ -96,9 +98,26 @@ void Player::Handle_MoveLeft(int val)
 void Player::Handle_MoveRight(int val)
 {
 	curVelocity.x += speed;
-	if (!NearlyEqual(spritey.getRotation().asDegrees(), 0.0f))
+	if (!NearlyEqual(spritey.getRotation().asDegrees(), 360.0f))
 	{
 		spritey.setRotation(sf::degrees(UpdatePlayerRotation(0.0f, spritey.getRotation().asDegrees(), .25f)));
+	}
+}
+
+void Player::Handle_Thrust(int val)
+{
+	if (curVelocity.x > 0.f) {
+		curVelocity.x = std::max(curVelocity.x - 100.f, 0.f);
+	}
+	else if (curVelocity.x < 0.f) {
+		curVelocity.x = std::min(curVelocity.x + 100.f, 0.f);
+	}
+
+	if (curVelocity.y > 0.f) {
+		curVelocity.y = std::max(curVelocity.y - 100.f, 0.f);
+	}
+	else if (curVelocity.y < 0.f) {
+		curVelocity.y = std::min(curVelocity.y + 100.f, 0.f);
 	}
 }
 

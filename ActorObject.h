@@ -71,6 +71,7 @@ protected:
 	sf::Vector2f velocity;
 	float rotation;
 	float speed;
+	float maxVelocity;
 
 	sf::Image characters;
 	sf::Texture characterText;

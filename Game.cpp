@@ -4,6 +4,17 @@ void Game::InitialiseVariables()
 {
 	this->window = nullptr;
 	lastTime = std::chrono::steady_clock::now();
+	
+	//Init Stars
+	for (int i = 0; i < 10; ++i)
+	{
+		Star s;
+		s.position = sf::Vector2f(
+			view.getCenter().x + rand() % 12000 - 6000,
+			view.getCenter().y + rand() % 12000 - 6000);
+		s.size = static_cast<float>(rand() % 2 + 1);
+		stars.push_back(s);
+	}
 }
 
 void Game::InitialiseWindow()
@@ -83,6 +94,18 @@ void Game::PollEvents()
 void Game::Update()
 {
 	this->PollEvents();
+
+	sf::FloatRect viewBounds(view.getCenter() - view.getSize() / 2.f, view.getSize());
+
+	for (Star& star : stars)
+	{
+		if (!viewBounds.contains(star.position))
+		{
+			star.position = sf::Vector2f(
+				view.getCenter().x + rand() % 12000 - 6000,
+				view.getCenter().y + rand() % 12000 - 6000);
+		}
+	}
 }
 
 void Game::Render()
@@ -91,6 +114,21 @@ void Game::Render()
 	this->window->clear();
 	asteroid.Draw(*this->window);
 	enemy.Render(*this->window);
+
+	sf::FloatRect viewBounds(view.getCenter() - view.getSize() / 2.f, view.getSize());
+
+	for (Star& star : stars)
+	{
+		if (viewBounds.contains(star.position))
+		{
+			std::cout << "See" << std::endl;
+			sf::CircleShape shape(star.size);
+			shape.setFillColor(sf::Color::White);
+			shape.setPosition(star.position);
+			window->draw(shape);
+		}
+	}
+
 	mainPlayer.Render(*this->window);
 	this->window->display();
 }

@@ -16,6 +16,7 @@ public:
 	LLGP::Event<int> OnMoveDown;
 	LLGP::Event<int> OnMoveLeft;
 	LLGP::Event<int> OnMoveRight;
+	LLGP::Event<int> OnThrust;
 	LLGP::Event<int> OnShoot;
 
 	//Different Inputs
@@ -23,6 +24,7 @@ public:
 	void BroadcastOnMoveDown(int val);
 	void BroadcastOnMoveLeft(int val);
 	void BroadcastOnMoveRight(int val);
+	void BroadcastOnThrust(int val);
 	void BroadcastOnShoot(int val);
 };
 

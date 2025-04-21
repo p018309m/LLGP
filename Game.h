@@ -6,6 +6,12 @@
 #include "Enemy.h"
 #include "Asteroid.h"
 #include <iostream>
+
+struct Star {
+	sf::Vector2f position;
+	float size;
+};
+
 //Main Game Handler
 class Game
 {
@@ -37,6 +43,8 @@ private:
 	int totalTimeTicked = 0;
 	int totalTimeFree = 0;
 
+	//Stars
+	std::vector<Star> stars;
 
 public:
 	//Constructors & Destructors
