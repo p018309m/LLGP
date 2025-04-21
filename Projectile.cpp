@@ -20,11 +20,10 @@ void Projectile::Fire(sf::Vector2f pos, sf::Vector2f dir)
 
 void Projectile::Update(float deltaTime)
 {
-	//std::cout << "Update - Active: " << active << " | Velocity: " << velocity.x << ", " << velocity.y << std::endl;
-	if (!active)
+	if (!isActive())
 		return;
 	shape.move(velocity * deltaTime);
-	timer += deltaTime;
+	timer += 0.01f;
 	if (timer >= lifeSpan)
 	{
 		Deactivate();
@@ -33,7 +32,7 @@ void Projectile::Update(float deltaTime)
 
 void Projectile::Render(sf::RenderWindow& window)
 {
-	//if(active)
+	if(isActive())
 		window.draw(shape);
 }
 

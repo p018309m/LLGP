@@ -6,10 +6,10 @@ Player::Player()
 	characters = sf::Image("assets/shipanim.png");
 	if (!characterText.loadFromImage(characters))
 		std::cout << "Failed to Load Image" << std::endl;
-	//spritey.setTexture(characterText);
 	spritey.setTextureRect({ { 0,0 }, { 22,22 } });
 	spritey.setOrigin({ spritey.getTextureRect().size.x / 2.f, spritey.getTextureRect().size.y / 2.f });
 	spritey.scale(sf::Vector2f{ 2.5f,2.5f });
+	speed = 0.1f;
 
 	//Collision Box
 	body.setOrigin({ spritey.getTextureRect().size.x / 2.f, spritey.getTextureRect().size.y / 2.f });
@@ -26,7 +26,7 @@ Player::Player()
 	//Components Adding
 	animComp = Player::AddComponent<AnimationComponent>(this, spritey, 22, .3f, 3);
 	collisionComp = Player::AddComponent<Collision>(this, body);
-	shootComp = Player::AddComponent<ShootingComponent>(this, 1, 1.f);
+	shootComp = Player::AddComponent<ShootingComponent>(this, 15, 0.1f);
 }
 
 Player::~Player()
@@ -50,22 +50,24 @@ void Player::Render(sf::RenderWindow& window)
 
 void Player::Update(float deltaTime)
 {
+	curVelocity = sf::Vector2f(0.f, 0.f);
 	ActorObject::Update(deltaTime);
 	input->HandleInput();
-	body.setPosition(spritey.getPosition());
-	body.setRotation(spritey.getRotation());
 	animComp->Update(deltaTime);
 	shootComp->Update(deltaTime);
 }
 
-void Player::FixedUpdate()
+void Player::FixedUpdate(float deltaTime)
 {
-	//spritey.setPosition(spritey.getPosition() + velocity);
+	ActorObject::FixedUpdate(deltaTime);
+	addVelocity(curVelocity);
+	body.setPosition(spritey.getPosition());
+	body.setRotation(spritey.getRotation());
 }
 
 void Player::Handle_MoveUp(int val)
 {
-	this->setPosition(spritey.getPosition() + sf::Vector2f(.0f, -6.f));
+	curVelocity.y -= speed;
 	if (!NearlyEqual(spritey.getRotation().asDegrees(), 270.0f))
 	{
 		std::cout << spritey.getRotation().asDegrees() << std::endl;
@@ -75,7 +77,7 @@ void Player::Handle_MoveUp(int val)
 
 void Player::Handle_MoveDown(int val)
 {
-	this->setPosition(spritey.getPosition() + sf::Vector2f(.0f, 6.f));
+	curVelocity.y += speed;
 	if (!NearlyEqual(spritey.getRotation().asDegrees(), 90.0f))
 	{
 		spritey.setRotation(sf::degrees(UpdatePlayerRotation(90.0f, spritey.getRotation().asDegrees(), .25f)));
@@ -84,7 +86,7 @@ void Player::Handle_MoveDown(int val)
 
 void Player::Handle_MoveLeft(int val)
 {
-	this->setPosition(spritey.getPosition() + sf::Vector2f(-6.f, .0f));
+	curVelocity.x -= speed;
 	if (!NearlyEqual(spritey.getRotation().asDegrees(), 180.0f))
 	{
 		spritey.setRotation(sf::degrees(UpdatePlayerRotation(180.0f, spritey.getRotation().asDegrees(), .25f)));
@@ -93,7 +95,7 @@ void Player::Handle_MoveLeft(int val)
 
 void Player::Handle_MoveRight(int val)
 {
-	this->setPosition(spritey.getPosition() + sf::Vector2f(6.f, .0f));
+	curVelocity.x += speed;
 	if (!NearlyEqual(spritey.getRotation().asDegrees(), 0.0f))
 	{
 		spritey.setRotation(sf::degrees(UpdatePlayerRotation(0.0f, spritey.getRotation().asDegrees(), .25f)));

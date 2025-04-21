@@ -11,13 +11,8 @@ void ShootingComponent::Shoot(sf::Vector2f direction)
 	if (!_object)
 		return;
 
-	std::cout << "fireTimer: " << fireTimer << ", fireRate: " << fireRate << std::endl;
-
 	if (fireTimer < fireRate)
-	{
-		std::cout << "Cannot shoot yet. Waiting for cooldown.\n";
 		return;
-	}
 
 	sf::Vector2f spawnPos = _object->getPosition();
 	Projectile* proj = projPool.getProjectiles();
@@ -31,7 +26,7 @@ void ShootingComponent::Shoot(sf::Vector2f direction)
 
 void ShootingComponent::Update(float deltaTime)
 {
-	fireTimer += deltaTime;
+	fireTimer += 0.01f;
 	projPool.UpdateProjectiles(deltaTime);
 }
 

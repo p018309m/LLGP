@@ -27,13 +27,12 @@ public:
 	void Begin();
 	void Render(sf::RenderWindow& window);
 	void Update(float deltaTime);
-	void FixedUpdate();
+	void FixedUpdate(float deltaTime);
 	
 	//Variables
 	sf::Vector2f playerPos;
 	sf::Angle playerDirection;
 	sf::RectangleShape body;
-	sf::Vector2f velocity;
 
 	//Input Handles
 	void Handle_MoveUp(int val);
@@ -48,6 +47,7 @@ private:
 	float UpdatePlayerRotation(float targetRot, float currentRot, float time);
 	sf::VertexArray drawArray;
 	std::unique_ptr<Input> input;
+	sf::Vector2f curVelocity;
 	
 	AnimationComponent* animComp;
 	Collision* collisionComp;

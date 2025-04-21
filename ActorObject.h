@@ -17,6 +17,7 @@ public:
 
 	virtual void Begin();
 	virtual void Update(float deltaTime);
+	virtual void FixedUpdate(float deltaTime);
 	virtual void Render(sf::RenderWindow& window);
 
 	sf::Vector2f getPosition() const;
@@ -24,6 +25,10 @@ public:
 
 	float getRotation() const;
 	void setRotation(float rot);
+
+	sf::Vector2f getVelocity(){ return velocity; }
+	sf::Vector2f setVelocity(sf::Vector2f velocity);
+	sf::Vector2f addVelocity(sf::Vector2f velocity);
 
 	sf::Sprite getSprite() const;
 
@@ -63,7 +68,9 @@ public:
 
 protected:
 	sf::Vector2f position;
+	sf::Vector2f velocity;
 	float rotation;
+	float speed;
 
 	sf::Image characters;
 	sf::Texture characterText;

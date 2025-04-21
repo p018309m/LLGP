@@ -15,10 +15,10 @@ void Game::InitialiseWindow()
 sf::Vector2f Game::UpdateCameraMovement(float time, sf::View view, const Player& player)
 {
 	sf::Vector2f currentPos = view.getCenter();
-	sf::Vector2f targetPos = player.getSprite().getPosition();
+	sf::Vector2f targetPos = player.getPosition();
 	sf::Vector2f playerVelocity = (targetPos - currentPos) / deltaTime;
 
-	float lag = .05f;
+	float lag = .5f;
 	sf::Vector2f followOffset = (targetPos - currentPos) * lag;
 
 	float velocityUse = 0.05f;
@@ -53,8 +53,9 @@ void Game::PollEvents()
 	{
 		totalTimeFixed += 1;
 		timeSincePhysicsStep -= physicsTimeStep;
-		mainPlayer.Update(deltaTime);
 		enemy.Update();
+		mainPlayer.Update(deltaTime);
+		mainPlayer.FixedUpdate(deltaTime);
 		mainPlayer.GetCollision().CheckCollision(enemy.GetCollision());
 		//mainPlayer.GetCollision().CheckCollision(asteroid.GetCollision());
 		//enemy.GetCollision().CheckCollision(mainPlayer.GetCollision(), 10.f);
