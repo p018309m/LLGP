@@ -48,7 +48,6 @@ void Game::PollEvents()
 	currentTime = std::chrono::steady_clock::now();
 	deltaTime = std::chrono::duration_cast<std::chrono::microseconds>(currentTime - lastTime).count();
 	lastTime = currentTime;
-
 	timeSincePhysicsStep += deltaTime;
 	while (timeSincePhysicsStep > physicsTimeStep)
 	{

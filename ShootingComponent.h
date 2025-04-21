@@ -6,7 +6,7 @@
 class ShootingComponent : public Component
 {
 public:
-	ShootingComponent(ActorObject* object, size_t poolSize);
+	ShootingComponent(ActorObject* object, size_t poolSize, float fireRate);
 
 	void Shoot(sf::Vector2f direction);
 	void Update(float deltaTime) override;
@@ -14,5 +14,7 @@ public:
 
 private:
 	ProjectilePool projPool;
+	float fireRate;
+	float fireTimer;
 };
 

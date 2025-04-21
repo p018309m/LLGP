@@ -1,4 +1,5 @@
 #include "ProjectilePool.h"
+#include <iostream>
 
 ProjectilePool::ProjectilePool(size_t poolSize)
 {
@@ -7,7 +8,7 @@ ProjectilePool::ProjectilePool(size_t poolSize)
 
 Projectile* ProjectilePool::getProjectiles()
 {
-	for(auto& proj : projectiles)
+	for(Projectile& proj : projectiles)
 	{
 		if (!proj.isActive())
 			return &proj;
@@ -17,7 +18,7 @@ Projectile* ProjectilePool::getProjectiles()
 
 void ProjectilePool::UpdateProjectiles(float deltaTime)
 {
-	for (auto& proj : projectiles)
+	for (Projectile& proj : projectiles)
 	{
 		proj.Update(deltaTime);
 	}
@@ -25,7 +26,7 @@ void ProjectilePool::UpdateProjectiles(float deltaTime)
 
 void ProjectilePool::RenderProjectiles(sf::RenderWindow& window)
 {
-	for (auto& proj : projectiles)
+	for (Projectile& proj : projectiles)
 	{
 		proj.Render(window);
 	}
