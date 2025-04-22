@@ -149,6 +149,7 @@
     <ClCompile Include="ProjectilePool.cpp" />
     <ClCompile Include="SATCollision.cpp" />
     <ClCompile Include="ShootingComponent.cpp" />
+    <ClCompile Include="StarPool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorObject.h" />
@@ -267,6 +268,7 @@
     <ClInclude Include="ProjectilePool.h" />
     <ClInclude Include="SATCollision.h" />
     <ClInclude Include="ShootingComponent.h" />
+    <ClInclude Include="StarPool.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages\SFML\include\SFML\Audio\SoundFileFactory.inl" />

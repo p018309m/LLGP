@@ -107,17 +107,17 @@ void Player::Handle_MoveRight(int val)
 void Player::Handle_Thrust(int val)
 {
 	if (curVelocity.x > 0.f) {
-		curVelocity.x = std::max(curVelocity.x - 100.f, 0.f);
+		curVelocity.x = std::max(curVelocity.x - 20.f, 0.f);
 	}
 	else if (curVelocity.x < 0.f) {
-		curVelocity.x = std::min(curVelocity.x + 100.f, 0.f);
+		curVelocity.x = std::min(curVelocity.x + 20.f, 0.f);
 	}
 
 	if (curVelocity.y > 0.f) {
-		curVelocity.y = std::max(curVelocity.y - 100.f, 0.f);
+		curVelocity.y = std::max(curVelocity.y - 20.f, 0.f);
 	}
 	else if (curVelocity.y < 0.f) {
-		curVelocity.y = std::min(curVelocity.y + 100.f, 0.f);
+		curVelocity.y = std::min(curVelocity.y + 20.f, 0.f);
 	}
 }
 

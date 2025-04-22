@@ -4,23 +4,14 @@ void Game::InitialiseVariables()
 {
 	this->window = nullptr;
 	lastTime = std::chrono::steady_clock::now();
-	
-	//Init Stars
-	for (int i = 0; i < 10; ++i)
-	{
-		Star s;
-		s.position = sf::Vector2f(
-			view.getCenter().x + rand() % 12000 - 6000,
-			view.getCenter().y + rand() % 12000 - 6000);
-		s.size = static_cast<float>(rand() % 2 + 1);
-		stars.push_back(s);
-	}
 }
 
 void Game::InitialiseWindow()
 {
 	this->window = std::make_unique<sf::RenderWindow>(sf::VideoMode({ 1280, 720 }), "Sinistar");
 	view = window->getDefaultView();
+	starPool.view = view;
+	starPool.Init();
 }
 
 sf::Vector2f Game::UpdateCameraMovement(float time, sf::View view, const Player& player)
@@ -68,8 +59,6 @@ void Game::PollEvents()
 		mainPlayer.Update(deltaTime);
 		mainPlayer.FixedUpdate(deltaTime);
 		mainPlayer.GetCollision().CheckCollision(enemy.GetCollision());
-		//mainPlayer.GetCollision().CheckCollision(asteroid.GetCollision());
-		//enemy.GetCollision().CheckCollision(mainPlayer.GetCollision(), 10.f);
 		view.setCenter(UpdateCameraMovement(deltaTime, view, mainPlayer));
 	}
 
@@ -94,18 +83,8 @@ void Game::PollEvents()
 void Game::Update()
 {
 	this->PollEvents();
-
-	sf::FloatRect viewBounds(view.getCenter() - view.getSize() / 2.f, view.getSize());
-
-	for (Star& star : stars)
-	{
-		if (!viewBounds.contains(star.position))
-		{
-			star.position = sf::Vector2f(
-				view.getCenter().x + rand() % 12000 - 6000,
-				view.getCenter().y + rand() % 12000 - 6000);
-		}
-	}
+	starPool.view = view;
+	starPool.Update();
 }
 
 void Game::Render()
@@ -114,21 +93,7 @@ void Game::Render()
 	this->window->clear();
 	asteroid.Draw(*this->window);
 	enemy.Render(*this->window);
-
-	sf::FloatRect viewBounds(view.getCenter() - view.getSize() / 2.f, view.getSize());
-
-	for (Star& star : stars)
-	{
-		if (viewBounds.contains(star.position))
-		{
-			std::cout << "See" << std::endl;
-			sf::CircleShape shape(star.size);
-			shape.setFillColor(sf::Color::White);
-			shape.setPosition(star.position);
-			window->draw(shape);
-		}
-	}
-
 	mainPlayer.Render(*this->window);
+	starPool.Render(*this->window);
 	this->window->display();
 }

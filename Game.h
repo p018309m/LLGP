@@ -5,12 +5,8 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Asteroid.h"
+#include "StarPool.h"
 #include <iostream>
-
-struct Star {
-	sf::Vector2f position;
-	float size;
-};
 
 //Main Game Handler
 class Game
@@ -22,6 +18,7 @@ private:
 	Input inputManager;
 	Enemy enemy;
 	Asteroid asteroid;
+	StarPool starPool;
 	sf::View view;
 
 	//Functions
@@ -42,9 +39,6 @@ private:
 	int totalTimeFixed = 0;
 	int totalTimeTicked = 0;
 	int totalTimeFree = 0;
-
-	//Stars
-	std::vector<Star> stars;
 
 public:
 	//Constructors & Destructors
