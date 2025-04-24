@@ -8,13 +8,21 @@ void Game::InitialiseVariables()
 
 void Game::InitialiseWindow()
 {
-	this->window = std::make_unique<sf::RenderWindow>(sf::VideoMode({ 1280, 720 }), "Sinistar");
+	this->window = std::make_unique<sf::RenderWindow>(sf::VideoMode({ WINDOW_WIDTH, WINDOW_HEIGHT }), "Sinistar");
 	view = window->getDefaultView();
 	starPool.view = view;
 	starPool.Init();
 
-	hudWindow = window->getDefaultView();
-	hudWindow.setViewport(sf::FloatRect({ 0.f, 0.f }, { 1.f,1.f }));
+	hudView = window->getDefaultView();
+	hudView.setViewport(sf::FloatRect({ 0.f, 0.f }, { 1.f,1.f }));
+
+	minimapView = window->getDefaultView();
+	minimapView.setViewport(sf::FloatRect({ 0.45f, 0.037f }, { 0.13f, 0.13f }));
+
+	borderSprite.setTexture(borderTexture);
+	borderSprite.setOrigin(sf::Vector2f(borderTexture.getSize().x / 4.f, 0.f));
+	borderSprite.setScale(sf::Vector2f(2.f, 2.f));
+	borderSprite.setPosition(sf::Vector2f(window->getSize().x * .45f, 0.f));
 }
 
 sf::Vector2f Game::UpdateCameraMovement(float time, sf::View view, const Player& player)
@@ -36,12 +44,7 @@ Game::Game()
 {
 	this->InitialiseVariables();
 	this->InitialiseWindow();
-	if (!font.openFromFile("assets/font/Run, Coward.ttf")) 
-	{
-		std::cout << "Failed to load font!" << std::endl;
-		return;  // Handle error appropriately
-	}
-	playerHUD = new PlayerHUD(font, mainPlayer.hudTexture);
+	playerHUD = std::make_unique<PlayerHUD>();
 }
 
 Game::~Game()
@@ -69,6 +72,7 @@ void Game::PollEvents()
 		mainPlayer.FixedUpdate(deltaTime);
 		mainPlayer.GetCollision().CheckCollision(enemy.GetCollision());
 		view.setCenter(UpdateCameraMovement(deltaTime, view, mainPlayer));
+		minimapView.setCenter(UpdateCameraMovement(deltaTime, view, mainPlayer));
 	}
 
 	if (timeSinceTick < tickLength)
@@ -98,12 +102,25 @@ void Game::Update()
 
 void Game::Render()
 {
-	window->setView(view);
 	this->window->clear();
+
+	//MainView
+	window->setView(view);
 	asteroid.Draw(*this->window);
 	enemy.Render(*this->window);
 	mainPlayer.Render(*this->window);
 	starPool.Render(*this->window);
+
+	//HUDView
+	this->window->setView(hudView);
 	playerHUD->Render(*this->window);
+	this->window->draw(borderSprite);
+
+	//MinimapView
+	this->window->setView(minimapView);
+	asteroid.Draw(*this->window);
+	enemy.Render(*this->window);
+	mainPlayer.Render(*this->window);
+
 	this->window->display();
 }

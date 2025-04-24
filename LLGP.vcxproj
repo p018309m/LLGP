@@ -148,7 +148,6 @@
     <ClCompile Include="PlayerHUD.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="ProjectilePool.cpp" />
-    <ClCompile Include="SATCollision.cpp" />
     <ClCompile Include="ShootingComponent.cpp" />
     <ClCompile Include="StarPool.cpp" />
   </ItemGroup>
@@ -268,7 +267,6 @@
     <ClInclude Include="PlayerHUD.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="ProjectilePool.h" />
-    <ClInclude Include="SATCollision.h" />
     <ClInclude Include="ShootingComponent.h" />
     <ClInclude Include="StarPool.h" />
   </ItemGroup>

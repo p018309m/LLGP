@@ -3,7 +3,6 @@
 Player::Player()
 {
 	//Initial Sprite
-	hudTexture.loadFromImage(sf::Image("assets/spaceship.png"));
 	characters = sf::Image("assets/shipanim.png");
 	if (!characterText.loadFromImage(characters))
 		std::cout << "Failed to Load Image" << std::endl;
@@ -45,10 +44,10 @@ void Player::Begin()
 
 void Player::Render(sf::RenderWindow& window)
 {
+	shootComp->Draw(window);
 	ActorObject::Render(window);
 	body.setFillColor(sf::Color::Red);
 	window.draw(body);
-	shootComp->Draw(window);
 }
 
 void Player::Update(float deltaTime)

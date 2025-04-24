@@ -8,23 +8,34 @@
 #include "StarPool.h"
 #include <iostream>
 #include "PlayerHUD.h"
+#define WINDOW_HEIGHT 640
+#define WINDOW_WIDTH 640
 
 //Main Game Handler
 class Game
 {
 private:
 	//Variables
-	std::unique_ptr<sf::RenderWindow> window;
-	sf::View hudWindow;
 
+	//Views and Windows
+	std::unique_ptr<sf::RenderWindow> window;
+	sf::View view;
+	sf::View minimapView;
+	sf::View hudView;
+
+	//Classes
 	Player mainPlayer;
 	Input inputManager;
 	Enemy enemy;
 	Asteroid asteroid;
 	StarPool starPool;
-	sf::View view;
-	PlayerHUD* playerHUD;
+	std::unique_ptr<PlayerHUD> playerHUD;
 	sf::Font font;
+
+	sf::Image borderImage = sf::Image("assets/border.png");
+	sf::Texture borderTexture;
+	bool result = borderTexture.loadFromImage(borderImage, false, sf::IntRect({ 0,0 }, { 78, 69 }));
+	sf::Sprite borderSprite = sf::Sprite(borderTexture);
 
 	//Functions
 	void InitialiseVariables();

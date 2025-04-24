@@ -3,7 +3,7 @@
 class PlayerHUD
 {
 public:
-	PlayerHUD(sf::Font font, const sf::Texture& shipTexture);
+	PlayerHUD();
 
 	void SetHealth(int health);
 	void SetBombCount(int bombs);
@@ -16,6 +16,6 @@ private:
 	sf::Font font;
 
 	std::vector<sf::Sprite> lifeIcons;
-	const sf::Texture& shipTexture;
+	sf::Texture shipTexture;
 };
 

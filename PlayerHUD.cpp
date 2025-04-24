@@ -1,17 +1,23 @@
 #include "PlayerHUD.h"
 
-PlayerHUD::PlayerHUD(sf::Font font, const sf::Texture& shipTexture) : font(font), shipTexture(shipTexture)
+PlayerHUD::PlayerHUD()
 {
+    if (!shipTexture.loadFromImage(sf::Image("assets/spaceship.png")))
+        return;
+    if (!font.openFromFile("assets/font/Run, Coward.ttf"))
+        return;
+
     scoreText.setFont(font);
     scoreText.setCharacterSize(18);
-    scoreText.setFillColor(sf::Color::White);
-    scoreText.setPosition(sf::Vector2f(10.f, 85.f));
-    scoreText.setString("SCORE: 000000");
+    scoreText.setFillColor(sf::Color::Red);
+    scoreText.setPosition(sf::Vector2f(100.f, 85.f));
+    scoreText.setString("00");
 
     bombText.setFont(font);
     bombText.setCharacterSize(18);
     bombText.setFillColor(sf::Color::Yellow);
     bombText.setPosition(sf::Vector2f(10.f, 35.f));
+    bombText.setString("EMPTY ");
 }
 
 void PlayerHUD::SetHealth(int health)
@@ -41,5 +47,5 @@ void PlayerHUD::SetScore(int score)
 void PlayerHUD::Render(sf::RenderWindow& window)
 {
     window.draw(scoreText);
-    //window.draw(bombText);
+    window.draw(bombText);
 }
