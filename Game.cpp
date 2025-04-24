@@ -12,6 +12,9 @@ void Game::InitialiseWindow()
 	view = window->getDefaultView();
 	starPool.view = view;
 	starPool.Init();
+
+	hudWindow = window->getDefaultView();
+	hudWindow.setViewport(sf::FloatRect({ 0.f, 0.f }, { 1.f,1.f }));
 }
 
 sf::Vector2f Game::UpdateCameraMovement(float time, sf::View view, const Player& player)
@@ -33,6 +36,12 @@ Game::Game()
 {
 	this->InitialiseVariables();
 	this->InitialiseWindow();
+	if (!font.openFromFile("assets/font/Run, Coward.ttf")) 
+	{
+		std::cout << "Failed to load font!" << std::endl;
+		return;  // Handle error appropriately
+	}
+	playerHUD = new PlayerHUD(font, mainPlayer.hudTexture);
 }
 
 Game::~Game()
@@ -95,5 +104,6 @@ void Game::Render()
 	enemy.Render(*this->window);
 	mainPlayer.Render(*this->window);
 	starPool.Render(*this->window);
+	playerHUD->Render(*this->window);
 	this->window->display();
 }

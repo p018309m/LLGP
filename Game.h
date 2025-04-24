@@ -7,6 +7,7 @@
 #include "Asteroid.h"
 #include "StarPool.h"
 #include <iostream>
+#include "PlayerHUD.h"
 
 //Main Game Handler
 class Game
@@ -14,12 +15,16 @@ class Game
 private:
 	//Variables
 	std::unique_ptr<sf::RenderWindow> window;
+	sf::View hudWindow;
+
 	Player mainPlayer;
 	Input inputManager;
 	Enemy enemy;
 	Asteroid asteroid;
 	StarPool starPool;
 	sf::View view;
+	PlayerHUD* playerHUD;
+	sf::Font font;
 
 	//Functions
 	void InitialiseVariables();

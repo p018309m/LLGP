@@ -44,6 +44,8 @@ public:
 
 	Collision GetCollision() { return Collision(this, body); }
 
+	sf::Texture hudTexture;
+
 private:
 	float UpdatePlayerRotation(float targetRot, float currentRot, float time);
 	sf::VertexArray drawArray;

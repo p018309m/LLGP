@@ -145,6 +145,7 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerHUD.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="ProjectilePool.cpp" />
     <ClCompile Include="SATCollision.cpp" />
@@ -264,6 +265,7 @@
     <ClInclude Include="packages\SFML\include\SFML\Window\WindowEnums.hpp" />
     <ClInclude Include="packages\SFML\include\SFML\Window\WindowHandle.hpp" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerHUD.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="ProjectilePool.h" />
     <ClInclude Include="SATCollision.h" />

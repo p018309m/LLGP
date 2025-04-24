@@ -3,6 +3,7 @@
 Player::Player()
 {
 	//Initial Sprite
+	hudTexture.loadFromImage(sf::Image("assets/spaceship.png"));
 	characters = sf::Image("assets/shipanim.png");
 	if (!characterText.loadFromImage(characters))
 		std::cout << "Failed to Load Image" << std::endl;
