@@ -14,10 +14,14 @@ void Game::InitialiseWindow()
 	starPool.Init();
 
 	hudView = window->getDefaultView();
-	hudView.setViewport(sf::FloatRect({ 0.f, 0.f }, { 1.f,1.f }));
+	hudView.setViewport(sf::FloatRect({ 0.f, 0.f }, { 1.f, 1.f }));
 
 	minimapView = window->getDefaultView();
-	minimapView.setViewport(sf::FloatRect({ 0.45f, 0.037f }, { 0.13f, 0.13f }));
+	minimapView.setViewport(sf::FloatRect({ 0.445f, 0.067f }, { 0.13f, 0.13f }));
+
+	divider.setSize(sf::Vector2f((float)window->getSize().x, 2.f));
+	//divider.setPosition(sf::Vector2f(0.f, window->getSize().y / 0.25f));
+	divider.setFillColor(sf::Color::Red);
 
 	borderSprite.setTexture(borderTexture);
 	borderSprite.setOrigin(sf::Vector2f(borderTexture.getSize().x / 4.f, 0.f));
@@ -114,6 +118,7 @@ void Game::Render()
 	//HUDView
 	this->window->setView(hudView);
 	playerHUD->Render(*this->window);
+	this->window->draw(divider);
 	this->window->draw(borderSprite);
 
 	//MinimapView

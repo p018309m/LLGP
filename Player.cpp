@@ -24,6 +24,7 @@ Player::Player()
 	input->OnMoveRight.AddListener(this, std::bind(&Player::Handle_MoveRight, this, std::placeholders::_1));
 	input->OnThrust.AddListener(this, std::bind(&Player::Handle_Thrust, this, std::placeholders::_1));
 	input->OnShoot.AddListener(this, std::bind(&Player::Handle_Shoot, this, std::placeholders::_1));
+	input->OnBombsAway.AddListener(this, std::bind(&Player::Handle_Bombs, this, std::placeholders::_1));
 
 	//Components Adding
 	animComp = Player::AddComponent<AnimationComponent>(this, spritey, 22, .3f, 3);
@@ -125,6 +126,12 @@ void Player::Handle_Shoot(int val)
 {
 	sf::Vector2f spriteDirection = sf::Vector2f(std::cos(spritey.getRotation().asRadians()), std::sin(spritey.getRotation().asRadians()));
 	shootComp->Shoot(spriteDirection);
+}
+
+void Player::Handle_Bombs(int val)
+{
+	sf::Vector2f spriteDirection = sf::Vector2f(std::cos(spritey.getRotation().asRadians()), std::sin(spritey.getRotation().asRadians()));
+	shootComp->Bomb(spriteDirection);
 }
 
 float Player::UpdatePlayerRotation(float targetRot, float currentRot, float time)

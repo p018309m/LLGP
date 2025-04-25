@@ -139,6 +139,8 @@
     <ClCompile Include="ActorObject.cpp" />
     <ClCompile Include="AnimationComponent.cpp" />
     <ClCompile Include="Asteroid.cpp" />
+    <ClCompile Include="BombProjectile.cpp" />
+    <ClCompile Include="BombProjectilePool.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -155,6 +157,8 @@
     <ClInclude Include="ActorObject.h" />
     <ClInclude Include="AnimationComponent.h" />
     <ClInclude Include="Asteroid.h" />
+    <ClInclude Include="BombProjectile.h" />
+    <ClInclude Include="BombProjectilePool.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Enemy.h" />

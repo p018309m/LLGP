@@ -36,6 +36,7 @@ private:
 	sf::Texture borderTexture;
 	bool result = borderTexture.loadFromImage(borderImage, false, sf::IntRect({ 0,0 }, { 78, 69 }));
 	sf::Sprite borderSprite = sf::Sprite(borderTexture);
+	sf::RectangleShape divider;
 
 	//Functions
 	void InitialiseVariables();

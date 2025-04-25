@@ -8,9 +8,9 @@ PlayerHUD::PlayerHUD()
         return;
 
     scoreText.setFont(font);
-    scoreText.setCharacterSize(18);
+    scoreText.setCharacterSize(24);
     scoreText.setFillColor(sf::Color::Red);
-    scoreText.setPosition(sf::Vector2f(100.f, 85.f));
+    scoreText.setPosition(sf::Vector2f(100.f, 65.f));
     scoreText.setString("00");
 
     bombText.setFont(font);

@@ -41,6 +41,7 @@ public:
 	void Handle_MoveRight(int val);
 	void Handle_Thrust(int val);
 	void Handle_Shoot(int val);
+	void Handle_Bombs(int val);
 
 	Collision GetCollision() { return Collision(this, body); }
 

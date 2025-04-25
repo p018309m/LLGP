@@ -36,6 +36,10 @@ void Input::HandleInput()
 	{
 		BroadcastOnShoot((sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) ? 1 : 0);
 	}
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
+	{
+		BroadcastOnBombsAway((sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) ? 1 : 0);
+	}
 }
 
 
@@ -67,4 +71,9 @@ void Input::BroadcastOnThrust(int val)
 void Input::BroadcastOnShoot(int val)
 {
 	OnShoot.Invoke(val);
+}
+
+void Input::BroadcastOnBombsAway(int val)
+{
+	OnBombsAway.Invoke(val);
 }
