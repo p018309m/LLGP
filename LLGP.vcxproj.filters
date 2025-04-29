@@ -63,9 +63,6 @@
     <ClCompile Include="ActorObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ProjectilePool.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ShootingComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -78,7 +75,10 @@
     <ClCompile Include="BombProjectile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BombProjectilePool.cpp">
+    <ClCompile Include="ObjectPoolCommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -422,9 +422,6 @@
     <ClInclude Include="Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ProjectilePool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ShootingComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -437,7 +434,10 @@
     <ClInclude Include="BombProjectile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BombProjectilePool.h">
+    <ClInclude Include="ObjectPoolCommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -11,8 +11,10 @@ public:
 	virtual ~Enemy();
 
 	//Functions
-	void Render(sf::RenderWindow& window);
-	void Update();
+	void Render(sf::RenderWindow& window) override;
+	void Update(float deltaTime) override;
+	void Activate(sf::Vector2f position);
+	void Deactivate() { active = false; }
 
 	//Variables
 	sf::Vector2f enemyPos;
@@ -21,7 +23,11 @@ public:
 
 	Collision GetCollision() { return Collision(this, body); }
 
+	bool isActive() { return active; }
+
 private:
+
 	Collision* collisionComp;
+	bool active = false;
 };
 

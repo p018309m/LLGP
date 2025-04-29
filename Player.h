@@ -24,10 +24,10 @@ public:
 	virtual ~Player();
 
 	//Functions
-	void Begin();
-	void Render(sf::RenderWindow& window);
-	void Update(float deltaTime);
-	void FixedUpdate(float deltaTime);
+	void Begin() override;
+	void Render(sf::RenderWindow& window) override;
+	void Update(float deltaTime) override;
+	void FixedUpdate(float deltaTime) override;
 	
 	//Variables
 	sf::Vector2f playerPos;

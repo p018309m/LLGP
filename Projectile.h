@@ -7,13 +7,15 @@ public:
 	//Constructor
 	Projectile();
 
-	void Fire(sf::Vector2f pos, sf::Vector2f dir);
-	void Update(float deltaTime);
-	void Render(sf::RenderWindow& window);
-	bool isActive() { return active; }
-	void Deactivate();
+	virtual void Fire(sf::Vector2f pos, sf::Vector2f dir);
+	virtual void Update(float deltaTime);
+	virtual void Render(sf::RenderWindow& window);
+	virtual bool isActive() { return active; }
+	virtual void Deactivate();
 	sf::Vector2f getVelocity() { return velocity; }
 	void setSpeed(float newSpeed) { projSpeed = newSpeed; }
+
+protected:
 	bool active;
 
 private:

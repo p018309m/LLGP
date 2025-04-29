@@ -8,6 +8,7 @@
 #include "StarPool.h"
 #include <iostream>
 #include "PlayerHUD.h"
+#include "EnemyManager.h"
 #define WINDOW_HEIGHT 640
 #define WINDOW_WIDTH 640
 
@@ -29,6 +30,7 @@ private:
 	Enemy enemy;
 	Asteroid asteroid;
 	StarPool starPool;
+	std::unique_ptr<EnemyManager> enemyManager;
 	std::unique_ptr<PlayerHUD> playerHUD;
 	sf::Font font;
 
@@ -56,6 +58,10 @@ private:
 	int totalTimeFixed = 0;
 	int totalTimeTicked = 0;
 	int totalTimeFree = 0;
+
+	//Test
+	float spawnTimer = 0.f;
+	float maxTimer = 5.f;
 
 public:
 	//Constructors & Destructors

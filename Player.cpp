@@ -29,7 +29,7 @@ Player::Player()
 	//Components Adding
 	animComp = Player::AddComponent<AnimationComponent>(this, spritey, 22, .3f, 3);
 	collisionComp = Player::AddComponent<Collision>(this, body);
-	shootComp = Player::AddComponent<ShootingComponent>(this, 15, 0.1f);
+	shootComp = Player::AddComponent<ShootingComponent>(this, 15, 5, 0.1f);
 }
 
 Player::~Player()

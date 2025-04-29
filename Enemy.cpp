@@ -27,16 +27,29 @@ Enemy::~Enemy()
 
 void Enemy::Render(sf::RenderWindow& window)
 {
-	spritey.setPosition(enemyPos);
 	ActorObject::Render(window);
-	body.setFillColor(sf::Color::Blue);
-	window.draw(body);
+	if (active)
+	{
+		spritey.setPosition(enemyPos);
+		ActorObject::Render(window);
+		body.setFillColor(sf::Color::Blue);
+		window.draw(body);
+	}
 }
 
-void Enemy::Update()
+void Enemy::Update(float deltaTime)
 {
+	ActorObject::Update(deltaTime);
+	if (!active)
+		return;
 	//spritey.setPosition(body.getPosition());
 	body.setPosition(spritey.getPosition());
 	//spritey.setRotation(spritey.getRotation() + sf::degrees(1.f));
 	body.setRotation(spritey.getRotation());
+}
+
+void Enemy::Activate(sf::Vector2f position)
+{
+	active = true;
+	spritey.setPosition(position);
 }

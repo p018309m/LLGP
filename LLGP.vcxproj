@@ -140,16 +140,16 @@
     <ClCompile Include="AnimationComponent.cpp" />
     <ClCompile Include="Asteroid.cpp" />
     <ClCompile Include="BombProjectile.cpp" />
-    <ClCompile Include="BombProjectilePool.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ObjectPoolCommon.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerHUD.cpp" />
     <ClCompile Include="Projectile.cpp" />
-    <ClCompile Include="ProjectilePool.cpp" />
     <ClCompile Include="ShootingComponent.cpp" />
     <ClCompile Include="StarPool.cpp" />
   </ItemGroup>
@@ -158,14 +158,15 @@
     <ClInclude Include="AnimationComponent.h" />
     <ClInclude Include="Asteroid.h" />
     <ClInclude Include="BombProjectile.h" />
-    <ClInclude Include="BombProjectilePool.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="moveable.h" />
+    <ClInclude Include="ObjectPoolCommon.h" />
     <ClInclude Include="packages\SFML\include\SFML\Audio.hpp" />
     <ClInclude Include="packages\SFML\include\SFML\Audio\AudioResource.hpp" />
     <ClInclude Include="packages\SFML\include\SFML\Audio\Export.hpp" />
@@ -270,7 +271,6 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerHUD.h" />
     <ClInclude Include="Projectile.h" />
-    <ClInclude Include="ProjectilePool.h" />
     <ClInclude Include="ShootingComponent.h" />
     <ClInclude Include="StarPool.h" />
   </ItemGroup>

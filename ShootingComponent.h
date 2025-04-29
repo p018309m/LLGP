@@ -1,13 +1,14 @@
 #pragma once
 #include "Component.h"
-#include "ProjectilePool.h"
-#include "BombProjectilePool.h"
+#include "ObjectPoolCommon.h"
+#include "BombProjectile.h"
+#include "Projectile.h"
 
 
 class ShootingComponent : public Component
 {
 public:
-	ShootingComponent(ActorObject* object, size_t poolSize, float fireRate);
+	ShootingComponent(ActorObject* object, size_t projPoolSize, size_t bombPoolSize, float fireRate);
 
 	void Shoot(sf::Vector2f direction);
 	void Bomb(sf::Vector2f direction);
@@ -15,8 +16,8 @@ public:
 	void Draw(sf::RenderWindow& window);
 
 private:
-	ProjectilePool projPool;
-	BombProjectilePool bombPool;
+	ObjectPoolCommon<BombProjectile> bombPool;
+	ObjectPoolCommon<Projectile> projPool;
 	float fireRate;
 	float fireTimer;
 };

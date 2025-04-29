@@ -4,6 +4,7 @@ void Game::InitialiseVariables()
 {
 	this->window = nullptr;
 	lastTime = std::chrono::steady_clock::now();
+	enemyManager = std::make_unique<EnemyManager>(10);
 }
 
 void Game::InitialiseWindow()
@@ -71,12 +72,22 @@ void Game::PollEvents()
 	{
 		totalTimeFixed += 1;
 		timeSincePhysicsStep -= physicsTimeStep;
-		enemy.Update();
+		enemy.Update(deltaTime);
+		enemyManager->Update(deltaTime);
 		mainPlayer.Update(deltaTime);
 		mainPlayer.FixedUpdate(deltaTime);
 		mainPlayer.GetCollision().CheckCollision(enemy.GetCollision());
 		view.setCenter(UpdateCameraMovement(deltaTime, view, mainPlayer));
 		minimapView.setCenter(UpdateCameraMovement(deltaTime, view, mainPlayer));
+
+		//Test
+		spawnTimer += 0.1f;
+		if (spawnTimer >= maxTimer)
+		{
+			spawnTimer = 0.f;
+			std::cout << "Spanwed" << std::endl;
+			enemyManager->SpawnEnemy(sf::Vector2f(rand() % 800, 0));
+		}
 	}
 
 	if (timeSinceTick < tickLength)
@@ -114,6 +125,7 @@ void Game::Render()
 	enemy.Render(*this->window);
 	mainPlayer.Render(*this->window);
 	starPool.Render(*this->window);
+	enemyManager->Render(*this->window);
 
 	//HUDView
 	this->window->setView(hudView);

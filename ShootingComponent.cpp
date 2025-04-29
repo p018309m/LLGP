@@ -1,7 +1,7 @@
 #include "ShootingComponent.h"
 #include <iostream>
 
-ShootingComponent::ShootingComponent(ActorObject* object, size_t poolSize, float fireRate) : Component(object), projPool(poolSize), bombPool(poolSize), fireRate(fireRate)
+ShootingComponent::ShootingComponent(ActorObject* object, size_t projPoolSize, size_t bombPoolSize, float fireRate) : Component(object), projPool(projPoolSize), bombPool(bombPoolSize), fireRate(fireRate)
 {
 	
 }
@@ -15,7 +15,7 @@ void ShootingComponent::Shoot(sf::Vector2f direction)
 		return;
 
 	sf::Vector2f spawnPos = _object->getPosition();
-	Projectile* proj = projPool.getProjectiles();
+	Projectile* proj = projPool.GetInactiveObjects();
 
 
 	if (proj)
@@ -35,7 +35,7 @@ void ShootingComponent::Bomb(sf::Vector2f direction)
 
 	sf::Vector2f spawnPos = _object->getPosition();
 
-	BombProjectile* bomb = bombPool.getProjectiles();
+	BombProjectile* bomb = bombPool.GetInactiveObjects();
 	if (bomb)
 	{
 		fireTimer = 0.f;
@@ -46,12 +46,12 @@ void ShootingComponent::Bomb(sf::Vector2f direction)
 void ShootingComponent::Update(float deltaTime)
 {
 	fireTimer += 0.01f;
-	projPool.UpdateProjectiles(deltaTime);
-	bombPool.UpdateProjectiles(deltaTime);
+	projPool.Update(deltaTime);
+	bombPool.Update(deltaTime);
 }
 
 void ShootingComponent::Draw(sf::RenderWindow& window)
 {
-	projPool.RenderProjectiles(window);
-	bombPool.RenderProjectiles(window);
+	projPool.Render(window);
+	bombPool.Render(window);
 }

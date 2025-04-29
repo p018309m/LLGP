@@ -7,10 +7,10 @@ class BombProjectile : public Projectile, public ActorObject
 public:
 	BombProjectile();
 
-	void Fire(sf::Vector2f pos, sf::Vector2f dir);
-	void Update(float deltaTime);
-	void Render(sf::RenderWindow& window);
-	bool isActive() { return active; }
+	void Fire(sf::Vector2f pos, sf::Vector2f dir) override;
+	void Update(float deltaTime) override;
+	void Render(sf::RenderWindow& window) override;
+	bool isActive() override { return active; }
 	void Deactivate();
 
 private:
