@@ -10,14 +10,18 @@ PlayerHUD::PlayerHUD()
     scoreText.setFont(font);
     scoreText.setCharacterSize(24);
     scoreText.setFillColor(sf::Color::Red);
-    scoreText.setPosition(sf::Vector2f(100.f, 65.f));
+    //scoreText.setOrigin(scoreText.getLocalBounds().size / 2.f + scoreText.getLocalBounds().position);
     scoreText.setString("00");
+    sf::FloatRect bounds = scoreText.getLocalBounds();
+    scoreText.setPosition(sf::Vector2f(144.f - bounds.size.x, 65.f));
 
     bombText.setFont(font);
-    bombText.setCharacterSize(18);
+    bombText.setCharacterSize(24);
     bombText.setFillColor(sf::Color::Yellow);
     bombText.setPosition(sf::Vector2f(10.f, 35.f));
     bombText.setString("EMPTY ");
+
+    ScorePoints::OnScoreChange.AddListener(this, std::bind(&PlayerHUD::SetScore, this, std::placeholders::_1));
 }
 
 void PlayerHUD::SetHealth(int health)
@@ -39,9 +43,9 @@ void PlayerHUD::SetBombCount(int bombs)
 
 void PlayerHUD::SetScore(int score) 
 {
-    std::stringstream ss;
-    ss << "SCORE: " << std::setw(6) << std::setfill('0') << score;
-    scoreText.setString(ss.str());
+    scoreText.setString(std::to_string(score));
+    sf::FloatRect bounds = scoreText.getLocalBounds();
+    scoreText.setPosition(sf::Vector2f(144.f - bounds.size.x, 65.f));
 }
 
 void PlayerHUD::Render(sf::RenderWindow& window)

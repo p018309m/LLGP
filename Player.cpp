@@ -13,7 +13,7 @@ Player::Player()
 	maxVelocity = 10.f;
 
 	//Collision Box
-	body.setOrigin({ spritey.getTextureRect().size.x / 2.f, spritey.getTextureRect().size.y / 2.f });
+	body.setOrigin(spritey.getOrigin());
 	body.setSize(sf::Vector2f(spritey.getScale().x * 8, spritey.getScale().y * 4));
 
 	//Input Stuff
@@ -26,6 +26,9 @@ Player::Player()
 	input->OnShoot.AddListener(this, std::bind(&Player::Handle_Shoot, this, std::placeholders::_1));
 	input->OnBombsAway.AddListener(this, std::bind(&Player::Handle_Bombs, this, std::placeholders::_1));
 
+	//Scoring
+	ScorePoints::OnAddScore.AddListener(this, std::bind(&Player::AddScore, this, std::placeholders::_1));
+
 	//Components Adding
 	animComp = Player::AddComponent<AnimationComponent>(this, spritey, 22, .3f, 3);
 	collisionComp = Player::AddComponent<Collision>(this, body);
@@ -36,6 +39,15 @@ Player::~Player()
 {
 	Player::RemoveComponent(animComp);
 	Player::RemoveComponent(collisionComp);
+	Player::RemoveComponent(shootComp);
+
+	input->OnMoveUp.RemoveListener(this, std::bind(&Player::Handle_MoveUp, this, std::placeholders::_1));
+	input->OnMoveDown.RemoveListener(this, std::bind(&Player::Handle_MoveDown, this, std::placeholders::_1));
+	input->OnMoveLeft.RemoveListener(this, std::bind(&Player::Handle_MoveLeft, this, std::placeholders::_1));
+	input->OnMoveRight.RemoveListener(this, std::bind(&Player::Handle_MoveRight, this, std::placeholders::_1));
+	input->OnThrust.RemoveListener(this, std::bind(&Player::Handle_Thrust, this, std::placeholders::_1));
+	input->OnShoot.RemoveListener(this, std::bind(&Player::Handle_Shoot, this, std::placeholders::_1));
+	input->OnBombsAway.RemoveListener(this, std::bind(&Player::Handle_Bombs, this, std::placeholders::_1));
 }
 
 void Player::Begin()
@@ -132,6 +144,12 @@ void Player::Handle_Bombs(int val)
 {
 	sf::Vector2f spriteDirection = sf::Vector2f(std::cos(spritey.getRotation().asRadians()), std::sin(spritey.getRotation().asRadians()));
 	shootComp->Bomb(spriteDirection);
+}
+
+void Player::AddScore(int score)
+{
+	curScore += score;
+	ScorePoints::OnScoreChange(this->curScore);
 }
 
 float Player::UpdatePlayerRotation(float targetRot, float currentRot, float time)

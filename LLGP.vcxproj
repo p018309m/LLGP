@@ -271,6 +271,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerHUD.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="ScoreEvents.h" />
     <ClInclude Include="ShootingComponent.h" />
     <ClInclude Include="StarPool.h" />
   </ItemGroup>

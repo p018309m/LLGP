@@ -1,5 +1,4 @@
 #include "Projectile.h"
-#include <iostream>
 
 Projectile::Projectile()
 {
@@ -15,6 +14,7 @@ void Projectile::Fire(sf::Vector2f pos, sf::Vector2f dir)
 	active = true;
 	velocity = dir * projSpeed;
 	shape.setPosition(pos);
+	ScorePoints::OnAddScore(20);
 	timer = 0.f;
 }
 

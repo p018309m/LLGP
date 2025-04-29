@@ -1,5 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "ScoreEvents.h"
+
 class PlayerHUD
 {
 public:

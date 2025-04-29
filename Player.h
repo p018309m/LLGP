@@ -8,10 +8,11 @@
 #include "AnimationComponent.h"
 #include "Collision.h"
 #include "ShootingComponent.h"
+#include "ScoreEvents.h"
 
 //Nearly Equal Template
 template<typename T>
-bool NearlyEqual(T a, T b, T diff = static_cast<T>(.5f))
+bool NearlyEqual(T a, T b, T diff = static_cast<T>(.1f))
 {
 	return std::abs(a - b) < diff;
 }
@@ -45,6 +46,8 @@ public:
 
 	Collision GetCollision() { return Collision(this, body); }
 
+	void AddScore(int score);
+
 private:
 	float UpdatePlayerRotation(float targetRot, float currentRot, float time);
 	sf::VertexArray drawArray;
@@ -54,5 +57,7 @@ private:
 	AnimationComponent* animComp;
 	Collision* collisionComp;
 	ShootingComponent* shootComp;
+
+	int curScore;
 };
 
