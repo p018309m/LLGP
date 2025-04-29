@@ -20,9 +20,12 @@ void Game::InitialiseWindow()
 	minimapView = window->getDefaultView();
 	minimapView.setViewport(sf::FloatRect({ 0.445f, 0.067f }, { 0.13f, 0.13f }));
 
-	divider.setSize(sf::Vector2f((float)window->getSize().x, 2.f));
-	//divider.setPosition(sf::Vector2f(0.f, window->getSize().y / 0.25f));
-	divider.setFillColor(sf::Color::Red);
+	redDivider.setSize(sf::Vector2f((float)window->getSize().x, 5.f));
+	redDivider.setPosition(sf::Vector2f(0.f, (float)WINDOW_HEIGHT * .21f));
+	redDivider.setFillColor(sf::Color(228, 10, 11));
+
+	divider.setSize(sf::Vector2f((float)window->getSize().x, (float)WINDOW_HEIGHT * .21f));
+	divider.setFillColor(sf::Color::Black);
 
 	borderSprite.setTexture(borderTexture);
 	borderSprite.setOrigin(sf::Vector2f(borderTexture.getSize().x / 4.f, 0.f));
@@ -129,8 +132,9 @@ void Game::Render()
 
 	//HUDView
 	this->window->setView(hudView);
-	playerHUD->Render(*this->window);
 	this->window->draw(divider);
+	this->window->draw(redDivider);
+	playerHUD->Render(*this->window);
 	this->window->draw(borderSprite);
 
 	//MinimapView

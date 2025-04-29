@@ -27,12 +27,16 @@ Player::Player()
 	input->OnBombsAway.AddListener(this, std::bind(&Player::Handle_Bombs, this, std::placeholders::_1));
 
 	//Scoring
-	ScorePoints::OnAddScore.AddListener(this, std::bind(&Player::AddScore, this, std::placeholders::_1));
+	ScorePoints::OnAddScore.AddListener(this, std::bind(&Player::Handle_Score, this, std::placeholders::_1));
+	HealthCall::OnDeath.AddListener(this, std::bind(&Player::Handle_Death, this, std::placeholders::_1));
 
 	//Components Adding
 	animComp = Player::AddComponent<AnimationComponent>(this, spritey, 22, .3f, 3);
 	collisionComp = Player::AddComponent<Collision>(this, body);
-	shootComp = Player::AddComponent<ShootingComponent>(this, 15, 5, 0.1f);
+	shootComp = Player::AddComponent<ShootingComponent>(this, 15, 5, 0.05f);
+	healthComp = Player::AddComponent<HealthComponent>(this, 100.f);
+
+	curLives = 3;
 }
 
 Player::~Player()
@@ -40,6 +44,7 @@ Player::~Player()
 	Player::RemoveComponent(animComp);
 	Player::RemoveComponent(collisionComp);
 	Player::RemoveComponent(shootComp);
+	Player::RemoveComponent(healthComp);
 
 	input->OnMoveUp.RemoveListener(this, std::bind(&Player::Handle_MoveUp, this, std::placeholders::_1));
 	input->OnMoveDown.RemoveListener(this, std::bind(&Player::Handle_MoveDown, this, std::placeholders::_1));
@@ -144,12 +149,21 @@ void Player::Handle_Bombs(int val)
 {
 	sf::Vector2f spriteDirection = sf::Vector2f(std::cos(spritey.getRotation().asRadians()), std::sin(spritey.getRotation().asRadians()));
 	shootComp->Bomb(spriteDirection);
+	HealthCall::OnDeath(1);
 }
 
-void Player::AddScore(int score)
+void Player::Handle_Score(int score)
 {
 	curScore += score;
 	ScorePoints::OnScoreChange(this->curScore);
+}
+
+void Player::Handle_Death(int health)
+{
+	curLives--;
+	HealthCall::OnLivesChange(curLives);
+	if (curLives == 0)
+		curLives = 3;
 }
 
 float Player::UpdatePlayerRotation(float targetRot, float currentRot, float time)

@@ -9,6 +9,10 @@ Projectile::Projectile()
 	lifeSpan = 0.5f;
 }
 
+Projectile::~Projectile()
+{
+}
+
 void Projectile::Fire(sf::Vector2f pos, sf::Vector2f dir)
 {
 	active = true;

@@ -1,12 +1,14 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "ScoreEvents.h"
+#include "ActorObject.h"
 
-class Projectile
+class Projectile : public ActorObject
 {
 public:
 	//Constructor
 	Projectile();
+	virtual ~Projectile();
 
 	virtual void Fire(sf::Vector2f pos, sf::Vector2f dir);
 	virtual void Update(float deltaTime);
@@ -21,7 +23,7 @@ protected:
 
 private:
 	sf::CircleShape shape;
-	float projSpeed = 0.005f;
+	float projSpeed = 0.05f;
 	sf::Vector2f velocity;
 
 	float timer = 0.f;

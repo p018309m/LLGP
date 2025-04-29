@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "ScoreEvents.h"
+#include "HealthCaller.h"
 
 class PlayerHUD
 {

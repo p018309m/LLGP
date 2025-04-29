@@ -2,7 +2,7 @@
 #include "Projectile.h"
 #include "AnimationComponent.h"
 
-class BombProjectile : public Projectile, public ActorObject
+class BombProjectile : public Projectile
 {
 public:
 	BombProjectile();

@@ -1,0 +1,8 @@
+#pragma once
+#include "Event.h"
+
+namespace HealthCall
+{
+	inline LLGP::Event<int> OnDeath;
+	inline LLGP::Event<int> OnLivesChange;
+}

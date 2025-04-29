@@ -10,6 +10,7 @@ BombProjectile::BombProjectile()
 	bombey.scale(sf::Vector2f{ 2.f,2.f });
 	animComp = BombProjectile::AddComponent<AnimationComponent>(this, bombey, 10, .3f, 3);
 }
+
 void BombProjectile::Fire(sf::Vector2f pos, sf::Vector2f dir)
 {
 	Projectile::Fire(pos, dir);

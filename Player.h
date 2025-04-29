@@ -6,9 +6,11 @@
 #include "Input.h"
 #include "ActorObject.h"
 #include "AnimationComponent.h"
-#include "Collision.h"
 #include "ShootingComponent.h"
+#include "HealthComponent.h"
+#include "Collision.h"
 #include "ScoreEvents.h"
+#include "HealthCaller.h"
 
 //Nearly Equal Template
 template<typename T>
@@ -46,10 +48,13 @@ public:
 
 	Collision GetCollision() { return Collision(this, body); }
 
-	void AddScore(int score);
 
 private:
+
 	float UpdatePlayerRotation(float targetRot, float currentRot, float time);
+	void Handle_Score(int score);
+	void Handle_Death(int health);
+
 	sf::VertexArray drawArray;
 	std::unique_ptr<Input> input;
 	sf::Vector2f curVelocity;
@@ -57,7 +62,9 @@ private:
 	AnimationComponent* animComp;
 	Collision* collisionComp;
 	ShootingComponent* shootComp;
+	HealthComponent* healthComp;
 
 	int curScore;
+	int curLives;
 };
 
