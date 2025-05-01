@@ -4,11 +4,18 @@ void Game::InitialiseVariables()
 {
 	this->window = nullptr;
 	lastTime = std::chrono::steady_clock::now();
+
+	//collision init
 	collisionManager = std::make_unique<CollisionManager>();
+
+	//enemy init
 	enemyManager = std::make_unique<EnemyManager>(10);
 	enemyManager->Begin();
+
+	//player init
 	mainPlayer = std::make_unique<Player>();
 	mainPlayer->Begin();
+
 	asteroid = std::make_unique<Asteroid>();
 	starPool = std::make_unique<StarPool>();
 }
@@ -99,10 +106,15 @@ void Game::PollEvents()
 	{
 		totalTimeFixed += 1;
 		timeSincePhysicsStep -= physicsTimeStep;
-		//enemy.Update(deltaTime);
+
+		//enemies update
 		enemyManager->Update(deltaTime);
+
+		//player update
 		mainPlayer->Update(deltaTime);
 		mainPlayer->FixedUpdate(deltaTime);
+
+		//views update
 		view.setCenter(UpdateCameraMovement(deltaTime, view, *mainPlayer));
 		minimapView.setCenter(UpdateCameraMovement(deltaTime, view, *mainPlayer));
 
