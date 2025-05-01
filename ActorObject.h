@@ -13,7 +13,7 @@ class ActorObject
 public:
 	//Constructors and Destructors
 	ActorObject();
-	~ActorObject();
+	virtual ~ActorObject();
 
 	virtual void Begin();
 	virtual void Update(float deltaTime);

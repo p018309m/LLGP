@@ -9,6 +9,7 @@
 #include <iostream>
 #include "PlayerHUD.h"
 #include "EnemyManager.h"
+#include "CollisionManager.h"
 #define WINDOW_HEIGHT 640
 #define WINDOW_WIDTH 640
 
@@ -25,14 +26,16 @@ private:
 	sf::View hudView;
 
 	//Classes
-	Player mainPlayer;
+	std::unique_ptr<Player> mainPlayer;
 	Input inputManager;
-	Enemy enemy;
-	Asteroid asteroid;
-	StarPool starPool;
+	//Enemy enemy;
+	std::unique_ptr<Asteroid> asteroid;
+	std::unique_ptr<StarPool> starPool;
 	std::unique_ptr<EnemyManager> enemyManager;
 	std::unique_ptr<PlayerHUD> playerHUD;
 	sf::Font font;
+
+	std::unique_ptr<CollisionManager> collisionManager;
 
 	sf::Image borderImage = sf::Image("assets/border.png");
 	sf::Texture borderTexture;
@@ -45,6 +48,8 @@ private:
 	void InitialiseVariables();
 	void InitialiseWindow();
 	sf::Vector2f UpdateCameraMovement(float time, sf::View view, const Player& player);
+	
+	void UpdateCollision();
 
 	//Chrono Variables
 	std::chrono::steady_clock::time_point lastTime;

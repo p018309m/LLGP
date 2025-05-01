@@ -6,12 +6,15 @@
 class EnemyManager
 {
 public:
-	EnemyManager(size_t poolSize);
+	EnemyManager(int poolSize);
 
+	void Begin();
 	void Update(float deltaTime);
 	void Render(sf::RenderWindow& window);
 
 	void SpawnEnemy(sf::Vector2f position);
+
+	std::vector<std::unique_ptr<Enemy>>& GetAllEnemies() { return enemyPool.GetAllObjects(); }
 
 private:
 	ObjectPoolCommon<Enemy> enemyPool;

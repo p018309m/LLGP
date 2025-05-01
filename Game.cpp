@@ -4,15 +4,21 @@ void Game::InitialiseVariables()
 {
 	this->window = nullptr;
 	lastTime = std::chrono::steady_clock::now();
+	collisionManager = std::make_unique<CollisionManager>();
 	enemyManager = std::make_unique<EnemyManager>(10);
+	enemyManager->Begin();
+	mainPlayer = std::make_unique<Player>();
+	mainPlayer->Begin();
+	asteroid = std::make_unique<Asteroid>();
+	starPool = std::make_unique<StarPool>();
 }
 
 void Game::InitialiseWindow()
 {
 	this->window = std::make_unique<sf::RenderWindow>(sf::VideoMode({ WINDOW_WIDTH, WINDOW_HEIGHT }), "Sinistar");
 	view = window->getDefaultView();
-	starPool.view = view;
-	starPool.Init();
+	starPool->view = view;
+	starPool->Init();
 
 	hudView = window->getDefaultView();
 	hudView.setViewport(sf::FloatRect({ 0.f, 0.f }, { 1.f, 1.f }));
@@ -48,11 +54,29 @@ sf::Vector2f Game::UpdateCameraMovement(float time, sf::View view, const Player&
 	return currentPos + followOffset + velocityOffset;
 }
 
+void Game::UpdateCollision()
+{
+	collisionManager->CheckCollisions([](Collision* a, Collision* b) 
+		{
+			auto tagA = a->GetTag();
+			auto tagB = b->GetTag();
+
+			if ((tagA == ColliderTag::Player && tagB == ColliderTag::Workers) ||
+				(tagB == ColliderTag::Player && tagA == ColliderTag::Workers))
+			{
+				std::cout << "HIT HIT" << std::endl;
+			}
+		});
+}
+
 Game::Game()
 {
 	this->InitialiseVariables();
 	this->InitialiseWindow();
 	playerHUD = std::make_unique<PlayerHUD>();
+	collisionManager->AddCollider(mainPlayer->GetCollision());
+	for (auto& enemy : enemyManager->GetAllEnemies())
+		collisionManager->AddCollider(enemy->GetCollision());
 }
 
 Game::~Game()
@@ -75,20 +99,18 @@ void Game::PollEvents()
 	{
 		totalTimeFixed += 1;
 		timeSincePhysicsStep -= physicsTimeStep;
-		enemy.Update(deltaTime);
+		//enemy.Update(deltaTime);
 		enemyManager->Update(deltaTime);
-		mainPlayer.Update(deltaTime);
-		mainPlayer.FixedUpdate(deltaTime);
-		mainPlayer.GetCollision().CheckCollision(enemy.GetCollision());
-		view.setCenter(UpdateCameraMovement(deltaTime, view, mainPlayer));
-		minimapView.setCenter(UpdateCameraMovement(deltaTime, view, mainPlayer));
+		mainPlayer->Update(deltaTime);
+		mainPlayer->FixedUpdate(deltaTime);
+		view.setCenter(UpdateCameraMovement(deltaTime, view, *mainPlayer));
+		minimapView.setCenter(UpdateCameraMovement(deltaTime, view, *mainPlayer));
 
 		//Test
 		spawnTimer += 0.1f;
 		if (spawnTimer >= maxTimer)
 		{
 			spawnTimer = 0.f;
-			std::cout << "Spanwed" << std::endl;
 			enemyManager->SpawnEnemy(sf::Vector2f(rand() % 800, 0));
 		}
 	}
@@ -96,6 +118,7 @@ void Game::PollEvents()
 	if (timeSinceTick < tickLength)
 	{
 		timeSinceTick += deltaTime;
+		UpdateCollision();
 	}
 	else
 	{
@@ -114,8 +137,8 @@ void Game::PollEvents()
 void Game::Update()
 {
 	this->PollEvents();
-	starPool.view = view;
-	starPool.Update();
+	starPool->view = view;
+	starPool->Update();
 }
 
 void Game::Render()
@@ -124,10 +147,10 @@ void Game::Render()
 
 	//MainView
 	window->setView(view);
-	asteroid.Draw(*this->window);
-	enemy.Render(*this->window);
-	mainPlayer.Render(*this->window);
-	starPool.Render(*this->window);
+	asteroid->Draw(*this->window);
+	//enemy.Render(*this->window);
+	mainPlayer->Render(*this->window);
+	starPool->Render(*this->window);
 	enemyManager->Render(*this->window);
 
 	//HUDView
@@ -139,9 +162,9 @@ void Game::Render()
 
 	//MinimapView
 	this->window->setView(minimapView);
-	asteroid.Draw(*this->window);
-	enemy.Render(*this->window);
-	mainPlayer.Render(*this->window);
+	asteroid->Draw(*this->window);
+	//enemy.Render(*this->window);
+	mainPlayer->Render(*this->window);
 
 	this->window->display();
 }

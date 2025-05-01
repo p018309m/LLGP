@@ -11,6 +11,7 @@ public:
 	virtual ~Enemy();
 
 	//Functions
+	void Begin() override;
 	void Render(sf::RenderWindow& window) override;
 	void Update(float deltaTime) override;
 	void Activate(sf::Vector2f position);
@@ -21,12 +22,15 @@ public:
 	sf::Angle enemyDirection;
 	sf::RectangleShape body;
 
-	Collision GetCollision() { return Collision(this, body); }
+	int GetID() const { return id; }
+	void SetID(int id) { this->id = id; }
+
+	Collision* GetCollision() { return collisionComp; }
 
 	bool isActive() { return active; }
 
 private:
-
+	int id = -1;
 	Collision* collisionComp;
 	bool active = false;
 };

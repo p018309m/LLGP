@@ -1,7 +1,20 @@
 #include "EnemyManager.h"
 
-EnemyManager::EnemyManager(size_t poolSize) : enemyPool(poolSize)
+EnemyManager::EnemyManager(int poolSize) : enemyPool(poolSize)
 {
+	int id = 0;
+	for (auto& enemy : GetAllEnemies())
+	{
+		enemy->SetID(id);
+		enemy->Begin();
+		id++;
+	}
+}
+
+void EnemyManager::Begin()
+{
+	for (auto& enemy : GetAllEnemies())
+		enemy->Begin();
 }
 
 void EnemyManager::Update(float deltaTime)
@@ -18,5 +31,7 @@ void EnemyManager::SpawnEnemy(sf::Vector2f position)
 {
 	Enemy* enemy = enemyPool.GetInactiveObjects();
 	if (enemy)
+	{
 		enemy->Activate(position);
+	}
 }

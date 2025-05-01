@@ -12,10 +12,6 @@ Player::Player()
 	speed = 0.1f;
 	maxVelocity = 10.f;
 
-	//Collision Box
-	body.setOrigin(spritey.getOrigin());
-	body.setSize(sf::Vector2f(spritey.getScale().x * 8, spritey.getScale().y * 4));
-
 	//Input Stuff
 	input = std::make_unique<Input>();
 	input->OnMoveUp.AddListener(this, std::bind(&Player::Handle_MoveUp, this, std::placeholders::_1));
@@ -29,12 +25,6 @@ Player::Player()
 	//Scoring
 	ScorePoints::OnAddScore.AddListener(this, std::bind(&Player::Handle_Score, this, std::placeholders::_1));
 	HealthCall::OnDeath.AddListener(this, std::bind(&Player::Handle_Death, this, std::placeholders::_1));
-
-	//Components Adding
-	animComp = Player::AddComponent<AnimationComponent>(this, spritey, 22, .3f, 3);
-	collisionComp = Player::AddComponent<Collision>(this, body);
-	shootComp = Player::AddComponent<ShootingComponent>(this, 15, 5, 0.05f);
-	healthComp = Player::AddComponent<HealthComponent>(this, 100.f);
 
 	curLives = 3;
 }
@@ -57,7 +47,15 @@ Player::~Player()
 
 void Player::Begin()
 {
+	//Collision Box
+	body.setOrigin(spritey.getOrigin());
+	body.setSize(sf::Vector2f(spritey.getScale().x * 8, spritey.getScale().y * 4));
 
+	//Components Adding
+	animComp = Player::AddComponent<AnimationComponent>(this, spritey, 22, .3f, 3);
+	collisionComp = Player::AddComponent<Collision>(this, body, ColliderTag::Player, 0);
+	shootComp = Player::AddComponent<ShootingComponent>(this, 15, 5, 0.05f);
+	healthComp = Player::AddComponent<HealthComponent>(this, 100.f);
 }
 
 void Player::Render(sf::RenderWindow& window)

@@ -3,12 +3,17 @@
 #include "Component.h"
 #include <iostream>
 
+enum class ColliderTag {Default, Player, Workers, Warriors, Projectile, Sinistar, Crystal, Bombs, Asteroid};
+
 class Collision : public Component
 {
 public:
 	//Constructor and Destructor
-	Collision(ActorObject* object, sf::Shape& body);
-	~Collision();
+	Collision(ActorObject* object, sf::Shape& body, ColliderTag tag, int id);
+	virtual ~Collision() = default;
+
+	ColliderTag GetTag() const { return tag; }
+	int GetID() const { return id; }
 
 	void Move(float dx, float dy) {
 		body.move(sf::Vector2f(dx, dy));
@@ -20,5 +25,7 @@ public:
 
 private:
 	sf::Shape& body;
+	ColliderTag tag = ColliderTag::Default;
+	int id = -1;
 };
 

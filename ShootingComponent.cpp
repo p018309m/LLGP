@@ -1,7 +1,7 @@
 #include "ShootingComponent.h"
 #include <iostream>
 
-ShootingComponent::ShootingComponent(ActorObject* object, size_t projPoolSize, size_t bombPoolSize, float fireRate) : Component(object), projPool(projPoolSize), bombPool(bombPoolSize), fireRate(fireRate)
+ShootingComponent::ShootingComponent(ActorObject* object, int projPoolSize, int bombPoolSize, float fireRate) : Component(object), projPool(projPoolSize), bombPool(bombPoolSize), fireRate(fireRate)
 {
 	
 }

@@ -141,6 +141,7 @@
     <ClCompile Include="Asteroid.cpp" />
     <ClCompile Include="BombProjectile.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="Asteroid.h" />
     <ClInclude Include="BombProjectile.h" />
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyManager.h" />

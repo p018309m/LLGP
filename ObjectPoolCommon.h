@@ -8,11 +8,16 @@ private:
 	std::vector<std::unique_ptr<T>> objects;
 
 public:
-	ObjectPoolCommon(size_t size)
+	ObjectPoolCommon(int size)
 	{
 		objects.reserve(size);
-		for (size_t i = 0; i < size; ++i)
+		for (int i = 0; i < size; ++i)
 			objects.push_back(std::make_unique<T>());
+	}
+
+	std::vector<std::unique_ptr<T>>& GetAllObjects()
+	{
+		return objects;
 	}
 
 	T* GetInactiveObjects()

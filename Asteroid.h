@@ -24,7 +24,7 @@ public:
 	bool result = asteroidText.loadFromImage(asteroidImage, false, sf::IntRect({ 0,0 }, { 52, 52 }));
 	sf::Sprite asteroidSpritey = sf::Sprite(asteroidText);
 
-	Collision GetCollision() { return Collision(this, body); }
+	Collision GetCollision() { return Collision(this, body, ColliderTag::Asteroid, 0); }
 
 private:
 };

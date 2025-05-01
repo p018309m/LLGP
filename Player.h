@@ -46,7 +46,7 @@ public:
 	void Handle_Shoot(int val);
 	void Handle_Bombs(int val);
 
-	Collision GetCollision() { return Collision(this, body); }
+	Collision* GetCollision() { return collisionComp; }
 
 
 private:

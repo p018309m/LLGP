@@ -8,7 +8,7 @@
 class ShootingComponent : public Component
 {
 public:
-	ShootingComponent(ActorObject* object, size_t projPoolSize, size_t bombPoolSize, float fireRate);
+	ShootingComponent(ActorObject* object, int projPoolSize, int bombPoolSize, float fireRate);
 
 	void Shoot(sf::Vector2f direction);
 	void Bomb(sf::Vector2f direction);

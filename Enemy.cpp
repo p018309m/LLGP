@@ -15,14 +15,17 @@ Enemy::Enemy()
 	//Collision Stuff
 	body.setOrigin(spritey.getOrigin());
 	body.setSize(sf::Vector2f(spritey.getScale().x * 10, spritey.getScale().y * 10));
-
-	//Components Add
-	collisionComp = Enemy::AddComponent<Collision>(this, body);
 }
 
 Enemy::~Enemy()
 {
+}
 
+void Enemy::Begin()
+{
+	//Components Add
+	collisionComp = Enemy::AddComponent<Collision>(this, body, ColliderTag::Workers, GetID());
+	std::cout << "ID: " << GetID() << std::endl;
 }
 
 void Enemy::Render(sf::RenderWindow& window)

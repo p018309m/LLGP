@@ -1,13 +1,7 @@
 #include "Collision.h"
 
-Collision::Collision(ActorObject* object, sf::Shape& body) : Component(object), body(body)
+Collision::Collision(ActorObject* object, sf::Shape& body, ColliderTag tag, int id) : Component(object), body(body), tag(tag), id(id)
 {
-
-}
-
-Collision::~Collision()
-{
-
 }
 
 bool Collision::CheckCollision(Collision other)
