@@ -19,6 +19,7 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void FixedUpdate(float deltaTime);
 	virtual void Render(sf::RenderWindow& window);
+	virtual void PushActorObject(const sf::Vector2f& contactPos, float force);
 
 	sf::Vector2f getPosition() const;
 	void setPosition(const sf::Vector2f pos);

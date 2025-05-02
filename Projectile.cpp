@@ -22,6 +22,11 @@ void Projectile::Fire(sf::Vector2f pos, sf::Vector2f dir)
 	timer = 0.f;
 }
 
+void Projectile::Begin()
+{
+	collisionComp = Projectile::AddComponent<Collision>(this, body, ColliderTag::Projectile, GetID());
+}
+
 void Projectile::Update(float deltaTime)
 {
 	if (!isActive())

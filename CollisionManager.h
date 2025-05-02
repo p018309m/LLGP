@@ -9,7 +9,7 @@ public:
 
 	void Clear() { colliders.clear(); }
 
-	void CheckCollisions(const std::function<void(Collision*, Collision*)>& onCollision);
+	std::vector<Collision*> GetAllColliders() { return colliders; }
 
 private:
 	std::vector<Collision*> colliders;

@@ -83,6 +83,25 @@ void Player::FixedUpdate(float deltaTime)
 	body.setRotation(spritey.getRotation());
 }
 
+void Player::CollisionUpdate(CollisionManager& collisionManager)
+{
+	for (Collision* other : collisionManager.GetAllColliders())
+	{
+		if (other == this->collisionComp) continue;
+
+		if (collisionComp->CheckCollision(*other))
+		{
+			switch (other->GetTag())
+			{
+			case ColliderTag::Workers:
+				this->PushActorObject(other->GetPosition(), 1.f);
+				std::cout << "Pushed" << std::endl;
+
+			}
+		}
+	}
+}
+
 void Player::Handle_MoveUp(int val)
 {
 	curVelocity.y -= speed;

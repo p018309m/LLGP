@@ -6,7 +6,6 @@ EnemyManager::EnemyManager(int poolSize) : enemyPool(poolSize)
 	for (auto& enemy : GetAllEnemies())
 	{
 		enemy->SetID(id);
-		enemy->Begin();
 		id++;
 	}
 }

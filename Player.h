@@ -11,6 +11,7 @@
 #include "Collision.h"
 #include "ScoreEvents.h"
 #include "HealthCaller.h"
+#include "CollisionManager.h"
 
 //Nearly Equal Template
 template<typename T>
@@ -31,6 +32,7 @@ public:
 	void Render(sf::RenderWindow& window) override;
 	void Update(float deltaTime) override;
 	void FixedUpdate(float deltaTime) override;
+	void CollisionUpdate(CollisionManager& collisionManager);
 	
 	//Variables
 	sf::Vector2f playerPos;

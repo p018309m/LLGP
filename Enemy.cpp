@@ -25,7 +25,6 @@ void Enemy::Begin()
 {
 	//Components Add
 	collisionComp = Enemy::AddComponent<Collision>(this, body, ColliderTag::Workers, GetID());
-	std::cout << "ID: " << GetID() << std::endl;
 }
 
 void Enemy::Render(sf::RenderWindow& window)

@@ -10,6 +10,7 @@
 #include "PlayerHUD.h"
 #include "EnemyManager.h"
 #include "CollisionManager.h"
+#include "CollisionCalls.h"
 #define WINDOW_HEIGHT 640
 #define WINDOW_WIDTH 640
 
@@ -48,8 +49,6 @@ private:
 	void InitialiseVariables();
 	void InitialiseWindow();
 	sf::Vector2f UpdateCameraMovement(float time, sf::View view, const Player& player);
-	
-	void UpdateCollision();
 
 	//Chrono Variables
 	std::chrono::steady_clock::time_point lastTime;

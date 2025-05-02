@@ -61,21 +61,6 @@ sf::Vector2f Game::UpdateCameraMovement(float time, sf::View view, const Player&
 	return currentPos + followOffset + velocityOffset;
 }
 
-void Game::UpdateCollision()
-{
-	collisionManager->CheckCollisions([](Collision* a, Collision* b) 
-		{
-			auto tagA = a->GetTag();
-			auto tagB = b->GetTag();
-
-			if ((tagA == ColliderTag::Player && tagB == ColliderTag::Workers) ||
-				(tagB == ColliderTag::Player && tagA == ColliderTag::Workers))
-			{
-				std::cout << "HIT HIT" << std::endl;
-			}
-		});
-}
-
 Game::Game()
 {
 	this->InitialiseVariables();
@@ -89,6 +74,7 @@ Game::Game()
 Game::~Game()
 {
 	this->window.reset();
+	collisionManager->Clear();
 }
 
 const bool Game::getGameRunning() const
@@ -113,6 +99,7 @@ void Game::PollEvents()
 		//player update
 		mainPlayer->Update(deltaTime);
 		mainPlayer->FixedUpdate(deltaTime);
+		mainPlayer->CollisionUpdate(*collisionManager);
 
 		//views update
 		view.setCenter(UpdateCameraMovement(deltaTime, view, *mainPlayer));
@@ -130,7 +117,7 @@ void Game::PollEvents()
 	if (timeSinceTick < tickLength)
 	{
 		timeSinceTick += deltaTime;
-		UpdateCollision();
+		
 	}
 	else
 	{

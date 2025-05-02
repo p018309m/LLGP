@@ -3,7 +3,22 @@
 
 ShootingComponent::ShootingComponent(ActorObject* object, int projPoolSize, int bombPoolSize, float fireRate) : Component(object), projPool(projPoolSize), bombPool(bombPoolSize), fireRate(fireRate)
 {
-	
+	int idproj = 0;
+	int idbomb = 0;
+
+	for (auto& proj : GetAllProjectiles())
+	{
+		proj->SetID(idproj);
+		idproj++;
+		proj->Begin();
+	}
+
+	for (auto& bomb : GetAllBombs())
+	{
+		bomb->SetID(idbomb);
+		idbomb++;
+		bomb->Begin();
+	}
 }
 
 void ShootingComponent::Shoot(sf::Vector2f direction)
@@ -22,6 +37,7 @@ void ShootingComponent::Shoot(sf::Vector2f direction)
 	{
 		fireTimer = 0.f;
 		proj->Fire(spawnPos, direction);
+		std::cout << "Projectile ID: " << proj->GetID() << std::endl;
 	}
 }
 
@@ -40,6 +56,7 @@ void ShootingComponent::Bomb(sf::Vector2f direction)
 	{
 		fireTimer = 0.f;
 		bomb->Fire(spawnPos, direction);
+		std::cout << "Bomb ID: " << bomb->GetID() << std::endl;
 	}
 }
 

@@ -12,12 +12,16 @@ public:
 
 	void Shoot(sf::Vector2f direction);
 	void Bomb(sf::Vector2f direction);
-	void Update(float deltaTime) override;
 	void Draw(sf::RenderWindow& window);
+	void Update(float deltaTime) override;
+
+	std::vector<std::unique_ptr<Projectile>>& GetAllProjectiles() { return projPool.GetAllObjects(); }
+	std::vector<std::unique_ptr<BombProjectile>>& GetAllBombs() { return bombPool.GetAllObjects(); }
 
 private:
 	ObjectPoolCommon<BombProjectile> bombPool;
 	ObjectPoolCommon<Projectile> projPool;
+
 	float fireRate;
 	float fireTimer;
 };

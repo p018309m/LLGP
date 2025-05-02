@@ -30,6 +30,19 @@ void ActorObject::Render(sf::RenderWindow& window)
 	window.draw(spritey);
 }
 
+void ActorObject::PushActorObject(const sf::Vector2f& contactPos, float force)
+{
+	sf::Vector2f direction = this->position - contactPos;
+
+	float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
+	if (length != 0)
+		direction /= length;
+
+	sf::Vector2f impulse = direction * force;
+
+	velocity += impulse;
+}
+
 
 sf::Vector2f ActorObject::getPosition() const
 {

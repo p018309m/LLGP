@@ -161,6 +161,7 @@
     <ClInclude Include="Asteroid.h" />
     <ClInclude Include="BombProjectile.h" />
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="CollisionCalls.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Enemy.h" />
