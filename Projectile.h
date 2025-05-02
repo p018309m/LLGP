@@ -3,6 +3,8 @@
 #include "ScoreEvents.h"
 #include "ActorObject.h"
 #include "Collision.h"
+#include "CollisionManager.h"
+#include "HealthCaller.h"
 
 class Projectile : public ActorObject
 {
@@ -16,15 +18,18 @@ public:
 	virtual void Deactivate();
 	virtual int GetID() { return id; }
 	virtual void SetID(int id) { this->id = id; }
+	virtual void CollisionUpdate(CollisionManager& collisionManager);
 
 	virtual void Begin() override;
 	virtual void Update(float deltaTime) override;
 	virtual void Render(sf::RenderWindow& window) override;
 
 	sf::Vector2f getVelocity() { return velocity; }
-	void setSpeed(float newSpeed) { projSpeed = newSpeed; }
+	virtual void setSpeed(float newSpeed) { projSpeed = newSpeed; }
 
 	Collision* GetCollision() { return collisionComp; }
+
+	virtual void SetLifeSpan(float newLife) { lifeSpan = newLife; }
 
 protected:
 	bool active;
@@ -37,7 +42,7 @@ private:
 	sf::RectangleShape body;
 
 	float timer = 0.f;
-	float lifeSpan = 1.f;
+	float lifeSpan;
 
 	Collision* collisionComp;
 	int id;

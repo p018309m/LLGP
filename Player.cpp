@@ -1,4 +1,4 @@
-#include "Player.h"
+ #include "Player.h"
 
 Player::Player()
 {
@@ -43,6 +43,8 @@ Player::~Player()
 	input->OnThrust.RemoveListener(this, std::bind(&Player::Handle_Thrust, this, std::placeholders::_1));
 	input->OnShoot.RemoveListener(this, std::bind(&Player::Handle_Shoot, this, std::placeholders::_1));
 	input->OnBombsAway.RemoveListener(this, std::bind(&Player::Handle_Bombs, this, std::placeholders::_1));
+
+	curBomb = 0;
 }
 
 void Player::Begin()
@@ -85,6 +87,7 @@ void Player::FixedUpdate(float deltaTime)
 
 void Player::CollisionUpdate(CollisionManager& collisionManager)
 {
+	
 	for (Collision* other : collisionManager.GetAllColliders())
 	{
 		if (other == this->collisionComp) continue;
@@ -96,6 +99,11 @@ void Player::CollisionUpdate(CollisionManager& collisionManager)
 			case ColliderTag::Workers:
 				this->PushActorObject(other->GetPosition(), 1.f);
 				std::cout << "Pushed" << std::endl;
+				break;
+			case ColliderTag::Crystal:
+				std::cout << "Bomb Collected" << std::endl;
+				this->AddBomb();
+				break;
 
 			}
 		}
@@ -164,9 +172,12 @@ void Player::Handle_Shoot(int val)
 
 void Player::Handle_Bombs(int val)
 {
-	sf::Vector2f spriteDirection = sf::Vector2f(std::cos(spritey.getRotation().asRadians()), std::sin(spritey.getRotation().asRadians()));
-	shootComp->Bomb(spriteDirection);
-	HealthCall::OnDeath(1);
+	if (curBomb > 0)
+	{
+		sf::Vector2f spriteDirection = sf::Vector2f(std::cos(spritey.getRotation().asRadians()), std::sin(spritey.getRotation().asRadians()));
+		shootComp->Bomb(spriteDirection);
+		curBomb--;
+	}
 }
 
 void Player::Handle_Score(int score)
@@ -181,6 +192,11 @@ void Player::Handle_Death(int health)
 	HealthCall::OnLivesChange(curLives);
 	if (curLives == 0)
 		curLives = 3;
+}
+
+void Player::AddBomb()
+{
+	curBomb++;
 }
 
 float Player::UpdatePlayerRotation(float targetRot, float currentRot, float time)

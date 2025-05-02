@@ -9,7 +9,7 @@ void Game::InitialiseVariables()
 	collisionManager = std::make_unique<CollisionManager>();
 
 	//enemy init
-	enemyManager = std::make_unique<EnemyManager>(10);
+	enemyManager = std::make_unique<EnemyManager>(1);
 	enemyManager->Begin();
 
 	//player init
@@ -66,9 +66,15 @@ Game::Game()
 	this->InitialiseVariables();
 	this->InitialiseWindow();
 	playerHUD = std::make_unique<PlayerHUD>();
-	collisionManager->AddCollider(mainPlayer->GetCollision());
 	for (auto& enemy : enemyManager->GetAllEnemies())
 		collisionManager->AddCollider(enemy->GetCollision());
+	collisionManager->AddCollider(mainPlayer->GetCollision());
+
+	for (auto& proj : mainPlayer->GetShootComp()->GetAllProjectiles())
+		collisionManager->AddCollider(proj->GetCollision());
+
+	for (auto& bomb : mainPlayer->GetShootComp()->GetAllBombs())
+		collisionManager->AddCollider(bomb->GetCollision());
 }
 
 Game::~Game()
@@ -95,6 +101,7 @@ void Game::PollEvents()
 
 		//enemies update
 		enemyManager->Update(deltaTime);
+		enemyManager->CollisionUpdate(*collisionManager);
 
 		//player update
 		mainPlayer->Update(deltaTime);
@@ -146,10 +153,9 @@ void Game::Render()
 
 	//MainView
 	window->setView(view);
-	asteroid->Draw(*this->window);
-	//enemy.Render(*this->window);
-	mainPlayer->Render(*this->window);
 	starPool->Render(*this->window);
+	asteroid->Draw(*this->window);
+	mainPlayer->Render(*this->window);
 	enemyManager->Render(*this->window);
 
 	//HUDView
@@ -162,7 +168,7 @@ void Game::Render()
 	//MinimapView
 	this->window->setView(minimapView);
 	asteroid->Draw(*this->window);
-	//enemy.Render(*this->window);
+	enemyManager->Render(*this->window);
 	mainPlayer->Render(*this->window);
 
 	this->window->display();

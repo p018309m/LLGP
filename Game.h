@@ -11,6 +11,7 @@
 #include "EnemyManager.h"
 #include "CollisionManager.h"
 #include "CollisionCalls.h"
+#include "Crystal.h"
 #define WINDOW_HEIGHT 640
 #define WINDOW_WIDTH 640
 
@@ -29,7 +30,6 @@ private:
 	//Classes
 	std::unique_ptr<Player> mainPlayer;
 	Input inputManager;
-	//Enemy enemy;
 	std::unique_ptr<Asteroid> asteroid;
 	std::unique_ptr<StarPool> starPool;
 	std::unique_ptr<EnemyManager> enemyManager;

@@ -23,6 +23,8 @@ public:
 	sf::Vector2f GetPosition() { return body.getGlobalBounds().position; }
 	sf::Vector2f GetSize() { return body.getGlobalBounds().size; }
 
+	ActorObject* GetOwner() { return this->_object; }
+
 private:
 	sf::Shape& body;
 	ColliderTag tag = ColliderTag::Default;

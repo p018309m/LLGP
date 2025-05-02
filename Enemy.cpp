@@ -15,6 +15,8 @@ Enemy::Enemy()
 	//Collision Stuff
 	body.setOrigin(spritey.getOrigin());
 	body.setSize(sf::Vector2f(spritey.getScale().x * 10, spritey.getScale().y * 10));
+
+	HealthCall::OnDeath.AddListener(this, std::bind(&Enemy::Handle_Death, this, std::placeholders::_1));
 }
 
 Enemy::~Enemy()
@@ -25,6 +27,7 @@ void Enemy::Begin()
 {
 	//Components Add
 	collisionComp = Enemy::AddComponent<Collision>(this, body, ColliderTag::Workers, GetID());
+	healthComp = Enemy::AddComponent<HealthComponent>(this, 10.f);
 }
 
 void Enemy::Render(sf::RenderWindow& window)
@@ -48,8 +51,35 @@ void Enemy::Update(float deltaTime)
 	body.setRotation(spritey.getRotation());
 }
 
+void Enemy::CollisionUpdate(CollisionManager& collisionManager)
+{
+	for (Collision* other : collisionManager.GetAllColliders())
+	{
+		if (other == this->collisionComp) continue;
+
+		if (collisionComp->CheckCollision(*other))
+		{
+			switch (other->GetTag())
+			{
+			case ColliderTag::Warriors:
+				this->PushActorObject(other->GetPosition(), 1.f);
+				break;
+			case ColliderTag::Projectile:
+				std::cout << "Damage" << std::endl;
+				this->healthComp->DamageHealth(10.f);
+				break;
+			}
+		}
+	}
+}
+
 void Enemy::Activate(sf::Vector2f position)
 {
 	active = true;
 	spritey.setPosition(position);
+}
+
+void Enemy::Handle_Death(int val)
+{
+	Deactivate();
 }

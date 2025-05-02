@@ -21,6 +21,13 @@ void EnemyManager::Update(float deltaTime)
 	enemyPool.Update(deltaTime);
 }
 
+void EnemyManager::CollisionUpdate(CollisionManager& collisionManager)
+{
+	for (auto& enemy : GetAllEnemies())
+		if(enemy->isActive())
+			enemy->CollisionUpdate(collisionManager);
+}
+
 void EnemyManager::Render(sf::RenderWindow& window)
 {
 	enemyPool.Render(window);

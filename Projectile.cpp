@@ -5,8 +5,10 @@ Projectile::Projectile()
 	shape.setRadius(5.f);
 	shape.setFillColor(sf::Color::White);
 	shape.setOrigin(sf::Vector2f(shape.getRadius(), shape.getRadius()));
+
+	body.setSize(sf::Vector2f(shape.getRadius(), shape.getRadius()));
+	body.setOrigin(sf::Vector2f(shape.getRadius(), shape.getRadius()));
 	timer = 0.f;
-	lifeSpan = 0.5f;
 }
 
 Projectile::~Projectile()
@@ -22,6 +24,25 @@ void Projectile::Fire(sf::Vector2f pos, sf::Vector2f dir)
 	timer = 0.f;
 }
 
+void Projectile::CollisionUpdate(CollisionManager& collisionManager)
+{
+	for (Collision* other : collisionManager.GetAllColliders())
+	{
+		if (other == this->collisionComp) continue;
+
+		if (collisionComp->CheckCollision(*other))
+		{
+			switch (other->GetTag())
+			{
+			case ColliderTag::Workers:
+				HealthCall::OnDamageDealt(15.f);
+				break;
+
+			}
+		}
+	}
+}
+
 void Projectile::Begin()
 {
 	collisionComp = Projectile::AddComponent<Collision>(this, body, ColliderTag::Projectile, GetID());
@@ -32,6 +53,7 @@ void Projectile::Update(float deltaTime)
 	if (!isActive())
 		return;
 	shape.move(velocity * deltaTime);
+	body.setPosition(shape.getPosition());
 	timer += 0.01f;
 	if (timer >= lifeSpan)
 	{
@@ -43,6 +65,7 @@ void Projectile::Render(sf::RenderWindow& window)
 {
 	if(isActive())
 		window.draw(shape);
+	window.draw(body);
 }
 
 void Projectile::Deactivate()

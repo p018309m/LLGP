@@ -50,12 +50,15 @@ public:
 
 	Collision* GetCollision() { return collisionComp; }
 
+	ShootingComponent* GetShootComp() { return shootComp; }
+
 
 private:
 
 	float UpdatePlayerRotation(float targetRot, float currentRot, float time);
 	void Handle_Score(int score);
 	void Handle_Death(int health);
+	void AddBomb();
 
 	sf::VertexArray drawArray;
 	std::unique_ptr<Input> input;
@@ -67,6 +70,7 @@ private:
 	HealthComponent* healthComp;
 
 	int curScore;
+	int curBomb;
 	int curLives;
 };
 

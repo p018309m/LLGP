@@ -10,6 +10,7 @@ ShootingComponent::ShootingComponent(ActorObject* object, int projPoolSize, int 
 	{
 		proj->SetID(idproj);
 		idproj++;
+		proj->SetLifeSpan(1.f);
 		proj->Begin();
 	}
 
@@ -17,6 +18,7 @@ ShootingComponent::ShootingComponent(ActorObject* object, int projPoolSize, int 
 	{
 		bomb->SetID(idbomb);
 		idbomb++;
+		bomb->SetLifeSpan(100.f);
 		bomb->Begin();
 	}
 }
@@ -56,7 +58,6 @@ void ShootingComponent::Bomb(sf::Vector2f direction)
 	{
 		fireTimer = 0.f;
 		bomb->Fire(spawnPos, direction);
-		std::cout << "Bomb ID: " << bomb->GetID() << std::endl;
 	}
 }
 
@@ -65,6 +66,11 @@ void ShootingComponent::Update(float deltaTime)
 	fireTimer += 0.01f;
 	projPool.Update(deltaTime);
 	bombPool.Update(deltaTime);
+}
+
+void ShootingComponent::CollisionUpdate(CollisionManager& collision)
+{
+	
 }
 
 void ShootingComponent::Draw(sf::RenderWindow& window)

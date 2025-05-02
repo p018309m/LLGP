@@ -10,6 +10,7 @@ public:
 
 	void Begin();
 	void Update(float deltaTime);
+	void CollisionUpdate(CollisionManager& collisionManager);
 	void Render(sf::RenderWindow& window);
 
 	void SpawnEnemy(sf::Vector2f position);
