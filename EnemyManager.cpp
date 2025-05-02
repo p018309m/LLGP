@@ -6,6 +6,7 @@ EnemyManager::EnemyManager(int poolSize) : enemyPool(poolSize)
 	for (auto& enemy : GetAllEnemies())
 	{
 		enemy->SetID(id);
+		enemy->setSpeed(5.f);
 		id++;
 	}
 }
@@ -26,6 +27,13 @@ void EnemyManager::CollisionUpdate(CollisionManager& collisionManager)
 	for (auto& enemy : GetAllEnemies())
 		if(enemy->isActive())
 			enemy->CollisionUpdate(collisionManager);
+}
+
+void EnemyManager::PositionUpdate(sf::Vector2f pos)
+{
+	for (auto& enemy : GetAllEnemies())
+		if (enemy->isActive())
+			enemy->FollowPlayer(pos);
 }
 
 void EnemyManager::Render(sf::RenderWindow& window)

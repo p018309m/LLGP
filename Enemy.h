@@ -19,6 +19,7 @@ public:
 	virtual void CollisionUpdate(CollisionManager& collisionManager);
 	virtual void Activate(sf::Vector2f position);
 	virtual void Deactivate() { active = false; }
+	virtual void FollowPlayer(sf::Vector2f& playerPos);
 
 	//Variables
 	sf::Vector2f enemyPos;
@@ -32,12 +33,13 @@ public:
 
 	virtual bool isActive() { return active; }
 
-	virtual void Handle_Death(int val);
+	virtual void Handle_Death(ActorObject* objectHit, int val);
 
 private:
 	int id = -1;
 	Collision* collisionComp;
 	HealthComponent* healthComp;
 	bool active = false;
+	float actualSpeed;
 };
 

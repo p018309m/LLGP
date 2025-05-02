@@ -21,15 +21,17 @@ public:
 	virtual void Render(sf::RenderWindow& window);
 	virtual void PushActorObject(const sf::Vector2f& contactPos, float force);
 
-	sf::Vector2f getPosition() const;
-	void setPosition(const sf::Vector2f pos);
+	virtual sf::Vector2f getPosition() const;
+	virtual void setPosition(const sf::Vector2f pos);
 
-	float getRotation() const;
-	void setRotation(float rot);
+	virtual float getRotation() const;
+	virtual void setRotation(float rot);
 
-	sf::Vector2f getVelocity(){ return velocity; }
-	sf::Vector2f setVelocity(sf::Vector2f velocity);
-	sf::Vector2f addVelocity(sf::Vector2f velocity);
+	virtual sf::Vector2f getVelocity(){ return velocity; }
+	virtual sf::Vector2f setVelocity(sf::Vector2f velocity);
+	virtual sf::Vector2f addVelocity(sf::Vector2f velocity);
+
+	virtual void setSpeed(float newSpeed) { this->speed = newSpeed; }
 
 	sf::Sprite getSprite() const;
 

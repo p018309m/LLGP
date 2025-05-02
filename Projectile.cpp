@@ -6,7 +6,7 @@ Projectile::Projectile()
 	shape.setFillColor(sf::Color::White);
 	shape.setOrigin(sf::Vector2f(shape.getRadius(), shape.getRadius()));
 
-	body.setSize(sf::Vector2f(shape.getRadius(), shape.getRadius()));
+	body.setSize(sf::Vector2f(shape.getRadius() * 1.5f, shape.getRadius() * 1.5f));
 	body.setOrigin(sf::Vector2f(shape.getRadius(), shape.getRadius()));
 	timer = 0.f;
 }

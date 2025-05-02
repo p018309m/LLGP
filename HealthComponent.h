@@ -8,7 +8,7 @@ public:
 	HealthComponent(ActorObject* object, float maxHealth);
 
 	void AddHealth(float healAmount);
-	void DamageHealth(float damageAmount);
+	void DamageHealth(ActorObject* objectHit, float damageAmount);
 
 private:
 	float currentHealth;

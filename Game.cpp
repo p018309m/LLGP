@@ -102,6 +102,7 @@ void Game::PollEvents()
 		//enemies update
 		enemyManager->Update(deltaTime);
 		enemyManager->CollisionUpdate(*collisionManager);
+		enemyManager->PositionUpdate(mainPlayer->getPosition());
 
 		//player update
 		mainPlayer->Update(deltaTime);

@@ -24,7 +24,7 @@ Player::Player()
 
 	//Scoring
 	ScorePoints::OnAddScore.AddListener(this, std::bind(&Player::Handle_Score, this, std::placeholders::_1));
-	HealthCall::OnDeath.AddListener(this, std::bind(&Player::Handle_Death, this, std::placeholders::_1));
+	HealthCall::OnDeath.AddListener(this, std::bind(&Player::Handle_Death, this, std::placeholders::_1, std::placeholders::_2));
 
 	curLives = 3;
 }
@@ -56,7 +56,7 @@ void Player::Begin()
 	//Components Adding
 	animComp = Player::AddComponent<AnimationComponent>(this, spritey, 22, .3f, 3);
 	collisionComp = Player::AddComponent<Collision>(this, body, ColliderTag::Player, 0);
-	shootComp = Player::AddComponent<ShootingComponent>(this, 15, 5, 0.05f);
+	shootComp = Player::AddComponent<ShootingComponent>(this, 25, 5, 0.05f);
 	healthComp = Player::AddComponent<HealthComponent>(this, 100.f);
 }
 
@@ -103,6 +103,9 @@ void Player::CollisionUpdate(CollisionManager& collisionManager)
 			case ColliderTag::Crystal:
 				std::cout << "Bomb Collected" << std::endl;
 				this->AddBomb();
+				break;
+			case ColliderTag::Projectile:
+				this->healthComp->DamageHealth(this, 10.f);
 				break;
 
 			}
@@ -186,8 +189,10 @@ void Player::Handle_Score(int score)
 	ScorePoints::OnScoreChange(this->curScore);
 }
 
-void Player::Handle_Death(int health)
+void Player::Handle_Death(ActorObject* objectHit, int health)
 {
+	if (objectHit != this)
+		return;
 	curLives--;
 	HealthCall::OnLivesChange(curLives);
 	if (curLives == 0)

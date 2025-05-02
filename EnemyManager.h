@@ -11,6 +11,7 @@ public:
 	void Begin();
 	void Update(float deltaTime);
 	void CollisionUpdate(CollisionManager& collisionManager);
+	void PositionUpdate(sf::Vector2f pos);
 	void Render(sf::RenderWindow& window);
 
 	void SpawnEnemy(sf::Vector2f position);

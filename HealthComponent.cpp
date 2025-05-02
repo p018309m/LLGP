@@ -11,11 +11,10 @@ void HealthComponent::AddHealth(float healAmount)
 	currentHealth = std::clamp(currentHealth, 0.f, maxHealth);
 }
 
-void HealthComponent::DamageHealth(float damageAmount)
+void HealthComponent::DamageHealth(ActorObject* objectHit, float damageAmount)
 {
 	currentHealth -= damageAmount;
 	currentHealth = std::clamp(currentHealth, 0.f, maxHealth);
 	if (currentHealth <= 0.f)
-		HealthCall::OnDeath(0);
-
+		HealthCall::OnDeath(objectHit, 0);
 }

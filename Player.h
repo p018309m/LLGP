@@ -57,7 +57,7 @@ private:
 
 	float UpdatePlayerRotation(float targetRot, float currentRot, float time);
 	void Handle_Score(int score);
-	void Handle_Death(int health);
+	void Handle_Death(ActorObject* objectHit, int health);
 	void AddBomb();
 
 	sf::VertexArray drawArray;
