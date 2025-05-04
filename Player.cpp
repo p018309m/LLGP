@@ -56,7 +56,7 @@ void Player::Begin()
 	//Components Adding
 	animComp = Player::AddComponent<AnimationComponent>(this, spritey, 22, .3f, 3);
 	collisionComp = Player::AddComponent<Collision>(this, body, ColliderTag::Player, 0);
-	shootComp = Player::AddComponent<ShootingComponent>(this, 25, 5, 0.05f);
+	shootComp = Player::AddComponent<ShootingComponent>(this, 25, 5, 0.05f, 5.f);
 	healthComp = Player::AddComponent<HealthComponent>(this, 100.f);
 }
 
@@ -201,6 +201,7 @@ void Player::Handle_Death(ActorObject* objectHit, int health)
 
 void Player::AddBomb()
 {
+	ScorePoints::OnAddScore(150.f);
 	curBomb++;
 }
 

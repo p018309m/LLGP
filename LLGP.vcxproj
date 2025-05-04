@@ -139,6 +139,7 @@
     <ClCompile Include="ActorObject.cpp" />
     <ClCompile Include="AnimationComponent.cpp" />
     <ClCompile Include="Asteroid.cpp" />
+    <ClCompile Include="AsteroidManager.cpp" />
     <ClCompile Include="BombProjectile.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="ActorObject.h" />
     <ClInclude Include="AnimationComponent.h" />
     <ClInclude Include="Asteroid.h" />
+    <ClInclude Include="AsteroidManager.h" />
     <ClInclude Include="BombProjectile.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CollisionCalls.h" />

@@ -1,7 +1,7 @@
 #include "ShootingComponent.h"
 #include <iostream>
 
-ShootingComponent::ShootingComponent(ActorObject* object, int projPoolSize, int bombPoolSize, float fireRate) : Component(object), projPool(projPoolSize), bombPool(bombPoolSize), fireRate(fireRate)
+ShootingComponent::ShootingComponent(ActorObject* object, int projPoolSize, int bombPoolSize, float fireRate, float collisionSize) : Component(object), projPool(projPoolSize), bombPool(bombPoolSize), fireRate(fireRate), collisionSize(collisionSize)
 {
 	int idproj = 0;
 	int idbomb = 0;
@@ -11,6 +11,7 @@ ShootingComponent::ShootingComponent(ActorObject* object, int projPoolSize, int 
 		proj->SetID(idproj);
 		idproj++;
 		proj->SetLifeSpan(1.f);
+		proj->SetCollisionSize(collisionSize);
 		proj->Begin();
 	}
 
@@ -39,7 +40,6 @@ void ShootingComponent::Shoot(sf::Vector2f direction)
 	{
 		fireTimer = 0.f;
 		proj->Fire(spawnPos, direction);
-		std::cout << "Projectile ID: " << proj->GetID() << std::endl;
 	}
 }
 

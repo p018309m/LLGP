@@ -67,6 +67,7 @@ void Enemy::CollisionUpdate(CollisionManager& collisionManager)
 				break;
 			case ColliderTag::Projectile:
 				this->healthComp->DamageHealth(this, 10.f);
+				ScorePoints::OnAddScore(150.f);
 				break;
 			}
 		}

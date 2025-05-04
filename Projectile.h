@@ -1,6 +1,5 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "ScoreEvents.h"
 #include "ActorObject.h"
 #include "Collision.h"
 #include "CollisionManager.h"
@@ -19,6 +18,7 @@ public:
 	virtual int GetID() { return id; }
 	virtual void SetID(int id) { this->id = id; }
 	virtual void CollisionUpdate(CollisionManager& collisionManager);
+	virtual void SetCollisionSize(float newSize) { collisionSizeMultiplier = newSize; }
 
 	virtual void Begin() override;
 	virtual void Update(float deltaTime) override;
@@ -43,6 +43,7 @@ private:
 
 	float timer = 0.f;
 	float lifeSpan;
+	float collisionSizeMultiplier;
 
 	Collision* collisionComp;
 	int id;

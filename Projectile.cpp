@@ -6,8 +6,6 @@ Projectile::Projectile()
 	shape.setFillColor(sf::Color::White);
 	shape.setOrigin(sf::Vector2f(shape.getRadius(), shape.getRadius()));
 
-	body.setSize(sf::Vector2f(shape.getRadius() * 1.5f, shape.getRadius() * 1.5f));
-	body.setOrigin(sf::Vector2f(shape.getRadius(), shape.getRadius()));
 	timer = 0.f;
 }
 
@@ -20,7 +18,6 @@ void Projectile::Fire(sf::Vector2f pos, sf::Vector2f dir)
 	active = true;
 	velocity = dir * projSpeed;
 	shape.setPosition(pos);
-	ScorePoints::OnAddScore(20);
 	timer = 0.f;
 }
 
@@ -46,6 +43,8 @@ void Projectile::CollisionUpdate(CollisionManager& collisionManager)
 void Projectile::Begin()
 {
 	collisionComp = Projectile::AddComponent<Collision>(this, body, ColliderTag::Projectile, GetID());
+	body.setSize(sf::Vector2f(shape.getRadius() * collisionSizeMultiplier, shape.getRadius() * collisionSizeMultiplier));
+	body.setOrigin(sf::Vector2f(shape.getRadius(), shape.getRadius()));
 }
 
 void Projectile::Update(float deltaTime)

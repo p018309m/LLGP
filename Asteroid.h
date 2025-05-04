@@ -1,7 +1,11 @@
 #pragma once
-
 #include "SFML/Graphics.hpp"
 #include "Collision.h"
+
+#include "HealthComponent.h"
+#include "ScoreEvents.h"
+#include "CollisionManager.h"
+
 class Asteroid : public ActorObject
 {
 public:

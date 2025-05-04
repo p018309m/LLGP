@@ -3,6 +3,7 @@
 #include "ActorObject.h"
 #include "Collision.h"
 #include "HealthComponent.h"
+#include "ScoreEvents.h"
 #include "CollisionManager.h"
 
 class Enemy : public ActorObject
