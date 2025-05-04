@@ -2,31 +2,82 @@
 
 Asteroid::Asteroid()
 {
-	asteroidSpritey.setOrigin(sf::Vector2{ 10.f,12.f });
-	asteroidPos = sf::Vector2f(20.f, 20.f);
-	asteroidDirection = sf::degrees(0.f);
-	asteroidSpritey.scale(sf::Vector2f{ 2.f,2.f });
-	//body.setSize(sf::Vector2f(asteroidSpritey.getScale().x * 10, asteroidSpritey.getScale().y * 6));
-	body.setOrigin(asteroidSpritey.getScale() * 9.f);
-	body.setRadius(45.f);
+	characters = sf::Image("assets/asteroid.png");
+	if (!characterText.loadFromImage(characters))
+		std::cout << "Failed to Load Image" << std::endl;
+	spritey.setTextureRect({ { 0,0 }, { 52,52 } });
+	spritey.setOrigin({ spritey.getTextureRect().size.x / 2.f, spritey.getTextureRect().size.y / 2.f });
+	spritey.setScale(sf::Vector2f{ 2.f,2.f });
+
+	body.setOrigin(spritey.getOrigin());
+	body.setSize(sf::Vector2f(spritey.getTextureRect().size.x, spritey.getTextureRect().size.y));
 }
 
 Asteroid::~Asteroid()
 {
-
+	
 }
 
-void Asteroid::Draw(sf::RenderWindow& window)
+void Asteroid::MoveAsteroid()
 {
-	window.draw(asteroidSpritey);
-	body.setFillColor(sf::Color::Blue);
-	window.draw(body);
 }
 
-void Asteroid::Update()
+void Asteroid::Handle_Death(ActorObject* objectHit, int val)
 {
-	//enemySpritey.setPosition(body.getPosition());
-	body.setPosition(asteroidSpritey.getPosition());
-	//enemySpritey.setRotation(enemySpritey.getRotation() + sf::degrees(1.f));
-	body.setRotation(asteroidSpritey.getRotation());
+	if (objectHit != this)
+		return;
+	Deactivate();
+}
+
+void Asteroid::Begin()
+{
+	collisionComp = Asteroid::AddComponent<Collision>(this, body, ColliderTag::Asteroid, GetID());
+	healthComp = Asteroid::AddComponent<HealthComponent>(this, 40.f);
+	actualSpeed = speed;
+}
+
+void Asteroid::Render(sf::RenderWindow& window)
+{
+	ActorObject::Render(window);
+	if (active)
+	{
+		spritey.setPosition(asteroidPos);
+		ActorObject::Render(window);
+		body.setFillColor(sf::Color::Blue);
+		window.draw(body);
+	}
+}
+
+void Asteroid::Update(float deltaTime)
+{
+	if (!active)
+		return;
+	ActorObject::Update(deltaTime);
+	body.setPosition(spritey.getPosition());
+	body.setRotation(spritey.getRotation());
+}
+
+void Asteroid::CollisionUpdate(CollisionManager& collisionManager)
+{
+	for (Collision* other : collisionManager.GetAllColliders())
+	{
+		if (other == this->collisionComp) continue;
+
+		if (collisionComp->CheckCollision(*other))
+		{
+			switch (other->GetTag())
+			{
+			case ColliderTag::Projectile:
+				this->healthComp->DamageHealth(this, 10.f);
+				ScorePoints::OnAddScore(150.f);
+				break;
+			}
+		}
+	}
+}
+
+void Asteroid::Activate(sf::Vector2f position)
+{
+	active = true;
+	spritey.setPosition(position);
 }

@@ -100,6 +100,10 @@ void Player::CollisionUpdate(CollisionManager& collisionManager)
 				this->PushActorObject(other->GetPosition(), 1.f);
 				std::cout << "Pushed" << std::endl;
 				break;
+			case ColliderTag::Asteroid:
+				this->PushActorObject(other->GetPosition(), 1.f);
+				std::cout << "Pushed" << std::endl;
+				break;
 			case ColliderTag::Crystal:
 				std::cout << "Bomb Collected" << std::endl;
 				this->AddBomb();

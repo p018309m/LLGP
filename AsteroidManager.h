@@ -14,7 +14,7 @@ public:
 	void PositionUpdate(sf::Vector2f pos);
 	void Render(sf::RenderWindow& window);
 
-	void SpawnEnemy(sf::Vector2f position);
+	void SpawnAsteroid(sf::Vector2f position);
 
 	std::vector<std::unique_ptr<Asteroid>>& GetAllAsteroids() { return asteroidPool.GetAllObjects(); }
 

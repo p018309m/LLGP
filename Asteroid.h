@@ -1,7 +1,6 @@
 #pragma once
 #include "SFML/Graphics.hpp"
 #include "Collision.h"
-
 #include "HealthComponent.h"
 #include "ScoreEvents.h"
 #include "CollisionManager.h"
@@ -14,22 +13,34 @@ public:
 	virtual ~Asteroid();
 
 	//Functions
-	void Draw(sf::RenderWindow& window);
-	void Update();
+	void Begin() override;
+	void Render(sf::RenderWindow& window) override;
+	void Update(float deltaTime) override;
+	void CollisionUpdate(CollisionManager& collisionManager);
+	void Activate(sf::Vector2f position);
+	void Deactivate() { active = false; }
 
 	//Variables
 	sf::Vector2f asteroidPos;
 	sf::Angle asteroidDirection;
-	sf::CircleShape body;
+	sf::RectangleShape body;
+	
+	int GetID() const { return id; }
+	void SetID(int id) { this->id = id; }
 
-	//Texture
-	const sf::Image asteroidImage = sf::Image("assets/asteroid.png");
-	sf::Texture asteroidText;
-	bool result = asteroidText.loadFromImage(asteroidImage, false, sf::IntRect({ 0,0 }, { 52, 52 }));
-	sf::Sprite asteroidSpritey = sf::Sprite(asteroidText);
+	void MoveAsteroid();
 
-	Collision GetCollision() { return Collision(this, body, ColliderTag::Asteroid, 0); }
+	Collision* GetCollision() { return collisionComp; }
+
+	bool isActive() { return active; }
+
+	void Handle_Death(ActorObject* objectHit, int val);
 
 private:
+	int id = -1;
+	Collision* collisionComp;
+	HealthComponent* healthComp;
+	bool active = false;
+	float actualSpeed;
 };
 

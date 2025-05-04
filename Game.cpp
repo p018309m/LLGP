@@ -12,11 +12,14 @@ void Game::InitialiseVariables()
 	enemyManager = std::make_unique<EnemyManager>(1);
 	enemyManager->Begin();
 
+	//asteroid init
+	asteroidManager = std::make_unique<AsteroidManager>(1);
+	asteroidManager->Begin();
+
 	//player init
 	mainPlayer = std::make_unique<Player>();
 	mainPlayer->Begin();
 
-	asteroid = std::make_unique<Asteroid>();
 	starPool = std::make_unique<StarPool>();
 }
 
@@ -68,6 +71,7 @@ Game::Game()
 	playerHUD = std::make_unique<PlayerHUD>();
 	for (auto& enemy : enemyManager->GetAllEnemies())
 		collisionManager->AddCollider(enemy->GetCollision());
+
 	collisionManager->AddCollider(mainPlayer->GetCollision());
 
 	for (auto& proj : mainPlayer->GetShootComp()->GetAllProjectiles())
@@ -75,6 +79,9 @@ Game::Game()
 
 	for (auto& bomb : mainPlayer->GetShootComp()->GetAllBombs())
 		collisionManager->AddCollider(bomb->GetCollision());
+
+	for (auto& asteroid : asteroidManager->GetAllAsteroids())
+		collisionManager->AddCollider(asteroid->GetCollision());
 }
 
 Game::~Game()
@@ -104,6 +111,9 @@ void Game::PollEvents()
 		enemyManager->CollisionUpdate(*collisionManager);
 		enemyManager->PositionUpdate(mainPlayer->getPosition());
 
+		asteroidManager->Update(deltaTime);
+		asteroidManager->CollisionUpdate(*collisionManager);
+
 		//player update
 		mainPlayer->Update(deltaTime);
 		mainPlayer->FixedUpdate(deltaTime);
@@ -119,6 +129,7 @@ void Game::PollEvents()
 		{
 			spawnTimer = 0.f;
 			enemyManager->SpawnEnemy(sf::Vector2f(rand() % 800, 0));
+			asteroidManager->SpawnAsteroid(sf::Vector2f(rand() % 800, 0));
 		}
 	}
 
@@ -155,7 +166,7 @@ void Game::Render()
 	//MainView
 	window->setView(view);
 	starPool->Render(*this->window);
-	asteroid->Draw(*this->window);
+	asteroidManager->Render(*this->window);
 	mainPlayer->Render(*this->window);
 	enemyManager->Render(*this->window);
 
@@ -168,7 +179,7 @@ void Game::Render()
 
 	//MinimapView
 	this->window->setView(minimapView);
-	asteroid->Draw(*this->window);
+	asteroidManager->Render(*this->window);
 	enemyManager->Render(*this->window);
 	mainPlayer->Render(*this->window);
 

@@ -1,17 +1,16 @@
 #pragma once
-
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include "Player.h"
 #include "Enemy.h"
-#include "Asteroid.h"
 #include "StarPool.h"
-#include <iostream>
 #include "PlayerHUD.h"
 #include "EnemyManager.h"
 #include "CollisionManager.h"
 #include "CollisionCalls.h"
 #include "Crystal.h"
+#include "AsteroidManager.h"
+#include <iostream>
 #define WINDOW_HEIGHT 640
 #define WINDOW_WIDTH 640
 
@@ -30,9 +29,9 @@ private:
 	//Classes
 	std::unique_ptr<Player> mainPlayer;
 	Input inputManager;
-	std::unique_ptr<Asteroid> asteroid;
 	std::unique_ptr<StarPool> starPool;
 	std::unique_ptr<EnemyManager> enemyManager;
+	std::unique_ptr<AsteroidManager> asteroidManager;
 	std::unique_ptr<PlayerHUD> playerHUD;
 	sf::Font font;
 
