@@ -11,6 +11,8 @@ Asteroid::Asteroid()
 
 	body.setOrigin(spritey.getOrigin());
 	body.setSize(sf::Vector2f(spritey.getTextureRect().size.x, spritey.getTextureRect().size.y));
+
+	HealthCall::OnDeath.AddListener(this, std::bind(&Asteroid::Handle_Death, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 Asteroid::~Asteroid()
@@ -27,12 +29,14 @@ void Asteroid::Handle_Death(ActorObject* objectHit, int val)
 	if (objectHit != this)
 		return;
 	Deactivate();
+	std::cout << "AsteroidDeath" << std::endl;
+	ScorePoints::OnAddScore(150.f);
 }
 
 void Asteroid::Begin()
 {
 	collisionComp = Asteroid::AddComponent<Collision>(this, body, ColliderTag::Asteroid, GetID());
-	healthComp = Asteroid::AddComponent<HealthComponent>(this, 40.f);
+	healthComp = Asteroid::AddComponent<HealthComponent>(this, 10.f);
 	actualSpeed = speed;
 }
 
@@ -69,7 +73,6 @@ void Asteroid::CollisionUpdate(CollisionManager& collisionManager)
 			{
 			case ColliderTag::Projectile:
 				this->healthComp->DamageHealth(this, 10.f);
-				ScorePoints::OnAddScore(150.f);
 				break;
 			}
 		}

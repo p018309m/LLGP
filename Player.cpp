@@ -98,11 +98,9 @@ void Player::CollisionUpdate(CollisionManager& collisionManager)
 			{
 			case ColliderTag::Workers:
 				this->PushActorObject(other->GetPosition(), 1.f);
-				std::cout << "Pushed" << std::endl;
 				break;
 			case ColliderTag::Asteroid:
 				this->PushActorObject(other->GetPosition(), 1.f);
-				std::cout << "Pushed" << std::endl;
 				break;
 			case ColliderTag::Crystal:
 				std::cout << "Bomb Collected" << std::endl;
@@ -122,7 +120,6 @@ void Player::Handle_MoveUp(int val)
 	curVelocity.y -= speed;
 	if (!NearlyEqual(spritey.getRotation().asDegrees(), 270.0f))
 	{
-		std::cout << spritey.getRotation().asDegrees() << std::endl;
 		spritey.setRotation(sf::degrees(UpdatePlayerRotation(270.0f, spritey.getRotation().asDegrees(), .25f)));
 	}
 }
@@ -201,6 +198,7 @@ void Player::Handle_Death(ActorObject* objectHit, int health)
 	HealthCall::OnLivesChange(curLives);
 	if (curLives == 0)
 		curLives = 3;
+	
 }
 
 void Player::AddBomb()
