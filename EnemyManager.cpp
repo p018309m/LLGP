@@ -22,20 +22,20 @@ void EnemyManager::Begin()
 
 void EnemyManager::Update(float deltaTime)
 {
-	enemyPool.Update(deltaTime);
 	timer += 0.01f;
 	if (timer > maxTimer)
 	{
 		std::random_device rd;
 		std::mt19937 gen(rd());
 
-		std::uniform_real_distribution<float> dist(-2000.0f, 2000.0f);
+		std::uniform_real_distribution<float> dist(-500.0f, 500.0f);
 
 		float x = dist(gen);
 		float y = dist(gen);
-		SpawnEnemy(sf::Vector2f(view.getCenter().x + x, view.getCenter().y + y));
+		SpawnEnemy(sf::Vector2f(playerPos.x + x, playerPos.y + y));
 		timer = 0.0f;
 	}
+	enemyPool.Update(deltaTime);
 }
 
 void EnemyManager::CollisionUpdate(CollisionManager& collisionManager)
@@ -47,6 +47,7 @@ void EnemyManager::CollisionUpdate(CollisionManager& collisionManager)
 
 void EnemyManager::PositionUpdate(sf::Vector2f pos)
 {
+	playerPos = pos;
 	for (auto& enemy : GetAllEnemies())
 		if (enemy->isActive())
 			enemy->FollowPlayer(pos);

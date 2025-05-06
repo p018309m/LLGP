@@ -26,14 +26,12 @@ void Asteroid::MoveAsteroid(sf::Vector2f playerPos)
 	float normalised = std::sqrt(direction.x * direction.x + direction.y * direction.y);
 	if (normalised != 0)
 		direction /= normalised;
-	if (normalised > 100000.f)
+	if (normalised > 250000.f)
 	{
 		std::random_device rd;
 		std::mt19937 gen(rd());
 
 		std::uniform_real_distribution<float> dist(-1000.0f, 1000.0f);
-
-		std::cout << "AWAY" << std::endl;
 		float x = dist(gen);
 		float y = dist(gen);
 		this->setPosition(playerPos - sf::Vector2f(x,y));
@@ -52,7 +50,6 @@ void Asteroid::SetVelocity()
 	float angle = angleDist(gen);
 
 	velocity = sf::Vector2f(std::cos(angle) * speed, std::sin(angle) * speed);
-	std::cout << velocity.x << std::endl;
 }
 
 void Asteroid::Handle_Death(ActorObject* objectHit, int val)
@@ -84,7 +81,7 @@ void Asteroid::Update(float deltaTime)
 {
 	if (!active)
 		return;
-	ActorObject::Update(deltaTime);
+	//ActorObject::Update(deltaTime);
 	body.setPosition(spritey.getPosition());
 	body.setRotation(spritey.getRotation());
 }
@@ -113,5 +110,6 @@ void Asteroid::CollisionUpdate(CollisionManager& collisionManager)
 void Asteroid::Activate(sf::Vector2f position)
 {
 	active = true;
+	asteroidPos = position;
 	spritey.setPosition(position);
 }

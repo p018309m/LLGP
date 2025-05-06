@@ -70,7 +70,10 @@ void ShootingComponent::Update(float deltaTime)
 
 void ShootingComponent::CollisionUpdate(CollisionManager& collision)
 {
-	
+	for (auto& proj : GetAllProjectiles())
+		proj->CollisionUpdate(collision);
+	for (auto& bombs : GetAllBombs())
+		bombs->CollisionUpdate(collision);
 }
 
 void ShootingComponent::Draw(sf::RenderWindow& window)

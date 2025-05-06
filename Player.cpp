@@ -87,7 +87,7 @@ void Player::FixedUpdate(float deltaTime)
 
 void Player::CollisionUpdate(CollisionManager& collisionManager)
 {
-	
+	shootComp->CollisionUpdate(collisionManager);
 	for (Collision* other : collisionManager.GetAllColliders())
 	{
 		if (other == this->collisionComp) continue;

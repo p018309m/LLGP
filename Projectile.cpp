@@ -41,6 +41,8 @@ void Projectile::CollisionUpdate(CollisionManager& collisionManager)
 				HealthCall::OnDeath(other->GetOwner(), 1);
 				break;
 			}
+
+			this->Deactivate();
 		}
 	}
 }

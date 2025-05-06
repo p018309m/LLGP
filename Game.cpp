@@ -10,9 +10,11 @@ void Game::InitialiseVariables()
 
 	//enemy init
 	enemyManager = std::make_unique<EnemyManager>(50);
+	enemyManager->Begin();
 
 	//asteroid init
 	asteroidManager = std::make_unique<AsteroidManager>(10);
+	asteroidManager->Begin();
 
 	//player init
 	mainPlayer = std::make_unique<Player>();
@@ -27,12 +29,6 @@ void Game::InitialiseWindow()
 	view = window->getDefaultView();
 	starPool->view = view;
 	starPool->Init();
-
-	enemyManager->SetView(view);
-	enemyManager->Begin();
-
-	asteroidManager->SetView(view);
-	asteroidManager->Begin();
 
 	hudView = window->getDefaultView();
 	hudView.setViewport(sf::FloatRect({ 0.f, 0.f }, { 1.f, 1.f }));
@@ -111,13 +107,13 @@ void Game::PollEvents()
 		timeSincePhysicsStep -= physicsTimeStep;
 
 		//enemies update
+		enemyManager->PositionUpdate(mainPlayer->getPosition());
 		enemyManager->Update(deltaTime);
 		enemyManager->CollisionUpdate(*collisionManager);
-		enemyManager->PositionUpdate(mainPlayer->getPosition());
 
+		asteroidManager->PositionUpdate(mainPlayer->getPosition());
 		asteroidManager->Update(deltaTime);
 		asteroidManager->CollisionUpdate(*collisionManager);
-		asteroidManager->PositionUpdate(mainPlayer->getPosition());
 
 		//player update
 		mainPlayer->Update(deltaTime);
@@ -152,8 +148,6 @@ void Game::Update()
 {
 	this->PollEvents();
 	starPool->view = view;
-	asteroidManager->SetView(view);
-	enemyManager->SetView(view);
 	starPool->Update();
 }
 

@@ -24,23 +24,20 @@ void AsteroidManager::Begin()
 
 void AsteroidManager::Update(float deltaTime)
 {
-	asteroidPool.Update(deltaTime);
 	timer += 0.01f;
 	if (timer > maxTimer)
 	{
 		std::random_device rd;
 		std::mt19937 gen(rd());
 
-		std::uniform_real_distribution<float> dist(-30000.0f, 30000.0f);
-
-		std::cout << "Spawned" << std::endl;
+		std::uniform_real_distribution<float> dist(-500.0f, 500.0f);
 
 		float x = dist(gen);
 		float y = dist(gen);
-		SpawnAsteroid(sf::Vector2f(view.getCenter().x + x, view.getCenter().y + y));
-		std::cout << view.getCenter().x + x << std::endl;
+		SpawnAsteroid(sf::Vector2f(playerPos.x + x, playerPos.y + y));
 		timer = 0.0f;
 	}
+	asteroidPool.Update(deltaTime);
 }
 
 void AsteroidManager::CollisionUpdate(CollisionManager& collisionManager)
@@ -52,6 +49,7 @@ void AsteroidManager::CollisionUpdate(CollisionManager& collisionManager)
 
 void AsteroidManager::PositionUpdate(sf::Vector2f pos)
 {
+	playerPos = pos;
 	for (auto& asteroid : GetAllAsteroids())
 		if (asteroid->isActive())
 			asteroid->MoveAsteroid(pos);

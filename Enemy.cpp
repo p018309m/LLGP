@@ -83,6 +83,7 @@ void Enemy::CollisionUpdate(CollisionManager& collisionManager)
 void Enemy::Activate(sf::Vector2f position)
 {
 	active = true;
+	enemyPos = position;
 	this->setPosition(position);
 }
 
