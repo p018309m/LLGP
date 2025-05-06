@@ -9,12 +9,10 @@ void Game::InitialiseVariables()
 	collisionManager = std::make_unique<CollisionManager>();
 
 	//enemy init
-	enemyManager = std::make_unique<EnemyManager>(1);
-	enemyManager->Begin();
+	enemyManager = std::make_unique<EnemyManager>(50);
 
 	//asteroid init
-	asteroidManager = std::make_unique<AsteroidManager>(1);
-	asteroidManager->Begin();
+	asteroidManager = std::make_unique<AsteroidManager>(10);
 
 	//player init
 	mainPlayer = std::make_unique<Player>();
@@ -29,6 +27,12 @@ void Game::InitialiseWindow()
 	view = window->getDefaultView();
 	starPool->view = view;
 	starPool->Init();
+
+	enemyManager->SetView(view);
+	enemyManager->Begin();
+
+	asteroidManager->SetView(view);
+	asteroidManager->Begin();
 
 	hudView = window->getDefaultView();
 	hudView.setViewport(sf::FloatRect({ 0.f, 0.f }, { 1.f, 1.f }));
@@ -113,6 +117,7 @@ void Game::PollEvents()
 
 		asteroidManager->Update(deltaTime);
 		asteroidManager->CollisionUpdate(*collisionManager);
+		asteroidManager->PositionUpdate(mainPlayer->getPosition());
 
 		//player update
 		mainPlayer->Update(deltaTime);
@@ -122,15 +127,6 @@ void Game::PollEvents()
 		//views update
 		view.setCenter(UpdateCameraMovement(deltaTime, view, *mainPlayer));
 		minimapView.setCenter(UpdateCameraMovement(deltaTime, view, *mainPlayer));
-
-		//Test
-		spawnTimer += 0.1f;
-		if (spawnTimer >= maxTimer)
-		{
-			spawnTimer = 0.f;
-			enemyManager->SpawnEnemy(sf::Vector2f(rand() % 800, 0));
-			asteroidManager->SpawnAsteroid(sf::Vector2f(rand() % 800, 0));
-		}
 	}
 
 	if (timeSinceTick < tickLength)
@@ -156,6 +152,8 @@ void Game::Update()
 {
 	this->PollEvents();
 	starPool->view = view;
+	asteroidManager->SetView(view);
+	enemyManager->SetView(view);
 	starPool->Update();
 }
 

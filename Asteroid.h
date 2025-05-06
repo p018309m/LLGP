@@ -4,6 +4,7 @@
 #include "HealthComponent.h"
 #include "ScoreEvents.h"
 #include "CollisionManager.h"
+#include <random>
 
 class Asteroid : public ActorObject
 {
@@ -28,7 +29,8 @@ public:
 	int GetID() const { return id; }
 	void SetID(int id) { this->id = id; }
 
-	void MoveAsteroid();
+	void MoveAsteroid(sf::Vector2f playerPos);
+	void SetVelocity();
 
 	Collision* GetCollision() { return collisionComp; }
 
@@ -42,5 +44,6 @@ private:
 	HealthComponent* healthComp;
 	bool active = false;
 	float actualSpeed;
+	sf::Vector2f velocity;
 };
 

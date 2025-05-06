@@ -2,6 +2,7 @@
 #include "SFML/Graphics.hpp"
 #include "ObjectPoolCommon.h"
 #include "Asteroid.h"
+#include <random>
 
 class AsteroidManager
 {
@@ -18,7 +19,14 @@ public:
 
 	std::vector<std::unique_ptr<Asteroid>>& GetAllAsteroids() { return asteroidPool.GetAllObjects(); }
 
+	void SetView(sf::View view) { this->view = view; }
+
 private:
 	ObjectPoolCommon<Asteroid> asteroidPool;
+
+	float timer = 0.f;
+	float maxTimer = 1.f;
+
+	sf::View view;
 };
 

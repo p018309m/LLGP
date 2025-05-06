@@ -2,6 +2,7 @@
 #include "SFML/Graphics.hpp"
 #include "ObjectPoolCommon.h"
 #include "Enemy.h"
+#include <random>
 
 class EnemyManager
 {
@@ -18,7 +19,14 @@ public:
 
 	std::vector<std::unique_ptr<Enemy>>& GetAllEnemies() { return enemyPool.GetAllObjects(); }
 
+	void SetView(sf::View view) { this->view = view; }
+
 private:
 	ObjectPoolCommon<Enemy> enemyPool;
+
+	float timer = 0.f;
+	float maxTimer = 1.f;
+
+	sf::View view;
 };
 

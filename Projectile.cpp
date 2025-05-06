@@ -15,6 +15,7 @@ Projectile::~Projectile()
 
 void Projectile::Fire(sf::Vector2f pos, sf::Vector2f dir)
 {
+	collisionComp->SetActive(true);
 	active = true;
 	velocity = dir * projSpeed;
 	shape.setPosition(pos);
@@ -23,6 +24,8 @@ void Projectile::Fire(sf::Vector2f pos, sf::Vector2f dir)
 
 void Projectile::CollisionUpdate(CollisionManager& collisionManager)
 {
+	if (!isActive())
+		return;
 	for (Collision* other : collisionManager.GetAllColliders())
 	{
 		if (other == this->collisionComp) continue;
@@ -34,7 +37,9 @@ void Projectile::CollisionUpdate(CollisionManager& collisionManager)
 			case ColliderTag::Workers:
 				HealthCall::OnDamageDealt(15.f);
 				break;
-
+			case ColliderTag::Player:
+				HealthCall::OnDeath(other->GetOwner(), 1);
+				break;
 			}
 		}
 	}
@@ -64,11 +69,11 @@ void Projectile::Render(sf::RenderWindow& window)
 {
 	if(isActive())
 		window.draw(shape);
-	window.draw(body);
 }
 
 void Projectile::Deactivate()
 {
+	collisionComp->SetActive(false);
 	active = false;
 	timer = 0.f;
 }

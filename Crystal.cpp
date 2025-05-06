@@ -38,6 +38,7 @@ void Crystal::Render(sf::RenderWindow& window)
 
 void Crystal::GetSent(sf::Vector2f position, sf::Vector2f direction)
 {
+	collisionComp->SetActive(true);
 	active = true;
 	velocity = direction * speed;
 	shape.setPosition(position);
@@ -48,4 +49,5 @@ void Crystal::Deactivate()
 {
 	active = false;
 	timer = 0.f;
+	collisionComp->SetActive(false);
 }

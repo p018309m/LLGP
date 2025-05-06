@@ -14,12 +14,28 @@ EnemyManager::EnemyManager(int poolSize) : enemyPool(poolSize)
 void EnemyManager::Begin()
 {
 	for (auto& enemy : GetAllEnemies())
+	{
 		enemy->Begin();
+		enemy->GetCollision()->SetActive(false);
+	}
 }
 
 void EnemyManager::Update(float deltaTime)
 {
 	enemyPool.Update(deltaTime);
+	timer += 0.01f;
+	if (timer > maxTimer)
+	{
+		std::random_device rd;
+		std::mt19937 gen(rd());
+
+		std::uniform_real_distribution<float> dist(-2000.0f, 2000.0f);
+
+		float x = dist(gen);
+		float y = dist(gen);
+		SpawnEnemy(sf::Vector2f(view.getCenter().x + x, view.getCenter().y + y));
+		timer = 0.0f;
+	}
 }
 
 void EnemyManager::CollisionUpdate(CollisionManager& collisionManager)
@@ -47,5 +63,6 @@ void EnemyManager::SpawnEnemy(sf::Vector2f position)
 	if (enemy)
 	{
 		enemy->Activate(position);
+		enemy->GetCollision()->SetActive(true);
 	}
 }

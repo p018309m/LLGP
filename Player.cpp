@@ -97,19 +97,21 @@ void Player::CollisionUpdate(CollisionManager& collisionManager)
 			switch (other->GetTag())
 			{
 			case ColliderTag::Workers:
-				this->PushActorObject(other->GetPosition(), 1.f);
+				if(other->GetActive())
+					this->PushActorObject(other->GetPosition(), 1.f);
 				break;
 			case ColliderTag::Asteroid:
-				this->PushActorObject(other->GetPosition(), 1.f);
-				break;
+				if (other->GetActive())
+				{
+					this->PushActorObject(other->GetPosition(), 1.f);
+					break;
+				}
 			case ColliderTag::Crystal:
-				std::cout << "Bomb Collected" << std::endl;
-				this->AddBomb();
-				break;
-			case ColliderTag::Projectile:
-				this->healthComp->DamageHealth(this, 10.f);
-				break;
-
+				if (other->GetActive())
+				{
+					this->AddBomb();
+					break;
+				}
 			}
 		}
 	}

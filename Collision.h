@@ -19,6 +19,9 @@ public:
 		body.move(sf::Vector2f(dx, dy));
 	}
 
+	bool GetActive() { return isActive; }
+	void SetActive(bool toSet) { isActive = toSet; }
+
 	bool CheckCollision(Collision other);
 	sf::Vector2f GetPosition() { return body.getGlobalBounds().position; }
 	sf::Vector2f GetSize() { return body.getGlobalBounds().size; }
@@ -29,5 +32,6 @@ private:
 	sf::Shape& body;
 	ColliderTag tag = ColliderTag::Default;
 	int id = -1;
+	bool isActive;
 };
 

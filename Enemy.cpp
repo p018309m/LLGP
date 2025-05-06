@@ -33,13 +33,10 @@ void Enemy::Begin()
 
 void Enemy::Render(sf::RenderWindow& window)
 {
-	ActorObject::Render(window);
 	if (active)
 	{
-		spritey.setPosition(enemyPos);
 		ActorObject::Render(window);
 		body.setFillColor(sf::Color::Blue);
-		window.draw(body);
 	}
 }
 
@@ -54,21 +51,30 @@ void Enemy::Update(float deltaTime)
 
 void Enemy::CollisionUpdate(CollisionManager& collisionManager)
 {
-	for (Collision* other : collisionManager.GetAllColliders())
+	if (collisionComp->GetActive())
 	{
-		if (other == this->collisionComp) continue;
-
-		if (collisionComp->CheckCollision(*other))
+		for (Collision* other : collisionManager.GetAllColliders())
 		{
-			switch (other->GetTag())
+			if (other == this->collisionComp) continue;
+
+			if (collisionComp->CheckCollision(*other))
 			{
-			case ColliderTag::Warriors:
-				this->PushActorObject(other->GetPosition(), 1.f);
-				break;
-			case ColliderTag::Projectile:
-				this->healthComp->DamageHealth(this, 10.f);
-				ScorePoints::OnAddScore(150.f);
-				break;
+				switch (other->GetTag())
+				{
+				case ColliderTag::Workers:
+					this->PushActorObject(other->GetPosition(), 1.f);
+					break;
+				case ColliderTag::Warriors:
+					this->PushActorObject(other->GetPosition(), 1.f);
+					break;
+				case ColliderTag::Projectile:
+					if (other->GetActive())
+					{
+						this->healthComp->DamageHealth(this, 10.f);
+						ScorePoints::OnAddScore(150.f);
+					}
+					break;
+				}
 			}
 		}
 	}
@@ -77,7 +83,7 @@ void Enemy::CollisionUpdate(CollisionManager& collisionManager)
 void Enemy::Activate(sf::Vector2f position)
 {
 	active = true;
-	spritey.setPosition(position);
+	this->setPosition(position);
 }
 
 void Enemy::FollowPlayer(sf::Vector2f& playerPos)
@@ -87,11 +93,11 @@ void Enemy::FollowPlayer(sf::Vector2f& playerPos)
 	if (normalised != 0)
 		direction /= normalised;
 	if (normalised < 400.f)
-		actualSpeed = speed;
+		actualSpeed = speed * .55f;
 	else if (normalised < 700.f)
 		actualSpeed = speed * .75f;
 	else
-		actualSpeed = speed * .45f;
+		actualSpeed = speed;
 	enemyPos += direction * actualSpeed;
 	this->setPosition(enemyPos);
 }
@@ -101,4 +107,5 @@ void Enemy::Handle_Death(ActorObject* objectHit, int val)
 	if (objectHit != this)
 		return;
 	Deactivate();
+	collisionComp->SetActive(false);
 }

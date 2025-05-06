@@ -63,10 +63,6 @@ private:
 	int totalTimeTicked = 0;
 	int totalTimeFree = 0;
 
-	//Test
-	float spawnTimer = 0.f;
-	float maxTimer = 5.f;
-
 public:
 	//Constructors & Destructors
 	Game();

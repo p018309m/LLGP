@@ -20,8 +20,39 @@ Asteroid::~Asteroid()
 	
 }
 
-void Asteroid::MoveAsteroid()
+void Asteroid::MoveAsteroid(sf::Vector2f playerPos)
 {
+	sf::Vector2f direction = playerPos - this->getPosition();
+	float normalised = std::sqrt(direction.x * direction.x + direction.y * direction.y);
+	if (normalised != 0)
+		direction /= normalised;
+	if (normalised > 100000.f)
+	{
+		std::random_device rd;
+		std::mt19937 gen(rd());
+
+		std::uniform_real_distribution<float> dist(-1000.0f, 1000.0f);
+
+		std::cout << "AWAY" << std::endl;
+		float x = dist(gen);
+		float y = dist(gen);
+		this->setPosition(playerPos - sf::Vector2f(x,y));
+	}
+
+	asteroidPos += velocity * speed;
+	this->setPosition(asteroidPos);
+}
+
+void Asteroid::SetVelocity()
+{
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_real_distribution<float> angleDist(0.0f, 2.0f * 3.14159265f);
+
+	float angle = angleDist(gen);
+
+	velocity = sf::Vector2f(std::cos(angle) * speed, std::sin(angle) * speed);
+	std::cout << velocity.x << std::endl;
 }
 
 void Asteroid::Handle_Death(ActorObject* objectHit, int val)
@@ -29,8 +60,8 @@ void Asteroid::Handle_Death(ActorObject* objectHit, int val)
 	if (objectHit != this)
 		return;
 	Deactivate();
-	std::cout << "AsteroidDeath" << std::endl;
 	ScorePoints::OnAddScore(150.f);
+	collisionComp->SetActive(false);
 }
 
 void Asteroid::Begin()
@@ -42,13 +73,10 @@ void Asteroid::Begin()
 
 void Asteroid::Render(sf::RenderWindow& window)
 {
-	ActorObject::Render(window);
 	if (active)
 	{
-		spritey.setPosition(asteroidPos);
 		ActorObject::Render(window);
 		body.setFillColor(sf::Color::Blue);
-		window.draw(body);
 	}
 }
 
@@ -72,8 +100,11 @@ void Asteroid::CollisionUpdate(CollisionManager& collisionManager)
 			switch (other->GetTag())
 			{
 			case ColliderTag::Projectile:
-				this->healthComp->DamageHealth(this, 10.f);
-				break;
+				if(other->GetActive())
+				{
+					this->healthComp->DamageHealth(this, 10.f);
+					break;
+				}
 			}
 		}
 	}
