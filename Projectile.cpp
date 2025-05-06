@@ -62,7 +62,8 @@ void Projectile::Update(float deltaTime)
 {
 	if (!isActive())
 		return;
-	curVelocity = sf::Vector2f(0.f, 0.f);
+	shape.move(velocity * deltaTime);
+	body.setPosition(shape.getPosition());
 	timer += 0.01f;
 	if (timer >= lifeSpan)
 		Deactivate();
@@ -72,25 +73,12 @@ void Projectile::Render(sf::RenderWindow& window)
 {
 	if(isActive())
 		window.draw(shape);
-}
-
-void Projectile::FixedUpdate(float deltaTime)
-{
-	if (!isActive())
-		return;
-	position += velocity;
-	shape.setPosition(position);
-	addVelocity(curVelocity);
-	//std::cout<<position
-	body.setPosition(shape.getPosition());
-	body.setRotation(shape.getRotation());
+	window.draw(body);
 }
 
 void Projectile::Deactivate()
 {
 	collisionComp->SetActive(false);
 	active = false;
-	curVelocity = sf::Vector2f(0.f, 0.f);
-	shape.setPosition(sf::Vector2f(0.f, 0.f));
 	timer = 0.f;
 }

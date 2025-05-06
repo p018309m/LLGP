@@ -72,10 +72,6 @@ void ShootingComponent::Update(float deltaTime)
 
 void ShootingComponent::FixedUpdate(float deltaTime)
 {
-	for (auto& proj : GetAllProjectiles())
-		proj->FixedUpdate(deltaTime);
-	for (auto& bombs : GetAllBombs())
-		bombs->FixedUpdate(deltaTime);
 }
 
 void ShootingComponent::CollisionUpdate(CollisionManager& collision)

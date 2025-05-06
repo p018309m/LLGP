@@ -39,6 +39,7 @@ protected:
 private:
 	sf::CircleShape shape;
 	float projSpeed = 0.005f;
+	sf::Vector2f velocity;
 
 	sf::RectangleShape body;
 

@@ -34,7 +34,7 @@ void Asteroid::MoveAsteroid(sf::Vector2f playerPos)
 		std::uniform_real_distribution<float> dist(-1000.0f, 1000.0f);
 		float x = dist(gen);
 		float y = dist(gen);
-		this->setPosition(playerPos - sf::Vector2f(x,y));
+		asteroidPos = playerPos - sf::Vector2f(x,y);
 	}
 
 	asteroidPos += velocity * speed;
@@ -64,7 +64,7 @@ void Asteroid::Handle_Death(ActorObject* objectHit, int val)
 void Asteroid::Begin()
 {
 	collisionComp = Asteroid::AddComponent<Collision>(this, body, ColliderTag::Asteroid, GetID());
-	healthComp = Asteroid::AddComponent<HealthComponent>(this, 10.f);
+	healthComp = Asteroid::AddComponent<HealthComponent>(this, 50.f);
 	actualSpeed = speed;
 }
 
