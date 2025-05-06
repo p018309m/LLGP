@@ -14,6 +14,7 @@ public:
 	void Bomb(sf::Vector2f direction);
 	void Draw(sf::RenderWindow& window);
 	void Update(float deltaTime) override;
+	void FixedUpdate(float deltaTime);
 	void CollisionUpdate(CollisionManager& collision);
 
 	std::vector<std::unique_ptr<Projectile>>& GetAllProjectiles() { return projPool.GetAllObjects(); }

@@ -14,10 +14,6 @@ public:
 	void Deactivate();
 
 private:
-	sf::Image bombImage;
-	sf::Texture bombText;
-	sf::Sprite bombey = sf::Sprite(bombText);
-
 	AnimationComponent* animComp;
 };
 

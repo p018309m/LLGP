@@ -13,6 +13,7 @@ ShootingComponent::ShootingComponent(ActorObject* object, int projPoolSize, int 
 		proj->SetLifeSpan(1.f);
 		proj->SetCollisionSize(collisionSize);
 		proj->Begin();
+		proj->SetOwner(object);
 	}
 
 	for (auto& bomb : GetAllBombs())
@@ -21,6 +22,7 @@ ShootingComponent::ShootingComponent(ActorObject* object, int projPoolSize, int 
 		idbomb++;
 		bomb->SetLifeSpan(100.f);
 		bomb->Begin();
+		bomb->SetOwner(object);
 	}
 }
 
@@ -66,6 +68,14 @@ void ShootingComponent::Update(float deltaTime)
 	fireTimer += 0.01f;
 	projPool.Update(deltaTime);
 	bombPool.Update(deltaTime);
+}
+
+void ShootingComponent::FixedUpdate(float deltaTime)
+{
+	for (auto& proj : GetAllProjectiles())
+		proj->FixedUpdate(deltaTime);
+	for (auto& bombs : GetAllBombs())
+		bombs->FixedUpdate(deltaTime);
 }
 
 void ShootingComponent::CollisionUpdate(CollisionManager& collision)

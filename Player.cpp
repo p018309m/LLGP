@@ -72,14 +72,15 @@ void Player::Update(float deltaTime)
 {
 	curVelocity = sf::Vector2f(0.f, 0.f);
 	ActorObject::Update(deltaTime);
+	shootComp->Update(deltaTime);
 	input->HandleInput();
 	animComp->Update(deltaTime);
-	shootComp->Update(deltaTime);
 }
 
 void Player::FixedUpdate(float deltaTime)
 {
 	ActorObject::FixedUpdate(deltaTime);
+	shootComp->FixedUpdate(deltaTime);
 	addVelocity(curVelocity);
 	body.setPosition(spritey.getPosition());
 	body.setRotation(spritey.getRotation());

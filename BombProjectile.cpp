@@ -2,19 +2,19 @@
 
 BombProjectile::BombProjectile()
 {
-	bombImage = sf::Image("assets/bombs.png");
-	if (!bombText.loadFromImage(bombImage))
+	characters = sf::Image("assets/bombs.png");
+	if (!characterText.loadFromImage(characters))
 		return;
-	bombey.setTextureRect({ { 0,0 }, { 10,10 } });
-	bombey.setOrigin({ bombey.getTextureRect().size.x / 2.f, bombey.getTextureRect().size.y / 2.f });
-	bombey.scale(sf::Vector2f{ 2.f,2.f });
-	animComp = BombProjectile::AddComponent<AnimationComponent>(this, bombey, 10, .3f, 3);
+	spritey.setTextureRect({ { 0,0 }, { 10,10 } });
+	spritey.setOrigin({ spritey.getTextureRect().size.x / 2.f, spritey.getTextureRect().size.y / 2.f });
+	spritey.scale(sf::Vector2f{ 2.f,2.f });
+	animComp = BombProjectile::AddComponent<AnimationComponent>(this, spritey, 10, .3f, 3);
 }
 
 void BombProjectile::Fire(sf::Vector2f pos, sf::Vector2f dir)
 {
 	Projectile::Fire(pos, dir);
-	bombey.setPosition(pos);
+	spritey.setPosition(pos);
 }
 
 void BombProjectile::Update(float deltaTime)
@@ -23,13 +23,13 @@ void BombProjectile::Update(float deltaTime)
 	Projectile::Update(deltaTime);
 	if (!isActive())
 		return;
-	bombey.move(Projectile::getVelocity() * deltaTime);
+	spritey.move(Projectile::getVelocity() * deltaTime);
 }
 
 void BombProjectile::Render(sf::RenderWindow& window)
 {
 	if (isActive())
-		window.draw(bombey);
+		window.draw(spritey);
 }
 
 void BombProjectile::Deactivate()

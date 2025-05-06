@@ -35,14 +35,18 @@ void Projectile::CollisionUpdate(CollisionManager& collisionManager)
 			switch (other->GetTag())
 			{
 			case ColliderTag::Workers:
-				HealthCall::OnDamageDealt(15.f);
+				HealthCall::OnDeath(other->GetOwner(), 1);
+				this->Deactivate();
 				break;
 			case ColliderTag::Player:
-				HealthCall::OnDeath(other->GetOwner(), 1);
+				if (owner != other->GetOwner())
+				{
+					HealthCall::OnDeath(other->GetOwner(), 1);
+					std::cout << "This Owner: " << owner << " Other Owner: " << other->GetOwner() << std::endl;
+					this->Deactivate();
+				}
 				break;
 			}
-
-			this->Deactivate();
 		}
 	}
 }
@@ -58,13 +62,10 @@ void Projectile::Update(float deltaTime)
 {
 	if (!isActive())
 		return;
-	shape.move(velocity * deltaTime);
-	body.setPosition(shape.getPosition());
+	curVelocity = sf::Vector2f(0.f, 0.f);
 	timer += 0.01f;
 	if (timer >= lifeSpan)
-	{
 		Deactivate();
-	}
 }
 
 void Projectile::Render(sf::RenderWindow& window)
@@ -73,9 +74,23 @@ void Projectile::Render(sf::RenderWindow& window)
 		window.draw(shape);
 }
 
+void Projectile::FixedUpdate(float deltaTime)
+{
+	if (!isActive())
+		return;
+	position += velocity;
+	shape.setPosition(position);
+	addVelocity(curVelocity);
+	//std::cout<<position
+	body.setPosition(shape.getPosition());
+	body.setRotation(shape.getRotation());
+}
+
 void Projectile::Deactivate()
 {
 	collisionComp->SetActive(false);
 	active = false;
+	curVelocity = sf::Vector2f(0.f, 0.f);
+	shape.setPosition(sf::Vector2f(0.f, 0.f));
 	timer = 0.f;
 }
