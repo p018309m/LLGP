@@ -15,6 +15,12 @@ void AsteroidManager::Begin()
 {
 	for (auto& asteroid : GetAllAsteroids())
 	{
+		std::random_device rd;
+		std::mt19937 gen(rd());
+
+		std::uniform_int_distribution dist(3, 7);
+
+		asteroid->SetCrystalNumber(dist(gen));
 		asteroid->Begin();
 		asteroid->GetCollision()->SetActive(false);
 		asteroid->setSpeed(1.f);

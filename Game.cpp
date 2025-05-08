@@ -81,7 +81,11 @@ Game::Game()
 		collisionManager->AddCollider(bomb->GetCollision());
 
 	for (auto& asteroid : asteroidManager->GetAllAsteroids())
+	{
 		collisionManager->AddCollider(asteroid->GetCollision());
+		for (auto& crystal : asteroid->GetAllCrystals())
+			collisionManager->AddCollider(crystal->GetCollision());
+	}
 }
 
 Game::~Game()

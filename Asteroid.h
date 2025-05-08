@@ -4,7 +4,9 @@
 #include "HealthComponent.h"
 #include "ScoreEvents.h"
 #include "CollisionManager.h"
+#include "ObjectPoolCommon.h"
 #include <random>
+#include "Crystal.h"
 
 class Asteroid : public ActorObject
 {
@@ -38,6 +40,10 @@ public:
 
 	void Handle_Death(ActorObject* objectHit, int val);
 
+	std::vector<std::unique_ptr<Crystal>>& GetAllCrystals() { return crystalPool->GetAllObjects(); }
+	void SetCrystalNumber(int crystalNumber) { this->crystalNumber = crystalNumber; }
+	void SpawnCrystal(sf::Vector2f asteroidPos);
+
 private:
 	int id = -1;
 	Collision* collisionComp;
@@ -45,5 +51,8 @@ private:
 	bool active = false;
 	float actualSpeed;
 	sf::Vector2f velocity;
+
+	std::unique_ptr<ObjectPoolCommon<Crystal>> crystalPool;
+	int crystalNumber;
 };
 

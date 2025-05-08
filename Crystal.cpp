@@ -8,6 +8,8 @@ Crystal::Crystal()
 
 	body.setOrigin(shape.getOrigin());
 	body.setSize(sf::Vector2f(shape.getRadius(), shape.getRadius()));
+
+	HealthCall::OnDeath.AddListener(this, std::bind(&Crystal::Handle_Death, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 Crystal::~Crystal()
@@ -25,6 +27,7 @@ void Crystal::Update(float deltaTime)
 		return;
 	shape.move(velocity * deltaTime);
 	body.setPosition(shape.getPosition());
+	collisionComp->Update(deltaTime);
 	timer += 0.01f;
 	if (timer >= lifeSpan)
 		Deactivate();
@@ -33,16 +36,22 @@ void Crystal::Update(float deltaTime)
 void Crystal::Render(sf::RenderWindow& window)
 {
 	if (isActive())
+	{
 		window.draw(shape);
+	}
 }
 
 void Crystal::GetSent(sf::Vector2f position, sf::Vector2f direction)
 {
-	collisionComp->SetActive(true);
-	active = true;
-	velocity = direction * speed;
-	shape.setPosition(position);
+	//velocity = direction * speed;
+	velocity = sf::Vector2f(0.f, 0.f);
 	timer = 0.f;
+}
+
+void Crystal::Activate(sf::Vector2f position)
+{
+	active = true;
+	shape.setPosition(position);
 }
 
 void Crystal::Deactivate()
@@ -50,4 +59,11 @@ void Crystal::Deactivate()
 	active = false;
 	timer = 0.f;
 	collisionComp->SetActive(false);
+}
+
+void Crystal::Handle_Death(ActorObject* objectHit, int health)
+{
+	if (objectHit != this)
+		return;
+	Deactivate();
 }

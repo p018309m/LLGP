@@ -102,16 +102,15 @@ void Player::CollisionUpdate(CollisionManager& collisionManager)
 				break;
 			case ColliderTag::Asteroid:
 				if (other->GetActive())
-				{
 					this->PushActorObject(other->GetPosition(), 1.f);
-					break;
-				}
+				break;
 			case ColliderTag::Crystal:
 				if (other->GetActive())
 				{
 					this->AddBomb();
-					break;
+					HealthCall::OnDeath(other->GetOwner(), 1);
 				}
+				break;
 			}
 		}
 	}
@@ -183,6 +182,7 @@ void Player::Handle_Bombs(int val)
 		sf::Vector2f spriteDirection = sf::Vector2f(std::cos(spritey.getRotation().asRadians()), std::sin(spritey.getRotation().asRadians()));
 		shootComp->Bomb(spriteDirection);
 		curBomb--;
+		ScorePoints::Bomb(curBomb);
 	}
 }
 
@@ -207,6 +207,7 @@ void Player::AddBomb()
 {
 	ScorePoints::OnAddScore(150.f);
 	curBomb++;
+	ScorePoints::Bomb(curBomb);
 }
 
 float Player::UpdatePlayerRotation(float targetRot, float currentRot, float time)

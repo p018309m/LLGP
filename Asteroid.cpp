@@ -61,11 +61,33 @@ void Asteroid::Handle_Death(ActorObject* objectHit, int val)
 	collisionComp->SetActive(false);
 }
 
+void Asteroid::SpawnCrystal(sf::Vector2f asteroidPos)
+{
+	Crystal* crystal = crystalPool->GetInactiveObjects();
+	if (crystal)
+	{
+		crystal->Activate(asteroidPos);
+		crystal->GetCollision()->SetActive(true);
+		crystal->GetSent(asteroidPos, velocity.normalized());
+	}
+}
+
 void Asteroid::Begin()
 {
 	collisionComp = Asteroid::AddComponent<Collision>(this, body, ColliderTag::Asteroid, GetID());
-	healthComp = Asteroid::AddComponent<HealthComponent>(this, 50.f);
+	healthComp = Asteroid::AddComponent<HealthComponent>(this, 100.f);
+	crystalPool = std::make_unique<ObjectPoolCommon<Crystal>>(crystalNumber);
 	actualSpeed = speed;
+
+	int id = 0;
+	for (auto& crystal : crystalPool->GetAllObjects())
+	{
+		crystal->Begin();
+		crystal->SetID(id);
+		crystal->setSpeed(1.f);
+		crystal->SetLifeSpan(10.f);
+		id++;
+	}
 }
 
 void Asteroid::Render(sf::RenderWindow& window)
@@ -74,6 +96,7 @@ void Asteroid::Render(sf::RenderWindow& window)
 	{
 		ActorObject::Render(window);
 		body.setFillColor(sf::Color::Blue);
+		crystalPool->Render(window);
 	}
 }
 
@@ -84,6 +107,7 @@ void Asteroid::Update(float deltaTime)
 	//ActorObject::Update(deltaTime);
 	body.setPosition(spritey.getPosition());
 	body.setRotation(spritey.getRotation());
+	crystalPool->Update(deltaTime);
 }
 
 void Asteroid::CollisionUpdate(CollisionManager& collisionManager)
@@ -100,6 +124,7 @@ void Asteroid::CollisionUpdate(CollisionManager& collisionManager)
 				if(other->GetActive())
 				{
 					this->healthComp->DamageHealth(this, 10.f);
+					SpawnCrystal(asteroidPos);
 					break;
 				}
 			}
