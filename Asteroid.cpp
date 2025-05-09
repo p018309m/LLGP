@@ -26,7 +26,7 @@ void Asteroid::MoveAsteroid(sf::Vector2f playerPos)
 	float normalised = std::sqrt(direction.x * direction.x + direction.y * direction.y);
 	if (normalised != 0)
 		direction /= normalised;
-	if (normalised > 250000.f)
+	if (normalised > 1250.f)
 	{
 		std::random_device rd;
 		std::mt19937 gen(rd());
@@ -36,7 +36,6 @@ void Asteroid::MoveAsteroid(sf::Vector2f playerPos)
 		float y = dist(gen);
 		asteroidPos = playerPos - sf::Vector2f(x,y);
 	}
-
 	asteroidPos += velocity * speed;
 	this->setPosition(asteroidPos);
 }
@@ -70,6 +69,8 @@ void Asteroid::SpawnCrystal(sf::Vector2f asteroidPos)
 		crystal->GetCollision()->SetActive(true);
 		crystal->GetSent(asteroidPos, velocity.normalized());
 	}
+	else
+		std::cout << "Sailed To Spawn" << std::endl;
 }
 
 void Asteroid::Begin()
@@ -85,7 +86,7 @@ void Asteroid::Begin()
 		crystal->Begin();
 		crystal->SetID(id);
 		crystal->setSpeed(1.f);
-		crystal->SetLifeSpan(10.f);
+		crystal->SetLifeSpan(3.f);
 		id++;
 	}
 }
@@ -139,4 +140,5 @@ void Asteroid::Activate(sf::Vector2f position)
 	active = true;
 	asteroidPos = position;
 	spritey.setPosition(position);
+	healthComp->AddHealth(50.f);
 }

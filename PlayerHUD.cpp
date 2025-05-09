@@ -22,7 +22,7 @@ PlayerHUD::PlayerHUD()
     SetHealth(3);
     ScorePoints::OnScoreChange.AddListener(this, std::bind(&PlayerHUD::SetScore, this, std::placeholders::_1));
     HealthCall::OnLivesChange.AddListener(this, std::bind(&PlayerHUD::SetHealth, this, std::placeholders::_1));
-    ScorePoints::Bomb.AddListener(this, std::bind(&PlayerHUD::SetBombCount, this, std::placeholders::_1));
+    ScorePoints::FireRate.AddListener(this, std::bind(&PlayerHUD::SetBombCount, this, std::placeholders::_1));
 }
 
 void PlayerHUD::SetHealth(int health)
@@ -40,9 +40,7 @@ void PlayerHUD::SetHealth(int health)
 
 void PlayerHUD::SetBombCount(int bombs)
 {
-    if(bombs <= 0)
-        bombText.setString("EMPTY ");
-    bombText.setString("BOMBS " + std::to_string(bombs));
+    bombText.setString("FIRERATE " + std::to_string(bombs));
 }
 
 void PlayerHUD::SetScore(int score) 

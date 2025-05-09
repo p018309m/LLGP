@@ -52,6 +52,9 @@ public:
 
 	ShootingComponent* GetShootComp() { return shootComp; }
 
+	float GetFireRate() { return curFireRate; }
+	void SetFireRate(float increment) { curFireRate /= increment; }
+
 
 private:
 
@@ -70,7 +73,9 @@ private:
 	HealthComponent* healthComp;
 
 	int curScore;
-	int curBomb;
+	int curBombLevel;
 	int curLives;
+	float baseFireRate = 0.05f;
+	float curFireRate;
 };
 

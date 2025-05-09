@@ -27,6 +27,7 @@ Player::Player()
 	HealthCall::OnDeath.AddListener(this, std::bind(&Player::Handle_Death, this, std::placeholders::_1, std::placeholders::_2));
 
 	curLives = 3;
+	curBombLevel = 0;
 }
 
 Player::~Player()
@@ -44,7 +45,7 @@ Player::~Player()
 	input->OnShoot.RemoveListener(this, std::bind(&Player::Handle_Shoot, this, std::placeholders::_1));
 	input->OnBombsAway.RemoveListener(this, std::bind(&Player::Handle_Bombs, this, std::placeholders::_1));
 
-	curBomb = 0;
+	curBombLevel = 0;
 }
 
 void Player::Begin()
@@ -53,10 +54,12 @@ void Player::Begin()
 	body.setOrigin(spritey.getOrigin());
 	body.setSize(sf::Vector2f(spritey.getScale().x * 8, spritey.getScale().y * 4));
 
+	curFireRate = baseFireRate;
+
 	//Components Adding
 	animComp = Player::AddComponent<AnimationComponent>(this, spritey, 22, .3f, 3);
 	collisionComp = Player::AddComponent<Collision>(this, body, ColliderTag::Player, 0);
-	shootComp = Player::AddComponent<ShootingComponent>(this, 25, 25, 0.05f, 5.f);
+	shootComp = Player::AddComponent<ShootingComponent>(this, 25, 25, curFireRate, 5.f);
 	healthComp = Player::AddComponent<HealthComponent>(this, 100.f);
 }
 
@@ -113,6 +116,13 @@ void Player::CollisionUpdate(CollisionManager& collisionManager)
 				{
 					this->AddBomb();
 					HealthCall::OnDeath(other->GetOwner(), 1);
+				}
+				break;
+			case ColliderTag::Projectile:
+				if(other->GetActive())
+				{
+					if (other->GetOwner() != this)
+						HealthCall::OnDeath(this, 1);
 				}
 				break;
 			}
@@ -181,13 +191,7 @@ void Player::Handle_Shoot(int val)
 
 void Player::Handle_Bombs(int val)
 {
-	if(curBomb > 0)
-	{
-		sf::Vector2f spriteDirection = sf::Vector2f(std::cos(spritey.getRotation().asRadians()), std::sin(spritey.getRotation().asRadians()));
-		shootComp->Bomb(spriteDirection);
-		curBomb--;
-		ScorePoints::Bomb(curBomb);
-	}
+	
 }
 
 void Player::Handle_Score(int score)
@@ -209,9 +213,9 @@ void Player::Handle_Death(ActorObject* objectHit, int health)
 
 void Player::AddBomb()
 {
-	ScorePoints::OnAddScore(150.f);
-	curBomb++;
-	ScorePoints::Bomb(curBomb);
+	curBombLevel++;
+	SetFireRate(1.01f);
+	ScorePoints::FireRate(curBombLevel);
 }
 
 float Player::UpdatePlayerRotation(float targetRot, float currentRot, float time)

@@ -75,5 +75,6 @@ void AsteroidManager::SpawnAsteroid(sf::Vector2f position)
 	{
 		asteroid->Activate(position);
 		asteroid->GetCollision()->SetActive(true);
+		std::cout << position.x << std::endl;
 	}
 }

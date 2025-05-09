@@ -16,6 +16,7 @@ public:
 	void Update(float deltaTime) override;
 	void FixedUpdate(float deltaTime);
 	void CollisionUpdate(CollisionManager& collision);
+	void SetFireRate(float newFireRate) { fireRate = newFireRate; }
 
 	std::vector<std::unique_ptr<Projectile>>& GetAllProjectiles() { return projPool.GetAllObjects(); }
 	std::vector<std::unique_ptr<BombProjectile>>& GetAllBombs() { return bombPool.GetAllObjects(); }
