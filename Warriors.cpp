@@ -2,7 +2,7 @@
 
 Warriors::Warriors()
 {
-	characters = sf::Image("assets/warrior1.png");
+	characters = sf::Image("assets/warrior.png");
 	if (!characterText.loadFromImage(characters))
 		std::cout << "Failed to Load Image" << std::endl;
 	spritey.setTextureRect({ { 0,0 }, { 30,34 } });
@@ -95,7 +95,7 @@ void Warriors::CollisionUpdate(CollisionManager& collisionManager)
 					if (other->GetActive())
 					{
 						this->healthComp->DamageHealth(this, 10.f);
-						ScorePoints::OnAddScore(150.f);
+						ScorePoints::OnAddScore(500.f);
 					}
 					break;
 				}
@@ -116,5 +116,6 @@ void Warriors::Activate(sf::Vector2f position)
 {
 	active = true;
 	enemyPos = position;
+	collisionComp->SetActive(true);
 	this->setPosition(position);
 }

@@ -64,6 +64,8 @@ void AsteroidManager::PositionUpdate(sf::Vector2f pos)
 void AsteroidManager::Render(sf::RenderWindow& window)
 {
 	asteroidPool.Render(window);
+	for (auto& asteroid : GetAllAsteroids())
+		asteroid->CrystalRender(window);
 }
 
 void AsteroidManager::SpawnAsteroid(sf::Vector2f position)

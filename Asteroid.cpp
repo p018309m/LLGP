@@ -57,7 +57,7 @@ void Asteroid::Handle_Death(ActorObject* objectHit, int val)
 	if (objectHit != this)
 		return;
 	Deactivate();
-	ScorePoints::OnAddScore(150.f);
+	ScorePoints::OnAddScore(5.f);
 	collisionComp->SetActive(false);
 }
 
@@ -93,11 +93,12 @@ void Asteroid::Begin()
 void Asteroid::Render(sf::RenderWindow& window)
 {
 	if (active)
-	{
 		ActorObject::Render(window);
-		body.setFillColor(sf::Color::Blue);
-		crystalPool->Render(window);
-	}
+}
+
+void Asteroid::CrystalRender(sf::RenderWindow& window)
+{
+	crystalPool->Render(window);
 }
 
 void Asteroid::Update(float deltaTime)
@@ -123,6 +124,7 @@ void Asteroid::CollisionUpdate(CollisionManager& collisionManager)
 			case ColliderTag::Projectile:
 				if(other->GetActive())
 				{
+					HealthCall::OnDeath(other->GetOwner(), 1);
 					this->healthComp->DamageHealth(this, 10.f);
 					SpawnCrystal(asteroidPos);
 					break;

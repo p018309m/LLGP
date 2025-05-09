@@ -18,6 +18,7 @@ public:
 	//Functions
 	void Begin() override;
 	void Render(sf::RenderWindow& window) override;
+	void CrystalRender(sf::RenderWindow& window);
 	void Update(float deltaTime) override;
 	void CollisionUpdate(CollisionManager& collisionManager);
 	void Activate(sf::Vector2f position);

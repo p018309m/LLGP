@@ -4,6 +4,7 @@
 #include "Collision.h"
 #include "CollisionManager.h"
 #include "HealthCaller.h"
+#include "ScoreEvents.h"
 
 class Projectile : public ActorObject
 {
@@ -33,6 +34,8 @@ public:
 	virtual void SetLifeSpan(float newLife) { lifeSpan = newLife; }
 
 	virtual void SetOwner(ActorObject* owner) { this->owner = owner; }
+
+	virtual void Handle_Death(ActorObject* objectHit, int val);
 
 protected:
 	bool active;
