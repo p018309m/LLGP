@@ -72,6 +72,13 @@ Game::Game()
 	for (auto& enemy : enemyManager->GetAllEnemies())
 		collisionManager->AddCollider(enemy->GetCollision());
 
+	for (auto& warriors : enemyManager->GetAllWarriors())
+	{
+		collisionManager->AddCollider(warriors->GetCollision());
+		for (auto& shootComp : warriors->GetShootComp()->GetAllProjectiles())
+			collisionManager->AddCollider(warriors->GetCollision());
+	}
+
 	collisionManager->AddCollider(mainPlayer->GetCollision());
 
 	for (auto& proj : mainPlayer->GetShootComp()->GetAllProjectiles())

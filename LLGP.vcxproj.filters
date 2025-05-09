@@ -93,6 +93,9 @@
     <ClCompile Include="AsteroidManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Warriors.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="packages\SFML\include\SFML\Audio.hpp">
@@ -474,6 +477,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Deactivator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Warriors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

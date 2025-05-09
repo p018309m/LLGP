@@ -36,7 +36,6 @@ void Enemy::Render(sf::RenderWindow& window)
 	if (active)
 	{
 		ActorObject::Render(window);
-		body.setFillColor(sf::Color::Blue);
 	}
 }
 

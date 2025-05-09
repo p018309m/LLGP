@@ -56,7 +56,7 @@ void Player::Begin()
 	//Components Adding
 	animComp = Player::AddComponent<AnimationComponent>(this, spritey, 22, .3f, 3);
 	collisionComp = Player::AddComponent<Collision>(this, body, ColliderTag::Player, 0);
-	shootComp = Player::AddComponent<ShootingComponent>(this, 25, 5, 0.05f, 5.f);
+	shootComp = Player::AddComponent<ShootingComponent>(this, 25, 25, 0.05f, 5.f);
 	healthComp = Player::AddComponent<HealthComponent>(this, 100.f);
 }
 
@@ -98,6 +98,10 @@ void Player::CollisionUpdate(CollisionManager& collisionManager)
 			{
 			case ColliderTag::Workers:
 				if(other->GetActive())
+					this->PushActorObject(other->GetPosition(), 1.f);
+				break;
+			case ColliderTag::Warriors:
+				if (other->GetActive())
 					this->PushActorObject(other->GetPosition(), 1.f);
 				break;
 			case ColliderTag::Asteroid:
@@ -177,7 +181,7 @@ void Player::Handle_Shoot(int val)
 
 void Player::Handle_Bombs(int val)
 {
-	if (curBomb > 0)
+	if(curBomb > 0)
 	{
 		sf::Vector2f spriteDirection = sf::Vector2f(std::cos(spritey.getRotation().asRadians()), std::sin(spritey.getRotation().asRadians()));
 		shootComp->Bomb(spriteDirection);

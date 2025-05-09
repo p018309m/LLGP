@@ -11,6 +11,13 @@ BombProjectile::BombProjectile()
 	animComp = BombProjectile::AddComponent<AnimationComponent>(this, spritey, 10, .3f, 3);
 }
 
+void BombProjectile::Begin()
+{
+	collisionComp = Projectile::AddComponent<Collision>(this, body, ColliderTag::Projectile, GetID());
+	body.setSize(sf::Vector2f(shape.getRadius() * collisionSizeMultiplier, shape.getRadius() * collisionSizeMultiplier));
+	body.setOrigin(sf::Vector2f(shape.getRadius(), shape.getRadius()));
+}
+
 void BombProjectile::Fire(sf::Vector2f pos, sf::Vector2f dir)
 {
 	Projectile::Fire(pos, dir);
@@ -19,10 +26,10 @@ void BombProjectile::Fire(sf::Vector2f pos, sf::Vector2f dir)
 
 void BombProjectile::Update(float deltaTime)
 {
-	animComp->Update(deltaTime);
-	Projectile::Update(deltaTime);
 	if (!isActive())
 		return;
+	animComp->Update(deltaTime);
+	Projectile::Update(deltaTime);
 	spritey.move(Projectile::getVelocity() * deltaTime);
 }
 
@@ -30,6 +37,41 @@ void BombProjectile::Render(sf::RenderWindow& window)
 {
 	if (isActive())
 		window.draw(spritey);
+}
+
+void BombProjectile::CollisionUpdate(CollisionManager& collisionManager)
+{
+	if (!isActive())
+		return;
+	for (Collision* other : collisionManager.GetAllColliders())
+	{
+		if (other == this->GetCollision()) continue;
+
+		if (GetCollision()->CheckCollision(*other))
+		{
+			switch (other->GetTag())
+			{
+			case ColliderTag::Workers:
+				if (other->GetActive())
+				{
+					HealthCall::OnDeath(other->GetOwner(), 1);
+					this->Deactivate();
+				}
+				break;
+			case ColliderTag::Warriors:
+				if (other->GetActive())
+				{
+					HealthCall::OnDeath(other->GetOwner(), 1);
+					this->Deactivate();
+				}
+				break;
+			case ColliderTag::Asteroid:
+				if (other->GetActive())
+					this->PushActorObject(other->GetPosition(), 1.f);
+				break;
+			}
+		}
+	}
 }
 
 void BombProjectile::Deactivate()

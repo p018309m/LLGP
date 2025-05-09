@@ -29,6 +29,7 @@ public:
 
 	Collision* GetCollision() { return collisionComp; }
 
+	virtual float GetLifeSpan() { return lifeSpan; }
 	virtual void SetLifeSpan(float newLife) { lifeSpan = newLife; }
 
 	virtual void SetOwner(ActorObject* owner) { this->owner = owner; }
@@ -36,7 +37,7 @@ public:
 protected:
 	bool active;
 
-private:
+	ActorObject* owner;
 	sf::CircleShape shape;
 	float projSpeed = 0.005f;
 	sf::Vector2f velocity;
@@ -49,8 +50,6 @@ private:
 
 	Collision* collisionComp;
 	int id;
-
-	ActorObject* owner;
 
 };
 

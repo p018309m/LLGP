@@ -38,11 +38,17 @@ void Projectile::CollisionUpdate(CollisionManager& collisionManager)
 				HealthCall::OnDeath(other->GetOwner(), 1);
 				this->Deactivate();
 				break;
+			case ColliderTag::Warriors:
+				if (owner != other->GetOwner())
+				{
+					HealthCall::OnDeath(other->GetOwner(), 1);
+					this->Deactivate();
+				}
+				break;
 			case ColliderTag::Player:
 				if (owner != other->GetOwner())
 				{
 					HealthCall::OnDeath(other->GetOwner(), 1);
-					std::cout << "This Owner: " << owner << " Other Owner: " << other->GetOwner() << std::endl;
 					this->Deactivate();
 				}
 				break;

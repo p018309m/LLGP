@@ -20,7 +20,7 @@ ShootingComponent::ShootingComponent(ActorObject* object, int projPoolSize, int 
 	{
 		bomb->SetID(idbomb);
 		idbomb++;
-		bomb->SetLifeSpan(100.f);
+		bomb->SetLifeSpan(1.f);
 		bomb->Begin();
 		bomb->SetOwner(object);
 	}
@@ -50,7 +50,7 @@ void ShootingComponent::Bomb(sf::Vector2f direction)
 	if (!_object)
 		return;
 
-	if (fireTimer < fireRate)
+	if (fireTimer < (fireRate * 20.f))
 		return;
 
 	sf::Vector2f spawnPos = _object->getPosition();
