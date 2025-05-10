@@ -84,9 +84,6 @@ Game::Game()
 	for (auto& proj : mainPlayer->GetShootComp()->GetAllProjectiles())
 		collisionManager->AddCollider(proj->GetCollision());
 
-	for (auto& bomb : mainPlayer->GetShootComp()->GetAllBombs())
-		collisionManager->AddCollider(bomb->GetCollision());
-
 	for (auto& asteroid : asteroidManager->GetAllAsteroids())
 	{
 		collisionManager->AddCollider(asteroid->GetCollision());

@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <concepts>
 #include "Component.h"
+#include <iostream>
 
 class Component;
 

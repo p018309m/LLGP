@@ -27,7 +27,6 @@ PlayerHUD::PlayerHUD()
 
 void PlayerHUD::SetHealth(int health)
 {
-    std::cout << "Lives Reduced" << std::endl;
     lifeIcons.clear();
     for (int i = 0; i < health; ++i)
     {

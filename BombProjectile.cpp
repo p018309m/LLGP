@@ -41,7 +41,7 @@ void BombProjectile::Render(sf::RenderWindow& window)
 
 void BombProjectile::CollisionUpdate(CollisionManager& collisionManager)
 {
-	if (!isActive())
+	/*if (!isActive())
 		return;
 	for (Collision* other : collisionManager.GetAllColliders())
 	{
@@ -71,7 +71,7 @@ void BombProjectile::CollisionUpdate(CollisionManager& collisionManager)
 				break;
 			}
 		}
-	}
+	}*/
 }
 
 void BombProjectile::Deactivate()

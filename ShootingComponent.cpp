@@ -5,15 +5,14 @@ ShootingComponent::ShootingComponent(ActorObject* object, int projPoolSize, int 
 {
 	int idproj = 0;
 	int idbomb = 0;
-
 	for (auto& proj : GetAllProjectiles())
 	{
 		proj->SetID(idproj);
 		idproj++;
 		proj->SetLifeSpan(1.f);
 		proj->SetCollisionSize(collisionSize);
-		proj->Begin();
 		proj->SetOwner(object);
+		proj->Begin();
 	}
 
 	for (auto& bomb : GetAllBombs())
@@ -21,8 +20,8 @@ ShootingComponent::ShootingComponent(ActorObject* object, int projPoolSize, int 
 		bomb->SetID(idbomb);
 		idbomb++;
 		bomb->SetLifeSpan(1.f);
-		bomb->Begin();
 		bomb->SetOwner(object);
+		bomb->Begin();
 	}
 }
 

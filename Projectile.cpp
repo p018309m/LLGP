@@ -47,7 +47,7 @@ void Projectile::CollisionUpdate(CollisionManager& collisionManager)
 				case ColliderTag::Projectile:
 					if (other->GetActive())
 					{
-						HealthCall::OnDamageDealt(other->GetOwner(), 10.f);
+						HealthCall::OnDeath(this, 1);
 						ScorePoints::OnAddScore(5.f);
 						this->Deactivate();
 					}
@@ -57,6 +57,7 @@ void Projectile::CollisionUpdate(CollisionManager& collisionManager)
 					{
 						if(other->GetActive())
 						{
+							HealthCall::OnDeath(this, 1);
 							HealthCall::OnDeath(other->GetOwner(), 1);
 							ScorePoints::OnAddScore(500.f);
 							this->Deactivate();
@@ -64,8 +65,10 @@ void Projectile::CollisionUpdate(CollisionManager& collisionManager)
 					}
 					break;
 				case ColliderTag::Player:
+					std::cout << other->GetOwner() << std::endl;
 					if (owner != other->GetOwner())
 					{
+						HealthCall::OnDeath(this, 1);
 						HealthCall::OnDeath(other->GetOwner(), 1);
 						this->Deactivate();
 					}
@@ -82,6 +85,7 @@ void Projectile::Begin()
 	collisionComp = Projectile::AddComponent<Collision>(this, body, ColliderTag::Projectile, GetID());
 	body.setSize(sf::Vector2f(shape.getRadius() * collisionSizeMultiplier, shape.getRadius() * collisionSizeMultiplier));
 	body.setOrigin(sf::Vector2f(shape.getRadius(), shape.getRadius()));
+	collisionComp->SetOwner(this->owner);
 }
 
 void Projectile::Update(float deltaTime)
@@ -99,7 +103,6 @@ void Projectile::Render(sf::RenderWindow& window)
 {
 	if(isActive())
 		window.draw(shape);
-	window.draw(body);
 }
 
 void Projectile::Handle_Death(ActorObject* objectHit, int val)

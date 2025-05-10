@@ -69,8 +69,6 @@ void Asteroid::SpawnCrystal(sf::Vector2f asteroidPos)
 		crystal->GetCollision()->SetActive(true);
 		crystal->GetSent(asteroidPos, velocity.normalized());
 	}
-	else
-		std::cout << "Sailed To Spawn" << std::endl;
 }
 
 void Asteroid::Begin()
@@ -114,20 +112,30 @@ void Asteroid::Update(float deltaTime)
 
 void Asteroid::CollisionUpdate(CollisionManager& collisionManager)
 {
-	for (Collision* other : collisionManager.GetAllColliders())
+	if(collisionComp->GetActive())
 	{
-		if (other == this->collisionComp) continue;
-
-		if (collisionComp->CheckCollision(*other))
+		for (Collision* other : collisionManager.GetAllColliders())
 		{
-			switch (other->GetTag())
+			if (other == this->collisionComp) continue;
+
+			if (collisionComp->CheckCollision(*other))
 			{
-			case ColliderTag::Projectile:
-				if(other->GetActive())
+				switch (other->GetTag())
 				{
-					HealthCall::OnDeath(other->GetOwner(), 1);
-					this->healthComp->DamageHealth(this, 10.f);
-					SpawnCrystal(asteroidPos);
+				case ColliderTag::Projectile:
+					if (other->GetActive())
+					{
+						this->healthComp->DamageHealth(this, 10.f);
+						SpawnCrystal(asteroidPos);
+					}
+					break;
+				case ColliderTag::Asteroid:
+					if (other->GetActive())
+						this->PushActorObject(other->GetPosition(), 1.f);
+					break;
+				case ColliderTag::Warriors:
+					if (other->GetActive())
+						this->PushActorObject(other->GetPosition(), 1.f);
 					break;
 				}
 			}

@@ -24,7 +24,7 @@ void Warriors::Begin()
 	//Components Add
 	collisionComp = Warriors::AddComponent<Collision>(this, body, ColliderTag::Warriors, GetID());
 	healthComp = Warriors::AddComponent<HealthComponent>(this, 10.f);
-	shootComp = Warriors::AddComponent<ShootingComponent>(this, 3, 0, 1.5f, 5.f);
+	shootComp = Warriors::AddComponent<ShootingComponent>(this, 3, 0, .5f, 5.f);
 	actualSpeed = speed;
 }
 
@@ -41,7 +41,6 @@ void Warriors::FollowPlayer(sf::Vector2f& playerPos)
 {
 	Enemy::FollowPlayer(playerPos);
 	ShootPlayer(playerPos);
-
 }
 
 void Warriors::ShootPlayer(sf::Vector2f playerLoc)
@@ -53,7 +52,7 @@ void Warriors::ShootPlayer(sf::Vector2f playerLoc)
 	spritey.setRotation(sf::radians(atan2(directionToFace.y, directionToFace.x)));
 	body.setRotation(spritey.getRotation());
 	sf::Vector2f spriteDirection = sf::Vector2f(std::cos(spritey.getRotation().asRadians()), std::sin(spritey.getRotation().asRadians()));
-	if(NearlyEqualAngle(atan2(directionToFace.y, directionToFace.x), 0.f))
+	if(NearlyEqualAngle(atan2(directionToFace.y, directionToFace.x), 3.f))
 		shootComp->Shoot(spriteDirection);
 }
 
@@ -69,9 +68,9 @@ void Warriors::Update(float deltaTime)
 
 void Warriors::CollisionUpdate(CollisionManager& collisionManager)
 {
+	shootComp->CollisionUpdate(collisionManager);
 	if (collisionComp->GetActive())
 	{
-
 		for (Collision* other : collisionManager.GetAllColliders())
 		{
 			if (other == this->collisionComp) continue;
@@ -88,6 +87,10 @@ void Warriors::CollisionUpdate(CollisionManager& collisionManager)
 						this->PushActorObject(other->GetPosition(), 1.f);
 					break;
 				case ColliderTag::Warriors:
+					if (other->GetActive())
+						this->PushActorObject(other->GetPosition(), 1.f);
+					break;
+				case ColliderTag::Asteroid:
 					if (other->GetActive())
 						this->PushActorObject(other->GetPosition(), 1.f);
 					break;

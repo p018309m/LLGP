@@ -26,12 +26,19 @@ public:
 	sf::Vector2f GetPosition() { return body.getGlobalBounds().position; }
 	sf::Vector2f GetSize() { return body.getGlobalBounds().size; }
 
-	ActorObject* GetOwner() { return this->_object; }
+	void SetOwner(ActorObject* owner) { this->owner = owner; }
+	ActorObject* GetOwner() 
+	{ 
+		if(owner)
+			return owner;
+		return this->_object;
+	}
 
 private:
 	sf::Shape& body;
 	ColliderTag tag = ColliderTag::Default;
 	int id = -1;
 	bool isActive;
+	ActorObject* owner;
 };
 

@@ -119,12 +119,11 @@ void Player::CollisionUpdate(CollisionManager& collisionManager)
 				}
 				break;
 			case ColliderTag::Projectile:
-				if(other->GetActive())
+				if (other->GetActive())
 				{
 					if (other->GetOwner() != this)
 						HealthCall::OnDeath(this, 1);
 				}
-				break;
 			}
 		}
 	}
@@ -168,19 +167,15 @@ void Player::Handle_MoveRight(int val)
 
 void Player::Handle_Thrust(int val)
 {
-	if (curVelocity.x > 0.f) {
+	if (curVelocity.x > 0.f)
 		curVelocity.x = std::max(curVelocity.x - 20.f, 0.f);
-	}
-	else if (curVelocity.x < 0.f) {
+	else if (curVelocity.x < 0.f)
 		curVelocity.x = std::min(curVelocity.x + 20.f, 0.f);
-	}
 
-	if (curVelocity.y > 0.f) {
+	if (curVelocity.y > 0.f)
 		curVelocity.y = std::max(curVelocity.y - 20.f, 0.f);
-	}
-	else if (curVelocity.y < 0.f) {
+	else if (curVelocity.y < 0.f)
 		curVelocity.y = std::min(curVelocity.y + 20.f, 0.f);
-	}
 }
 
 void Player::Handle_Shoot(int val)
@@ -205,9 +200,18 @@ void Player::Handle_Death(ActorObject* objectHit, int health)
 	if (objectHit != this)
 		return;
 	curLives--;
+	setPosition(sf::Vector2f(0.f, 0.f));
 	HealthCall::OnLivesChange(curLives);
 	if (curLives == 0)
+	{
 		curLives = 3;
+		curScore = 0;
+		ScorePoints::OnScoreChange(curScore);
+		curBombLevel = 0;
+		ScorePoints::FireRate(curBombLevel);
+		curFireRate = baseFireRate;
+		HealthCall::OnLivesChange(curLives);
+	}
 	
 }
 
@@ -220,7 +224,6 @@ void Player::AddBomb()
 
 float Player::UpdatePlayerRotation(float targetRot, float currentRot, float time)
 {
-	
 	float angle = std::fmod(targetRot - currentRot + 540.f, 360.f) - 180.f;
 	if (angle > 0.f)
 		animComp->PlayAnimation(4, 9);
