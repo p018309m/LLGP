@@ -177,7 +177,6 @@
     <ClInclude Include="HealthCaller.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="Input.h" />
-    <ClInclude Include="moveable.h" />
     <ClInclude Include="ObjectPoolCommon.h" />
     <ClInclude Include="packages\SFML\include\SFML\Audio.hpp" />
     <ClInclude Include="packages\SFML\include\SFML\Audio\AudioResource.hpp" />

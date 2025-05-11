@@ -25,6 +25,13 @@ PlayerHUD::PlayerHUD()
     ScorePoints::FireRate.AddListener(this, std::bind(&PlayerHUD::SetBombCount, this, std::placeholders::_1));
 }
 
+PlayerHUD::~PlayerHUD()
+{
+    ScorePoints::OnScoreChange.RemoveListener(this, std::bind(&PlayerHUD::SetScore, this, std::placeholders::_1));
+    HealthCall::OnLivesChange.RemoveListener(this, std::bind(&PlayerHUD::SetHealth, this, std::placeholders::_1));
+    ScorePoints::FireRate.RemoveListener(this, std::bind(&PlayerHUD::SetBombCount, this, std::placeholders::_1));
+}
+
 void PlayerHUD::SetHealth(int health)
 {
     lifeIcons.clear();

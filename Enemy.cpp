@@ -21,6 +21,9 @@ Enemy::Enemy()
 
 Enemy::~Enemy()
 {
+	HealthCall::OnDeath.RemoveListener(this, std::bind(&Enemy::Handle_Death, this, std::placeholders::_1, std::placeholders::_2));
+	RemoveComponent(collisionComp);
+	RemoveComponent(healthComp);
 }
 
 void Enemy::Begin()

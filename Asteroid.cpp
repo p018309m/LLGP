@@ -17,7 +17,9 @@ Asteroid::Asteroid()
 
 Asteroid::~Asteroid()
 {
-	
+	HealthCall::OnDeath.RemoveListener(this, std::bind(&Asteroid::Handle_Death, this, std::placeholders::_1, std::placeholders::_2));
+	RemoveComponent(collisionComp);
+	RemoveComponent(healthComp);
 }
 
 void Asteroid::MoveAsteroid(sf::Vector2f playerPos)

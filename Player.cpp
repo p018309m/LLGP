@@ -46,6 +46,7 @@ Player::~Player()
 	input->OnBombsAway.RemoveListener(this, std::bind(&Player::Handle_Bombs, this, std::placeholders::_1));
 
 	curBombLevel = 0;
+	curLives = 3;
 }
 
 void Player::Begin()

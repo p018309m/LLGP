@@ -94,8 +94,17 @@ Game::Game()
 
 Game::~Game()
 {
+	if(collisionManager)
+		collisionManager->Clear();
+
+	playerHUD.reset();
+	starPool.reset();
+	mainPlayer.reset();
+	enemyManager.reset();
+	asteroidManager.reset();
+	collisionManager.reset();
+
 	this->window.reset();
-	collisionManager->Clear();
 }
 
 const bool Game::getGameRunning() const

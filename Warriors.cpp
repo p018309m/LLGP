@@ -17,6 +17,9 @@ Warriors::Warriors()
 
 Warriors::~Warriors()
 {
+	RemoveComponent(collisionComp);
+	RemoveComponent(healthComp);
+	RemoveComponent(shootComp);
 }
 
 void Warriors::Begin()
@@ -24,7 +27,7 @@ void Warriors::Begin()
 	//Components Add
 	collisionComp = Warriors::AddComponent<Collision>(this, body, ColliderTag::Warriors, GetID());
 	healthComp = Warriors::AddComponent<HealthComponent>(this, 10.f);
-	shootComp = Warriors::AddComponent<ShootingComponent>(this, 3, 0, .5f, 5.f);
+	shootComp = Warriors::AddComponent<ShootingComponent>(this, 3, 0, 1.5f, 5.f);
 	actualSpeed = speed;
 }
 

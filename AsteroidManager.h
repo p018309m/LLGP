@@ -8,6 +8,7 @@ class AsteroidManager
 {
 public:
 	AsteroidManager(int poolSize);
+	~AsteroidManager() = default;
 
 	void Begin();
 	void Update(float deltaTime);

@@ -6,6 +6,7 @@ class BombProjectile : public Projectile
 {
 public:
 	BombProjectile();
+	~BombProjectile();
 
 	void Begin() override;
 	void Fire(sf::Vector2f pos, sf::Vector2f dir) override;

@@ -13,6 +13,8 @@ Projectile::Projectile()
 
 Projectile::~Projectile()
 {
+	HealthCall::OnDeath.RemoveListener(this, std::bind(&Projectile::Handle_Death, this, std::placeholders::_1, std::placeholders::_2));
+	RemoveComponent(collisionComp);
 }
 
 void Projectile::Fire(sf::Vector2f pos, sf::Vector2f dir)

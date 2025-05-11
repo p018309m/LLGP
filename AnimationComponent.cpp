@@ -6,10 +6,6 @@ AnimationComponent::AnimationComponent(ActorObject* object, sf::Sprite& spritey,
     texWidth = 0;
 }
 
-AnimationComponent::~AnimationComponent()
-{
-}
-
 void AnimationComponent::Update(float deltaTime)
 {
     totalTime += deltaTime;

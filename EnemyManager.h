@@ -9,6 +9,7 @@ class EnemyManager
 {
 public:
 	EnemyManager(int poolSize);
+	~EnemyManager() = default;
 
 	void Begin();
 	void Update(float deltaTime);

@@ -11,6 +11,12 @@ BombProjectile::BombProjectile()
 	animComp = BombProjectile::AddComponent<AnimationComponent>(this, spritey, 10, .3f, 3);
 }
 
+BombProjectile::~BombProjectile()
+{
+	RemoveComponent(collisionComp);
+	RemoveComponent(animComp);
+}
+
 void BombProjectile::Begin()
 {
 	collisionComp = Projectile::AddComponent<Collision>(this, body, ColliderTag::Projectile, GetID());

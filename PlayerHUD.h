@@ -7,6 +7,7 @@ class PlayerHUD
 {
 public:
 	PlayerHUD();
+	~PlayerHUD();
 
 	void SetHealth(int health);
 	void SetBombCount(int bombs);

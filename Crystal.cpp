@@ -14,6 +14,8 @@ Crystal::Crystal()
 
 Crystal::~Crystal()
 {
+	HealthCall::OnDeath.RemoveListener(this, std::bind(&Crystal::Handle_Death, this, std::placeholders::_1, std::placeholders::_2));
+	RemoveComponent(collisionComp);
 }
 
 void Crystal::Begin()

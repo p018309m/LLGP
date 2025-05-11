@@ -5,12 +5,10 @@
 
 class AnimationComponent : public Component
 {
-private:
-
 public:
 	//Constructors & Destructors
 	AnimationComponent(ActorObject* object, sf::Sprite& spritey, int texInc, float frameTime, int endFrame);
-	~AnimationComponent();
+	~AnimationComponent() = default;
 
 	void Update(float deltaTime);
 	void PlayAnimation(int startFrame, int endFrame);

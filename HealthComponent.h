@@ -6,6 +6,7 @@ class HealthComponent : public Component
 {
 public:
 	HealthComponent(ActorObject* object, float maxHealth);
+	~HealthComponent() = default;
 
 	void AddHealth(float healAmount);
 	void DamageHealth(ActorObject* objectHit, float damageAmount);
